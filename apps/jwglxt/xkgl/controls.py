@@ -1,6 +1,9 @@
 
 from apps.jwglxt.xkgl import vars
 from common.actionPre import actionpre
+from common.fileAction.controls import fileInfo
+import math
+
 def delCxBmAndXk(con):
     '''删除重修选课时又报名又选课情形'''
     con.execute(vars.delCxbmAndYxk)
@@ -23,7 +26,26 @@ def inZjxb(con):
     con.execute(vars.insertFjxbOrZjxb)
     return 1
 
-def xkglInterface(con,actionName=''):
+def expAllXkmd(con,maxPc):
+    '''快速导出选课名单的详细信息'''
+    content=[]
+    content.append(['学年','学期','学号','姓名','学生学院','专业','班级','年级','课程名称','课程性质','任课教师信息','教学班名称（选课课号）'])
+    xlsx=fileInfo('选课详细信息')
+    xlsx.expXlsx(content=content)
+    counts=con.execute(vars.preQuickExpXkmd)[0]
+    if counts:
+        counts=counts[0]
+    indexs=math.ceil(counts/float(maxPc))
+    for index in range(indexs):
+        content=[]
+        left=int(index*maxPc)
+        right=int((index+1)*maxPc)
+        content.extend(con.execute(vars.quickExpXkmd.format(left,right)))
+        xlsx.expXlsx(content=content)
+    return 1
+
+
+def xkglInterface(con,actionName='',maxPc=30000):
     '''选课管理对外接口'''
     if actionName==actionpre.unique('delcxbmandxk'):
         if delCxBmAndXk(con):
@@ -37,5 +59,8 @@ def xkglInterface(con,actionName=''):
     elif actionName==actionpre.unique('inZjxb'):
         if inZjxb(con):
             return '缺子教学班的学生名单补充完成！'
+    elif actionName==actionpre.unique('expAllXkmd'):
+        if expAllXkmd(con,maxPc=maxPc):
+            return '选课学年的选课名单已导出！'
     else:
         pass

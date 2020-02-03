@@ -167,3 +167,34 @@ from (select *
                                   having count(*) = 1)
       order by xh_id, jxbmc) t      
 '''
+
+preQuickExpXkmd='''
+select count(1) from JW_XK_XSXKB xkb
+where xkb.XNM=(select zdz from ZFTAL_XTGL_XTSZB where zs='选课学年')
+and xkb.XQM=(select zdz from ZFTAL_XTGL_XTSZB where zs='选课学期')
+'''
+
+quickExpXkmd='''
+select * from (
+select
+       (select zdz from ZFTAL_XTGL_XTSZB where zs='选课学年') xn,
+        (select zdz from ZFTAL_XTGL_XTSZB where zs='选课学期') xq,
+       xsj.xh,
+        xsj.XM,
+       (select jgmc from ZFTAL_XTGL_JGDMB where jg_id=xsj.JG_ID) jgmc,
+       (select zymc from ZFTAL_XTGL_ZYDMB where xsj.ZYH_ID=zyh_id) zymc,
+       (select bj from ZFTAL_XTGL_BJDMB where xsj.BH_ID=bh_id) bj,
+       xsj.NJDM_ID,
+       (select kcmc from JW_JH_KCDMB where xkb.KCH_ID=kch_id) kcmc,
+       (select WM_CONCAT(hbb.KCXZMC) from (select distinct hbb.JXB_ID, t.kcxzmc from JW_JH_KCXZDMB t,JW_JXRW_JXBHBXXB hbb
+       where t.KCXZDM=hbb.KCXZDM) hbb where hbb.JXB_ID=xkb.JXB_ID) kcxz,
+       (select WM_CONCAT(jzg.XM||'(工号：'||jzg.JGH||',教师所属学院：'||jg.jgmc||')') from ZFTAL_XTGL_JGDMB jg,JW_JXRW_JXBJSRKB rkb,JW_JG_JZGXXB jzg where rkb.JGH_ID=jzg.JGH_ID
+       and rkb.JXB_ID=xkb.JXB_ID and jzg.JG_ID=jg.JG_ID) rkjsxx,
+       (select jxbmc from JW_JXRW_JXBXXB where xkb.JXB_ID=jxb_id) jxbmc,
+       ROWNUM rowCount
+from JW_XK_XSXKB xkb,JW_XJGL_XSJBXXB xsj
+where xkb.XNM=(select zdz from ZFTAL_XTGL_XTSZB where zs='选课学年')
+and xkb.XQM=(select zdz from ZFTAL_XTGL_XTSZB where zs='选课学期')
+and xkb.XH_ID=xsj.XH_ID) t
+where t.rowCount between {} and {}
+'''
