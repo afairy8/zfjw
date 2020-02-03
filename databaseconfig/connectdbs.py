@@ -3,10 +3,11 @@ from databaseconfig import connectString as cs
 from datetime import datetime
 import pymssql
 import os
+import poplib
 
 
 class connect:
-    def __init__(self, dbType='oracle', connectString=cs.appJwglxt):
+    def __init__(self, dbType='oracle', connectString=cs.appJwglxt,mailServer='pop.qq.com',mailPort=995,mailUser='1532398723@qq.com',mailPassWord='raueqepnyttjjhfg'):
         '''
         创建连接类
         :param connectString:连接字符串,默认连接教务系统的数据库
@@ -21,6 +22,17 @@ class connect:
             self.con = pymssql.connect(**cs.appSyjxxt)
             self.cur = self.con.cursor()
             self.currentZcXqj = None
+        elif self.type=='mail':
+            try:
+                self.con=poplib.POP3_SSL(mailServer,mailPort)
+                self.con.user(mailUser)
+                self.con.pass_(mailPassWord)
+                self.cur=None
+                self.currentZcXqj=datetime.strptime(datetime.now().strftime('%Y-%m-%d %H:%M:%S'),'%Y-%m-%d %H:%M:%S')
+            except:
+                self.con=None
+                self.cur=None
+                self.currentZcXqj=None
         else:
             self.con = None
             self.cur = None
