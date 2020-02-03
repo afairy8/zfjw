@@ -1,0 +1,34 @@
+
+https://www.cnblogs.com/huacw/p/3888807.html
+-------------------------------------------------------------
+Step 1：create directory path in order to save dumpfile,if the directory path does
+       not exists,the database throw an exception;
+   CODE:
+   CREATE OR REPLACE DIRECTORY directory_name AS path;
+Step 2: use the sys account to auth
+    CODE:
+    GRANT WRITE,READ ON DIRECTORY dirctory_name TO user;
+Step 3: BACKUP
+    use the "expdp"
+    CODE:
+  by tables：
+    EXPDP user/password@ip_addr:port/sid TABLES=table_name1,table_name2 DUMPFILE=file_name.DMP DIRECTORY=directory_name;
+  by user:
+    EXPDP user/password@ip_addr:port/sid schemas=user_name1,user_name2 DUMPFILE=file_name.DMP DIRECTORY=directory_name;
+  all db:
+    EXPDP user/password@ip_addr:port/sid FULL=y DUMPFILE=file_name.DMP DIRECTORY=directory_name;
+-------------------------------------------------------------------
+Step 4 RESTORE
+    use  the 'impdp'
+    1)import to the target user
+    CODE:
+    IMPDP user/password@ip_addr:port/sid schemas=user_name1 DIRECTORY=directory_name DUMPFILE=file_name FULL=y;
+    2)add the dumpfile to
+    CODE:
+    IMPDP user/password@ip_addr:port/sid schemas=user_name1 DIRECTORY=directory_name DUMPFILE=file_name TABLE_EXISTS_ACTION=replace;
+
+
+
+impdp gzdx_jw_user/Likai2010@127.0.0.1:1521/orcl DIRECTORY=jwuserdump DUMPFILE=2020-01-17.dmp SCHEMAS=gzdx_jw_user TABLE_EXISTS_ACTION=replace;
+
+

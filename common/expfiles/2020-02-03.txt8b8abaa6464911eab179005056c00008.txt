@@ -1,0 +1,44 @@
+******************************;
+01已发送成功;
+01_jJR已发送成功;
+03已发送成功;
+04已发送成功;
+06已发送成功;
+07已发送成功;
+09已发送成功;
+091已发送成功;
+11已发送成功;
+16已发送成功;
+18已发送成功;
+19已发送成功;
+cjxg01已发送成功;
+031已发送成功;
+12已发送成功;
+20已发送成功;
+xslx01已发送成功;
+10已发送成功;
+10已发送成功;
+10已发送成功;
+10已发送成功;
+02已发送成功;
+05已发送成功;
+08已发送成功;
+13已发送成功;
+学生成绩绩点更新完成！;
+当前未评价的学生共有[(1526,)];
+参评学生限制添加成功！;
+可能存在异常的领导同行评价退回成功！;
+毕业生辅助信息补充完成！;
+教学任务学时代码更新完成！;
+开课类型为10的任务基础,sfkxk标记更新完成信息更新完成！;
+重修报名开关更新完成！;
+板块类型学生名单补充完成！;
+小班等面向对象处理完成！;
+删除重修选课时既报名又选课的学生名单完成！;
+重修标记更新完成！;
+analyze table jw_xjgl_xsxjxxb compute statistics;analyze table jw_xk_xsxkb compute statistics;analyze table jw_jxrw_jxbxxb compute statistics;analyze table jw_jxrw_jxbhbxxb compute statistics;analyze table jw_xk_xspkztb compute statistics;analyze table jw_xk_xsxkpklsb compute statistics;analyze table jw_jcdm_cdxqxxb compute statistics;analyze table jw_pk_kbcdb compute statistics;analyze table jw_pk_kbsjb compute statistics;analyze table jw_cj_xscjb compute statistics;update jw_xjgl_xsxjxxb set ZYFX_ID='wfx' where xnm=(select zdz from ZFTAL_XTGL_XTSZB where zs='选课学年')
+    and xqm=(select zdz from ZFTAL_XTGL_XTSZB where zs='选课学期') and ZYFX_ID is null 
+    and XJZTDM in (select XJZTDM from JW_XJGL_XJZTDMB where SFYXJ='1')执行完成！;
+缺子教学班的学生名单补充完成！;
+共耗时271.215372128秒;
+******************************

@@ -1,0 +1,26 @@
+###是否强制删除学生评价低于60分
+xspjQzDelLf60=0
+###要退回的学生评价集合（已弃用）
+xspjRoolList=[]
+###学生评价的操作
+xspjAction='getWccPjXs;addCpxsxz;delXsPjxx;roolbackXspj;'
+###要退回的领导、同行评价工号
+ldthList=[]
+###要退回的领导、同行评价最低评分限制
+ldthRoollf=60
+###领导、同行评价的操作
+ldthAction='roolLdThpj;'
+###教学执行计划action
+jxzxjhAction='upKctdDtly;'
+####毕业审核操作,为避免性能消耗，exp功能应优先exp，kcgs，再exp xyjd
+byshAction='inBysfzxxb;acitonByKctd;exp;getCallPrcoParas;'
+###教学任务操作
+jxrwAction='upXsdm;upRwBaseInfo;uprwcxbmkg;inRwBklxXsmc;upMxdx;'
+##选课管理操作
+xkglAction='delcxbmandxk;upcxbj;upPkgl;inZjxb;'
+###学籍管理操作
+xjglAction='impZp;'
+###成绩管理操作
+cjglAction='jhsCjImp;upXsCjjd'
+###考试管理操作
+kwglAction='upJkjgid;upSfhk'
