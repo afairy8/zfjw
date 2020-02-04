@@ -1,5 +1,5 @@
 from apps.jwglxt import jwglxtcontrols as jwglxt
-
+from databaseconfig.connectdbs import connect
 ####交换生成绩文件路径
 xsFilePath=''
 
@@ -43,3 +43,8 @@ def rollLdTh(con):
 ###考务管理，更新监考学院
 def upJkjg(con):
     print(jwglxt.jwxtKwgl(con,actionName='upJkjgid;'))
+
+
+# ####
+# con=connect()
+# print(jwglxt.jwxtXkgl(con,actionName='inZjxb;'))
