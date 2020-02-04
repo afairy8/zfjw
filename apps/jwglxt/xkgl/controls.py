@@ -36,7 +36,7 @@ def expAllXkmd(con,maxPc):
     if counts:
         counts=counts[0]
     indexs=math.ceil(counts/float(maxPc))
-    for index in range(2):
+    for index in range(indexs):
         content=[]
         left=int(index*maxPc)
         right=int((index+1)*maxPc)
