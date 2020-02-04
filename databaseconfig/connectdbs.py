@@ -4,10 +4,14 @@ from datetime import datetime
 import pymssql
 import os
 import poplib
-
+import smtplib
 
 class connect:
-    def __init__(self, dbType='oracle', connectString=cs.appJwglxt,mailServer='pop.qq.com',mailPort=995,mailUser='1532398723@qq.com',mailPassWord='raueqepnyttjjhfg'):
+    def __init__(self, dbType='oracle',
+                 connectString=cs.appJwglxt,
+                 mailServer=cs.mailpop['mailserver'],mailPort=cs.mailpop['mailport'],
+                 mailUser=cs.mailuser['username'],mailPassWord=cs.mailuser['password'],
+                 smtpServer=cs.mailsmtp['mailserver'],smtpPort=cs.mailsmtp['mailport']):
         '''
         创建连接类
         :param connectString:连接字符串,默认连接教务系统的数据库
@@ -25,13 +29,23 @@ class connect:
             self.con = pymssql.connect(**cs.appSyjxxt)
             self.cur = self.con.cursor()
             self.currentZcXqj = None
-        elif self.type=='mail':
+        elif self.type=='mailpop':
             try:
                 self.con=poplib.POP3_SSL(mailServer,mailPort)
                 self.con.user(mailUser)
                 self.con.pass_(mailPassWord)
                 self.cur=None
                 self.currentZcXqj=datetime.strptime(datetime.now().strftime('%Y-%m-%d %H:%M:%S'),'%Y-%m-%d %H:%M:%S')
+            except:
+                self.con=None
+                self.cur=None
+                self.currentZcXqj=None
+        elif self.type=='mailsmtp':
+            try:
+                self.con=smtplib.SMTP_SSL(smtpServer,smtpPort)
+                self.con.login(mailUser,mailPassWord)
+                self.cur=None
+                self.currentZcXqj=None
             except:
                 self.con=None
                 self.cur=None

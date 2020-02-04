@@ -4,9 +4,7 @@ from email.header import decode_header
 import os
 import datetime
 import time
-from common.fileAction.controls import fileInfo
 from apps.mails import vars
-from databaseconfig.connectdbs import connect
 
 def fileSavePath(sendtime):
     '''当日接收的附件存放位置'''
@@ -61,8 +59,8 @@ def parseMail(con,jgHours=24,suffix='1532398723@qq.com',subject=None,max_receive
     '''
     :param ssh:邮箱连接
     :param jgDay: 收取近几日的邮件
-    :param suffix: 发件人后缀名
-    :param subject: 收取主题
+    :param suffix: 发件人模糊词
+    :param subject: 主题模糊词
     :return:
     '''
     # L=[]
@@ -87,49 +85,10 @@ def parseMail(con,jgHours=24,suffix='1532398723@qq.com',subject=None,max_receive
                     parasemail = Parser().parsestr(mailcontent)
                     paraseMailBody(mailContent=parasemail,sendtime=headerSendTime,mailFrom=mailFrom)
                     pass
-    # ssh.quit()
+    ssh.quit()
     return 1
 
-def uniFile(savePath):
-    #######将xls文件全部转存为xlsx格式
-    files=os.listdir(savePath)
-    for file in files:
-        if file.endswith('.xls'):
-            xls=fileInfo(os.path.join(savePath,file))
-            xls.xlsToXlsx()
-    return 1
 
-def sendMain(con,oracle,jgHours=24,suffix='1532398723@qq.com',subject=None,max_receiver=100,fileSuffix='.xlsx'):
-    ####
-    # if parseMail(con.con,jgHours,suffix,subject,max_receiver,fileSuffix):
-    #     print('接收完成')
-    savePath=os.path.join(vars.savePath,datetime.datetime.now().strftime('%Y-%m-%d'))
-    if os.path.exists(savePath) and uniFile(savePath):
-        ###处理xlsx文件中内容
-        files=os.listdir(savePath)
-        for file in files:
-            if file.endswith(fileSuffix):
-                xlsx=fileInfo(os.path.join(savePath,file))
-                content=xlsx.getFileContent()
-                L = []
-                for data in content:
-                    if data[12] is None or data[12].find('◎属实◎不属实')<0:
-                        L.append(data)
-                    else:
-                        # L.append(tuple(list(data) + ['属实']))
-                        ress = oracle.getData(vars.getbysxx.format(data[4]))
-                        for res in ress:
-                            if res[2] == '1' and res[3].replace(' ', '').replace('学位', '') == data[6].replace(' ', '').replace('学位', '')and data[4].replace(' ', '') == str(data[11]).replace(' ', ''):
-                                L.append(tuple(list(data) + ['属实']))
-                            else:
-                                L.append(tuple(list(data) + ['存疑']))
-                if L:
-                    xlsx=None
-                    os.remove(os.path.join(savePath,file))
-                    xlsx = fileInfo(os.path.join(savePath, file))
-                    xlsx.expXlsx(content=L)
-                    # reciever=file.split('】')[0].replace('=','@')
-                    ##发送邮件
+def getInterface():
+    pass
 
-
-# sendMain('','')
