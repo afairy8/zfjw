@@ -3,6 +3,8 @@
 from apps.ykt import vars
 from common.fileAction.controls import fileInfo
 from databaseconfig.connectdbs import connect
+import math
+import time
 def getInfo(con):
     for key,value in vars.code.items():
         L=[]
@@ -24,5 +26,22 @@ def getInfo(con):
         #print(L)
         xlsx=fileInfo(key)
         xlsx.expXlsx(content=L)
+def getxkxx2(con):
+    content=[]
+    content.append(['学年','学期','学号','姓名','学生学院','专业','班级','年级','课程名称','课程性质','任课教师信息','教学班名称（选课课号）'])
+    counts=con.execute(vars.xkxx2Counts)[0]
+    if counts:
+        counts=counts[0]
+    iters=math.ceil(counts/vars.xkxx2maxPc)
+    for index in range(iters):
+        #print(vars.xkxx2.format(int(index * vars.xkxx2maxPc), int((index + 1) * vars.xkxx2maxPc)))
+        content.extend(con.execute(vars.xkxx2.format(int(index*vars.xkxx2maxPc),int((index+1)*vars.xkxx2maxPc))))
+    xlsx=fileInfo('选课详细信息')
+    xlsx.expXlsx(content=content)
 
-getInfo(connect())
+start=time.perf_counter()
+con=connect()
+getxkxx2(con)
+con.close()
+end=time.perf_counter()
+print(end-start)

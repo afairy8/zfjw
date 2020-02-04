@@ -1,8 +1,8 @@
-jgxx='''
+jgxx = '''
 select jgmc from ZFTAL_XTGL_JGDMB t where t.JGYXBS='1'
 and (length(jgdm)=4 or JG_ID='30') and jgdm not like '08%'
 '''
-bjxx='''
+bjxx = '''
 select jg.JGMC,''zy,bj.bj,bj.NJDM_ID
 from ZFTAL_XTGL_JGDMB jg,ZFTAL_XTGL_BJDMB bj
 where jg.JG_ID=bj.JG_ID
@@ -13,7 +13,7 @@ where xsj.XH_ID=xkb.XH_ID
 and xkb.XNM='2019'
 and xkb.XQM='12') t where t.BH_ID=bj.BH_ID)
 '''
-yhxx='''
+yhxx = '''
 select
 distinct
        (select jgmc from ZFTAL_XTGL_JGDMB where xsj.JG_ID=jg_id) jgmc,
@@ -40,7 +40,7 @@ and jxb.XNM='2019' and jxb.XQM='12') t,jw_jg_jzgxxb jzg
 where jzg.JGH_ID=t.JGH_ID
 '''
 
-kkxx='''
+kkxx = '''
  select (select jgmc from ZFTAL_XTGL_JGDMB where jxb.KKBM_ID=jg_id) jgmc,
         (select kch from jw_jh_kcdmb where jxb.KCH_ID=kch_id) kch,
         jxb.jxbmc,
@@ -58,7 +58,7 @@ where t.JXB_ID=jxb.JXB_ID
 and jxb.XNM='2019' and jxb.xqm='12'
 '''
 
-xkxx='''
+xkxx = '''
 select
        (select jxbmc from JW_JXRW_JXBXXB where xkb.JXB_ID=jxb_id) jxbmc,
        (select xh from JW_XJGL_XSJBXXB where xkb.XH_ID=xh_id) xh
@@ -66,14 +66,40 @@ from JW_XK_XSXKB xkb
 where xkb.XNM='2019'
 and xkb.XQM='12'
 '''
+xkxx2Counts = '''select count(*) from JW_XK_XSXKB where xnm='2019' and xqm='12' and 1=1'''
+xkxx2maxPc = 10000.0
+xkxx2 = '''
+select * from (
+select
+       (select zdz from ZFTAL_XTGL_XTSZB where zs='选课学年') xn,
+        (select zdz from ZFTAL_XTGL_XTSZB where zs='选课学期') xq,
+       xsj.xh,
+        xsj.XM,
+       (select jgmc from ZFTAL_XTGL_JGDMB where jg_id=xsj.JG_ID) jgmc,
+       (select zymc from ZFTAL_XTGL_ZYDMB where xsj.ZYH_ID=zyh_id) zymc,
+       (select bj from ZFTAL_XTGL_BJDMB where xsj.BH_ID=bh_id) bj,
+       xsj.NJDM_ID,
+       (select kcmc from JW_JH_KCDMB where xkb.KCH_ID=kch_id) kcmc,
+       (select WM_CONCAT(hbb.KCXZMC) from (select distinct hbb.JXB_ID, t.kcxzmc from JW_JH_KCXZDMB t,JW_JXRW_JXBHBXXB hbb
+       where t.KCXZDM=hbb.KCXZDM) hbb where hbb.JXB_ID=xkb.JXB_ID) kcxz,
+       (select WM_CONCAT(jzg.XM||'(工号：'||jzg.JGH||',教师所属学院：'||jg.jgmc||')') from ZFTAL_XTGL_JGDMB jg,JW_JXRW_JXBJSRKB rkb,JW_JG_JZGXXB jzg where rkb.JGH_ID=jzg.JGH_ID
+       and rkb.JXB_ID=xkb.JXB_ID and jzg.JG_ID=jg.JG_ID) rkjsxx,
+       (select jxbmc from JW_JXRW_JXBXXB where xkb.JXB_ID=jxb_id) jxbmc,
+       ROWNUM rowCount
+from JW_XK_XSXKB xkb,JW_XJGL_XSJBXXB xsj
+where xkb.XNM=(select zdz from ZFTAL_XTGL_XTSZB where zs='选课学年')
+and xkb.XQM=(select zdz from ZFTAL_XTGL_XTSZB where zs='选课学期')
+and xkb.XH_ID=xsj.XH_ID) t
+where t.rowCount between {} and {}
+'''
 
-code={
-    '机构信息':jgxx
+code = {
+    '机构信息': jgxx
     ,
-    '班级信息':bjxx,
-    '用户信息':yhxx,
-    '开课信息':kkxx,
-    '选课信息':xkxx
+    '班级信息': bjxx,
+    '用户信息': yhxx,
+    '开课信息': kkxx,
+    '选课信息': xkxx
 }
 # code={
 #     '机构信息':jgxx,
