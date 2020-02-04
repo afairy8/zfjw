@@ -101,7 +101,7 @@ class fileInfo:
     '''
         xlsxFileName=self.expFilename(suffix)
         if suffix=='.xlsx':
-            if os.path.exists(os.path.join(self._defaultPath,xlsxFileName)):
+            if os.path.exists(xlsxFileName):
                 if mode=='new':
                     xlsxFileName=xlsxFileName+str(uuid.uuid1()).replace('-', '') + suffix
                     wb=opl.Workbook()
@@ -114,7 +114,7 @@ class fileInfo:
                 ws.append(data)
             wb.save(xlsxFileName)
         elif suffix=='.txt':
-            if os.path.exists(os.path.join(self._defaultPath,xlsxFileName)):
+            if os.path.exists(xlsxFileName):
                 if mode=='new':
                     xlsxFileName=xlsxFileName+str(uuid.uuid1()).replace('-', '') + suffix
                     wb=open(xlsxFileName,'w',encoding='utf-8')
@@ -125,6 +125,14 @@ class fileInfo:
             wb.write(';\n'.join(content))
             wb.close()
         return 1
+    def removeXlsxWs(self,sheetName='Sheet1'):
+        '''self本身必须是xlsx格式,且存在'''
+        if self.isExists() and self.fileName.endswith('.xlsx'):
+            wb=opl.load_workbook(self.fileName)
+            for name in wb.get_sheet_names:
+                wb.remove(name)
+            wb.create_sheet(sheetName)
+
     def getFileContent(self,sheetName='Sheet1'):
         '''获取xlsx文件的内容,sheetName 为模糊搜索词'''
         if self.isExists():

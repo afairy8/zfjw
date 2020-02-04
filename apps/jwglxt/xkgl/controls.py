@@ -36,12 +36,12 @@ def expAllXkmd(con,maxPc):
     if counts:
         counts=counts[0]
     indexs=math.ceil(counts/float(maxPc))
-    for index in range(indexs):
+    for index in range(2):
         content=[]
         left=int(index*maxPc)
         right=int((index+1)*maxPc)
         content.extend(con.execute(vars.quickExpXkmd.format(left,right)))
-        xlsx.expXlsx(content=content)
+        xlsx.expXlsx(content=content,mode='')
     return 1
 
 

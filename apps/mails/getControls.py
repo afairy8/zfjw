@@ -87,6 +87,7 @@ def pareseBody(parasemail, headerFrom, headerSendTime):
         if file:  # 有附件
             h = email.header.Header(file)  # 解析附件名称,将附件名改为header格式
             dh = email.header.decode_header(h)  ##解析附件名的header格式
+            #value, charset = email.header.decode_header(str(dh[0][0], dh[0][1]))[0]
             if dh[0][1]:  # 编码格式
                 filename = decode_str(str(dh[0][0], dh[0][1]))  ##完整解析附件名
                 if filename.endswith('.xlsx') or filename.endswith('.xls') or filename.endswith(

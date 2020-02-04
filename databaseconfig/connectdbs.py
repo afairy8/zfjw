@@ -14,7 +14,10 @@ class connect:
         '''
         self.type = dbType.strip().lower()
         if self.type == 'oracle':
-            self.con = cx_Oracle.connect(connectString,encoding='utf-8')
+            try:
+                self.con = cx_Oracle.connect(connectString,encoding='utf-8')
+            except:
+                self.con=cx_Oracle.connect(cs.localJwglxt,encoding='utf-8')
             self.cur = self.con.cursor()
             self.currentZcXqj = self.execute(
                 '''select zc,xqj from jw_pk_rcmxb where rq='{}' and 1=1'''.format(datetime.now().strftime('%Y-%m-%d')))[0]

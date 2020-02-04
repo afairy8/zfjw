@@ -44,7 +44,11 @@ def rollLdTh(con):
 def upJkjg(con):
     print(jwglxt.jwxtKwgl(con,actionName='upJkjgid;'))
 
+def expAllXkmd(con):
+    print(jwglxt.jwxtXkgl(con,actionName='expAllXkmd'))
 
 # ####
-# con=connect()
+con=connect()
+expAllXkmd(con)
+con.close()
 # print(jwglxt.jwxtXkgl(con,actionName='inZjxb;'))
