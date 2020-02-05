@@ -198,3 +198,98 @@ and xkb.XQM=(select zdz from ZFTAL_XTGL_XTSZB where zs='选课学期')
 and xkb.XH_ID=xsj.XH_ID) t
 where t.rowCount between {} and {}
 '''
+
+
+
+###慕课导出名单基路径
+moocBasePath='D:\\projects\\zfjw\\common\\expfiles\\mooc'
+zgjxdsgyRkjs=['101872','101837','101299','102553','102697']
+####取慕课课程信息
+getMoocKcxx='''
+select distinct kch_id,bz,kcmc from JW_JH_KCDMB kc
+where (kc.bz like '%上课网址%' or kc.bz like '%开课平台%')
+and exists(select 1 from JW_JXRW_JXBXXB xkb
+          where xkb.XNM=(select zdz from ZFTAL_XTGL_XTSZB where zs = '选课学年')
+          and xkb.xqm=(select zdz from zftal_xtgl_xtszb where zs = '选课学期')
+          and xkb.KCH_ID=kc.KCH_ID
+          and xkb.KKZT!='4')
+union 
+select kch_id,kcmc||'//'||kcmc||'/'||kcmc,kcmc kcmc1 from JW_JH_KCDMB where kch='186300802'
+'''
+###取慕课教学班信息
+getMoocKcJxb='''
+select jxb_id,jxbmc,jsxx from JW_JXRW_JXBXXB jxb 
+where jxb.XNM=(select zdz from ZFTAL_XTGL_XTSZB where zs = '选课学年')
+and jxb.xqm=(select zdz from zftal_xtgl_xtszb where zs = '选课学期')
+and jxb.KCH_ID='{}'
+and 1=1
+'''
+###取慕课课程选课信息
+getMoocXkxx='''
+select
+'广州大学' xx,
+xsj.xh,
+xsj.XM,
+(select jxbmc from JW_JXRW_JXBXXB jxb where jxb.JXB_ID=xkb.JXB_ID) jxbmc,
+(select jsxx from JW_JXRW_JXBXXB jxb where jxb.JXB_ID=xkb.JXB_ID) jsxx,
+(select jgmc from ZFTAL_XTGL_JGDMB where xsj.JG_ID=jg_id) jgmc,
+(select zymc from ZFTAL_XTGL_ZYDMB where xsj.ZYH_ID=zyh_id) zymc,
+(select bj from ZFTAL_XTGL_BJDMB where xsj.BH_ID=bh_id) bj,
+decode(xsj.XBM,'1','男','2','女') xb,
+xsj.NJDM_ID,
+(select kcmc from JW_JH_KCDMB where kch_id=xkb.kch_id) kcmc,
+xkb.JXB_ID,
+xkb.XNM,
+xkb.xqm,
+xkb.XKSJ,
+xkb.KCH_ID
+from JW_XK_XSXKB xkb,JW_XJGL_XSJBXXB xsj
+where (xkb.KCH_ID='{}' or xkb.JXB_ID='{}') and xkb.XH_ID=xsj.XH_ID
+and xkb.XNM = (select zdz from ZFTAL_XTGL_XTSZB where zs = '选课学年')
+and xkb.XQM = (select zdz from zftal_xtgl_xtszb where zs = '选课学期')
+and not exists(select 1 from LIKAI_XK_XSXKB where xh_id=xkb.xh_id and jxb_id=xkb.jxb_id and xnm=xkb.xnm and xqm=xkb.xqm)
+order by xkb.JXB_ID
+'''
+
+
+
+###取吴九占的中国近现代史纲要课程信息信息
+getZgjxdsgy='''
+select distinct kch_id,bz,kcmc from JW_JH_KCDMB kc
+where kc.kcmc='中国近现代史纲要'
+and exists(select 1 from JW_JXRW_JXBXXB xkb
+          where xkb.XNM=(select zdz from ZFTAL_XTGL_XTSZB where zs = '选课学年')
+          and xkb.xqm=(select zdz from zftal_xtgl_xtszb where zs = '选课学期')
+          and xkb.KCH_ID=kc.KCH_ID
+          and xkb.KKZT!='4')
+'''
+
+writeToBack='''
+insert into LIKAI_XK_XSXKB(xnm,xqm,JXB_ID,XH_ID,XKSJ,KCH_ID)
+select xnm,xqm,jxb_id,xh_id,xksj,kch_id from (
+select
+'广州大学' xx,
+xsj.xh,
+xsj.XM,
+(select jxbmc from JW_JXRW_JXBXXB jxb where jxb.JXB_ID=xkb.JXB_ID) jxbmc,
+(select jsxx from JW_JXRW_JXBXXB jxb where jxb.JXB_ID=xkb.JXB_ID) jsxx,
+(select jgmc from ZFTAL_XTGL_JGDMB where xsj.JG_ID=jg_id) jgmc,
+(select zymc from ZFTAL_XTGL_ZYDMB where xsj.ZYH_ID=zyh_id) zymc,
+(select bj from ZFTAL_XTGL_BJDMB where xsj.BH_ID=bh_id) bj,
+decode(xsj.XBM,'1','男','2','女') xb,
+xsj.NJDM_ID,
+(select kcmc from JW_JH_KCDMB where kch_id=xkb.kch_id) kcmc,
+xkb.JXB_ID,
+xkb.XNM,
+xkb.xqm,
+xkb.XKSJ,
+xkb.KCH_ID,
+xkb.XH_ID
+from JW_XK_XSXKB xkb,JW_XJGL_XSJBXXB xsj
+where (xkb.KCH_ID='{}' or xkb.JXB_ID='{}') and xkb.XH_ID=xsj.XH_ID
+and xkb.XNM = (select zdz from ZFTAL_XTGL_XTSZB where zs = '选课学年')
+and xkb.XQM = (select zdz from zftal_xtgl_xtszb where zs = '选课学期')
+and not exists(select 1 from LIKAI_XK_XSXKB where xh_id=xkb.xh_id and jxb_id=xkb.jxb_id and xnm=xkb.xnm and xqm=xkb.xqm)
+order by xkb.JXB_ID)
+'''
+

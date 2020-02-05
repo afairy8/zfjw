@@ -93,7 +93,7 @@ class fileInfo:
             name = str(uuid.uuid1()).replace('-', '') + suffix
         pathname = os.path.join(path, name)
         return pathname
-    def expXlsx(self, content=[], mode='new',suffix='.xlsx'):
+    def expXlsx(self, content=[], mode='new',suffix='.xlsx',sheetName='Sheet1'):
         '''
         :param filename:如果不包含路径，则默认路径，如果不指定文件名，则只用默认文件名，如果两者都不指定，那么都是默认
         :param content: 写入xls的内容，为二级嵌套格式，如[[]],或[()]
@@ -110,6 +110,7 @@ class fileInfo:
             else:
                 wb=opl.Workbook()
             ws=wb.active
+            ws.title=sheetName
             for data in content:
                 ws.append(data)
             wb.save(xlsxFileName)
