@@ -60,6 +60,7 @@ class connect:
         关闭连接
         :return:
         '''
+
         self.cur.close()
         self.con.close()
 

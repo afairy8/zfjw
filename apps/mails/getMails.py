@@ -24,11 +24,15 @@ def paraseMailBody(mailContent,sendtime,mailFrom):
             dh=decode_header(h)###解析转换后的附件header信息
             if dh[0][1]:##如果header中存在编码信息，则先将header用该编码转换为字符串，然后用header解析，最后用解析出来的heade信息，header编码解析为字符串
                 filename=decode_str(decode_header(str(dh[0][0],dh[0][1]))[0])
-                filetime=mailFrom.replace('@','=')+'】'+'['+str(count)+']'+datetime.datetime.strftime(sendtime,'%Y-%m-%d %H-%M-%S')
+                filetime=mailFrom+'】'+'%'+str(count)+'%'+datetime.datetime.strftime(sendtime,'%Y-%m-%d %H-%M-%S')
                 filename=filetime+filename
+                pathfile=os.path.join(fileSavePath(datetime.datetime.now()),filename)
+                if os.path.exists(pathfile):
+                    os.remove(pathfile)
+                # if os.path.exists(filename)
                 # pathtime=datetime.datetime.strftime(sendtime,'%Y-%m-%d')
                 content = part.get_payload(decode=True)
-                f=open(os.path.join(fileSavePath(datetime.datetime.now()),filename),'wb')
+                f=open(pathfile,'wb')
                 f.write(content)
                 f.close()
                 count=count+1
@@ -84,7 +88,6 @@ def parseMail(con,jgHours=24,suffix='1532398723@qq.com',subject=None,max_receive
                     mailcontent = b'\r\n'.join(line).decode('utf-8', 'ignore')
                     parasemail = Parser().parsestr(mailcontent)
                     paraseMailBody(mailContent=parasemail,sendtime=headerSendTime,mailFrom=mailFrom)
-                    pass
     ssh.quit()
     return 1
 

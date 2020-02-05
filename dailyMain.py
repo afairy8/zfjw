@@ -3,6 +3,13 @@ from apps.wlzx import wlzxcontrols as wlzx
 from databaseconfig.connectdbs import connect
 from common.fileAction.controls import fileInfo
 import time
+from apps.mails import mailInterface as mail
+
+def mailmain(con):
+    '''回复学位中心中心的日常任务！'''
+    pop=connect('mailpop')
+    smtp=connect('mailsmtp')
+    return mail.replyXwCenter(pop=pop,smtp=smtp,oracle=con)
 def jwxtmain(con):
     L=[]
     L.extend(jwglxt.jwxtCjgl(con=con,actionName='upXsCjjd;'))
@@ -25,7 +32,7 @@ def main():
     L=['*'*30]
     L.append('当前周次={}，当前星期={}'.format(con.currentZcXqj[0],con.currentZcXqj[1]))
     start=time.perf_counter()
-    L=L+wlzxmain(con)+jwxtmain(con)
+    L=L+wlzxmain(con)+jwxtmain(con)+mailmain(con)
     txt=fileInfo(time.strftime('%Y-%m-%d',time.localtime())+'.txt')
     end=time.perf_counter()
     L.append('共耗时{}秒'.format(str(end-start)))
