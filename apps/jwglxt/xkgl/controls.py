@@ -67,8 +67,8 @@ def expMooc(con):
     kcxx=getMoocKcxx(con)
     pathDate=datetime.now().strftime('%Y-%m-%d')
     for kc in kcxx:
-        print(kc)
-        print('*'*30)
+        #print(kc)
+        #print('*'*30)
         title,exptype,suffix=getTitle(kc[1].split('//')[1].split('/')[0])
         if exptype=='kc':
             content = []
