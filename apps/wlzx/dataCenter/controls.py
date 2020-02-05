@@ -17,7 +17,7 @@ def insertJzg(con,L):
         return 1
     else:
         pass
-def sytojs(con,max_index=25):
+def sytojs(con,max_index=35):
     '''接收数据中心的教师信息'''
     url=dv.baseUrl+dv.urlDir['tch']
     L=[]
