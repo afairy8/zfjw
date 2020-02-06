@@ -17,7 +17,7 @@ def getZdTzXsxx(con,njdm_id):
     xlsx.expXlsx(content=L)
     return 1
 
-def findZp(con,path,level=0):
+def findZp(con,path):
     L=[]
     files=pathCommon(path)['files']
     for file in files:
@@ -62,7 +62,7 @@ def imZp(con,type='rhxzp',pk='zjhm',path=''):
         exceptionXs=con.execute(vars.checkCode)
         if exceptionXs:
             xlsx=fileInfo('文件名匹配不上的学生信息')
-            title=('文件名')
+            title=('文件名','')
             content=[]
             content.append(title)
             content.extend(exceptionXs)

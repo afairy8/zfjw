@@ -5,7 +5,7 @@ import zipfile
 import uuid
 from common.fileAction import vars
 import openpyxl as opl
-from common.actionPre import actionpre
+
 class fileInfo:
     def __init__(self, fileName):
         self.fileName = fileName
@@ -184,13 +184,15 @@ class fileInfo:
 
 
 def pathCommon(path,resdirs=[],resfiles=[]):
-    '''返回根目录下的子目录与文件集合'''
-    for root,dirs,files in os.walk(path):
-        for file in files:
-            resfiles.append(os.path.join(path,file))
-        for dir in dirs:
-            resdirs.append(os.path.join(path,dir))
-            pathCommon(os.path.join(path,dir),resdirs,resfiles)
-    return {'dirs':resdirs,'files':resfiles}
+    '''返回根目录下的子目录与文件集合{'dirs':resdirs,'files':resfiles}'''
+    if path:
+        for root,dirs,files in os.walk(path):
+            for file in files:
+                resfiles.append(os.path.join(path,file))
+            for dir in dirs:
+                resdirs.append(os.path.join(path,dir))
+                pathCommon(os.path.join(path,dir),resdirs,resfiles)
+        return {'dirs':resdirs,'files':resfiles}
+
 
 
