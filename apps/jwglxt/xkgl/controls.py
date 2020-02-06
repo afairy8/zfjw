@@ -45,7 +45,9 @@ def getTitle(sign):
         type='jxb'
         addr='广大慕课'
     elif sign.lower().strip().find('xuetangx')>=0:# in ['gzhu.xuetangx.com']:##学堂在线
-        pass
+        title=('* 学号','* 姓名','院系','专业','行政班','入学年份','教学班名称')
+        type='kc'
+        addr='学堂在线'
     elif sign.lower().strip().find('chaoxing')>=0:#in ['gzhdx.fanya.chaoxing.com']:#超星
         title = ('学号/工号', '姓名*', '角色(教师或者学生)', '性别',
                  '手机号', '邮箱', '院系', '专业', '行政班级', '入学年份', '身份证号', '学校代码', '密码')
@@ -67,8 +69,7 @@ def expMooc(con):
     kcxx=getMoocKcxx(con)
     pathDate=datetime.now().strftime('%Y-%m-%d')
     for kc in kcxx:
-        #print(kc)
-        #print('*'*30)
+        ###title:模板标题，exptype:按教学班还是按课程；suffix文件保存的尾路径
         title,exptype,suffix=getTitle(kc[1].split('//')[1].split('/')[0])
         if exptype=='kc':
             content = []
@@ -77,16 +78,20 @@ def expMooc(con):
             filename=os.path.join(moocSavePath(pathDate+'\\'+suffix),kc[2])
             for xk in xkxx:
                 if suffix=='智慧树':
-                    t = (xk[1], xk[2], xk[3], '', xk[5], xk[6], '', '', xk[7] + ',任课教师：' + xk[4].split('/')[0])
+                    t = (xk[1], xk[2], xk[3], '', xk[5], xk[6], '', '', xk[7] + '#任课教师：' + xk[4].split('/')[0])
                     content.append(t)
                 elif suffix=='优课':##实际上就是中国近现代史纲要
                     if xk[4].split('/')[0] in vars.zgjxdsgyRkjs:
                         t=(xk[0],xk[1],xk[2],xk[3]+xk[4].split('/')[1])
                         content.append(t)
+                elif suffix=='学堂在线':
+                    #title = ('* 学号', '* 姓名', '院系', '专业', '行政班', '入学年份', '教学班名称')
+                    t=(xk[1],xk[2],xk[5],xk[6],xk[7],'',xk[3])
+                    content.append(t)
                 else:
                     pass
             if len(content)>1:
-                print(content)
+                #print(content)
                 xlsx=fileInfo(filename)
                 xlsx.expXlsx(content=content)
                 con.execute(vars.writeToBack.format(kc[0],'####'))
@@ -110,7 +115,7 @@ def expMooc(con):
                     else:
                         pass
                 if len(content) > 1:
-                    print(content)
+                    #print(content)
                     xlsx = fileInfo(filename)
                     xlsx.expXlsx(content=content)
                     con.execute(vars.writeToBack.format('####',jxb[0]))

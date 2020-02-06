@@ -21,3 +21,8 @@ create table LIKAI_XTGL_XTSZB
   XTSZBLYB VARCHAR2(30)
 );
 INSERT INTO GZDX_JW_USER.LIKAI_XTGL_XTSZB (XTSZ_ID, ZDM, ZDZ, SSMK, ZS, BZ, SSGNMKDM, ZDZYQ, ZDLX, ZDLY, XTSZBLYB) VALUES ('BYSFZXXBSFSCJZ(@1)', 'BYSFZXXBSFSCJZ(@1)', '2020;0', 'BYMK', '毕业生辅助信息表是否首次加载', '毕业年度，毕业生辅助信息表是否首次加载，1，是首次；0不是首次；', null, '{required:true}', 3, 'fixed:0,1', null);
+
+create table LIKAI_XK_XSXKB as (
+select * from jw_xk_xsxkb where XH_ID='###');
+end;
+

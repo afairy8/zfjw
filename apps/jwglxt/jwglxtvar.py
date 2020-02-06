@@ -17,7 +17,7 @@ byshAction='inBysfzxxb;acitonByKctd;exp;getCallPrcoParas;'
 ###教学任务操作
 jxrwAction='upXsdm;upRwBaseInfo;uprwcxbmkg;inRwBklxXsmc;upMxdx;'
 ##选课管理操作
-xkglAction='delcxbmandxk;upcxbj;upPkgl;inZjxb;expAllXkmd;'
+xkglAction='delcxbmandxk;upcxbj;upPkgl;inZjxb;expAllXkmd;expMooc;'
 ###学籍管理操作
 xjglAction='impZp;'
 ###成绩管理操作
