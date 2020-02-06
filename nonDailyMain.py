@@ -47,8 +47,11 @@ def upJkjg(con):
 def expAllXkmd(con):
     print(jwglxt.jwxtXkgl(con,actionName='expAllXkmd'))
 
+def expZdxs(con,njdm_id):
+    print(jwglxt.jwxtXjgl(con=con,actionName='getZdTzXsxx;',njdm_id='2019'))
 # ####
 con=connect()
-expAllXkmd(con)
+# expAllXkmd(con)
+expZdxs(con,njdm_id='2019')
 con.close()
 # print(jwglxt.jwxtXkgl(con,actionName='inZjxb;'))

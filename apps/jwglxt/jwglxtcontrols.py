@@ -124,14 +124,14 @@ def jwxtJxrw(con,actionName=''):
     if L:
         return L
 #########学籍管理中还可以补充无学籍等与学生选课之间的关系检测问题
-def jwxtXjgl(con,actionName='',type=None,pk=None,zpPath=None):
+def jwxtXjgl(con,actionName='',type=None,pk=None,zpPath=None,njdm_id=None):
     if not actionName:
         actionName=jwglxtvar.xjglAction
     actionName=actionpre.actionList(actionName)
     L=[]
     for switch in actionName:
         if switch:
-            L.append(xjgl.xjglInterface(con=con,actionName=switch,type=type,pk=pk,zpPath=zpPath))
+            L.append(xjgl.xjglInterface(con=con,actionName=switch,type=type,pk=pk,zpPath=zpPath,njdm_id=njdm_id))
         else:
             pass
     if L:

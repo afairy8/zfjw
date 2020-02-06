@@ -2,21 +2,20 @@ from apps.jwglxt.xjgl import vars
 from common.fileAction.controls import fileInfo
 from common.actionPre import actionpre
 import os
-def getZdTzXsxx(con,zjhmQzm=None,sydKeyWors=None):
+def getZdTzXsxx(con,njdm_id):
     '''导出符合条件的证件前缀码，或生源地满足要求的'''
-    if not zjhmQzm:
-        zjhmQzm='%'
-    if not sydKeyWors:
-        sydKeyWors='%'
+    if not njdm_id:
+        njdm_id='%'
     L=[]
     title = ('学号', '姓名', '学院', '专业', '班级', '年级', '生源地', '证件号码前六位')
     L.append(title)
-    res=con.execute(vars.getZdTzXs.format(zjhmQzm,sydKeyWors))
+    res=con.execute(vars.getZdTzXs.format(njdm_id))
     for data in res:
         L.append(data)
     #expXls.exp(filename=sydKeyWors,content=L)
-    xlsx=fileInfo(sydKeyWors+'学生')
-    return xlsx.expXlsx(content=L)
+    xlsx=fileInfo(njdm_id+'学生')
+    xlsx.expXlsx(content=L)
+    return 1
 
 def findZp(con,path,level=0):
     L=[]
@@ -79,7 +78,7 @@ def imZp(con,type='rhxzp',pk='zjhm',path=''):
         res=None
     return res
 
-def xjglInterface(con,actionName='',type=None,pk=None,zpPath=None):
+def xjglInterface(con,actionName='',type=None,pk=None,zpPath=None,njdm_id=None):
     if actionpre.unique('imZp')==actionName:
         if type in ['rxhzp','byzp'] and pk in ['zjhm','xh'] and zpPath:
             if imZp(con=con,type=type,pk=pk,path=zpPath):
@@ -87,6 +86,7 @@ def xjglInterface(con,actionName='',type=None,pk=None,zpPath=None):
         else:
             return '导入照片,参数type={},pk={},zpPath={}输入有误'.format(type,pk,zpPath)
     elif actionpre.unique('getZdTzXsxx')==actionName:
-        pass
+        if getZdTzXsxx(con,njdm_id=njdm_id):
+            return '{}学生已导出'.format(njdm_id)
     else:
         pass

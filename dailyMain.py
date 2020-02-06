@@ -26,7 +26,7 @@ def jwxtmain(con):
     ####print('kwwc')
     L.extend(jwglxt.jwxtXkgl(con=con,actionName='delcxbmandxk;upcxbj;inZjxb;expMooc;'))#;upPkgl
     ####print('jwwc')
-    #L.extend(jwglxt.jwxtXspj(con, actionName='getWccPjXs;addCpxsxz;delXsPjxx;'))
+    L.extend(jwglxt.jwxtXspj(con, actionName='getWccPjXs;addCpxsxz;delXsPjxx;'))
     return L
 
 def wlzxmain(con):
