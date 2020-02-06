@@ -1,5 +1,6 @@
 from apps.jwglxt import jwglxtcontrols as jwglxt
 from databaseconfig.connectdbs import connect
+from apps.wlzx import wlzxcontrols as wlzx
 ####交换生成绩文件路径
 xsFilePath=''
 
@@ -42,16 +43,26 @@ def rollLdTh(con):
 
 ###考务管理，更新监考学院
 def upJkjg(con):
+    '''考务管理，更新监考学院'''
     print(jwglxt.jwxtKwgl(con,actionName='upJkjgid;'))
 
 def expAllXkmd(con):
-    print(jwglxt.jwxtXkgl(con,actionName='expAllXkmd'))
+    #print(jwglxt.jwxtXkgl(con,actionName='expAllXkmd'))
+    print(jwglxt.jwxtXkgl(con=con, actionName='expMooc;'))
 
 def expZdxs(con,njdm_id):
     print(jwglxt.jwxtXjgl(con=con,actionName='getZdTzXsxx;',njdm_id='2019'))
+
+def signalSendMsg(con,xxlx=[('外表数据发送','xslx01',0,2)]):
+    '''单独发送外表数据'''
+    print(wlzx.wlzxMsg(con,xxlx))
+def signalSysJs(con):
+    '''单独同步教师'''
+    print(wlzx.wlzxDataCenter(con,actionName='sytojs'))
 # ####
 con=connect()
 # expAllXkmd(con)
 # expZdxs(con,njdm_id='2019')
+# expAllXkmd(con)
 con.close()
 # print(jwglxt.jwxtXkgl(con,actionName='inZjxb;'))

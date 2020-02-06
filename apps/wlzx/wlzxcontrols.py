@@ -13,5 +13,5 @@ def wlzxDataCenter(con,actionName=None,max_index=25):
         L.append(dataCenter.dataCenterInterface(con=con,actionName=switch,max_index=max_index))
     return L
 
-def wlzxMsg(con):
-    return msg.messageInterface(con=con)
+def wlzxMsg(con,xxlx=None):
+    return msg.messageInterface(con=con,xxlx=xxlx)

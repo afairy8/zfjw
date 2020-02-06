@@ -454,10 +454,12 @@ def controlMain(con,jgDay,xxlx,fileName='sf.xlsx'):
 
 
 
-def messageInterface(con):
+def messageInterface(con,xxlx=None):
     '''消息发送对外主接口'''
+    ###xxlx=[(None,None,None,None)]
     L=[]
-    xxlx=gv.getXxlx()
+    if xxlx is None:
+        xxlx=gv.getXxlx()
     for xx in xxlx:
         if xx[2] is not None:
             L.append(controlMain(con, xx[2], xx[1]))
