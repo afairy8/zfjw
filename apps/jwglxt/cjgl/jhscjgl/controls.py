@@ -24,7 +24,7 @@ def init(con,xsFilePath):
 def genKcdm(con,kcmc,kcxz,xf,kcywmc):
     '''生成课程代码'''
     kcdmIsExists=con.execute(vars.kcdmIsExists.format(kcmc,xf,kcxz))
-    print(kcdmIsExists)
+    # print(kcdmIsExists)
     if  kcdmIsExists:#存在则用现有的
         kcdm=kcdmIsExists[0][0]
     else:#不存在则新生成,并插入
@@ -32,7 +32,7 @@ def genKcdm(con,kcmc,kcxz,xf,kcywmc):
         L=[]
         L.append((kcdm,kcdm,kcmc,kcywmc,xf,kcxz))
         con.execute(vars.inJhsKck,L)
-    print(kcdm+kcmc)
+    #print(kcdm+kcmc)
     return kcdm
 
 def uniCjxn(con):
@@ -60,6 +60,22 @@ def uniKcxz(kcxz):
         return "专业选修课程"
     elif kcxz=="通选":
         return "通识类选修课程"
+    elif kcxz=='哲学':
+        return '哲学与逻辑'
+    elif kcxz=='历史':
+        return '历史与文化'
+    elif kcxz=='社会':
+        return '社会与经济'
+    elif kcxz=='创新':
+        return '创新与创业'
+    elif kcxz=='科学':
+        return '科学与技术'
+    elif kcxz=='艺术':
+        return '艺术与审美'
+    elif kcxz=='运动':
+        return '运动与健康'
+    elif kcxz=='无':
+        return '无'
     else:
         return kcxz
 
