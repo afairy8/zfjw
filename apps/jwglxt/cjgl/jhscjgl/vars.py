@@ -42,8 +42,6 @@ select kch_id,kch,kcmc,kcywmc,''kcjj,kkbm_id,xf,zxs,kclbdm,kcxzdm,
 from JW_JH_KCDMB kc
 where upper(kc.kch) like 'JH%'
 '''
-# initJhsKckCondition1='''where upper(kc.kch) like 'JH%' and 1=1 '''
-# initJhsKckCondition2='''where KCXZDM IN ('19','2') AND TKBJ='0' AND 1=1'''
 ####插入临时的课程库
 inJhsKck='''
 insert into likai_jhc_kck(kch_id,kch,kcmc,kcywmc,xf,kcxz)

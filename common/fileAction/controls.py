@@ -133,33 +133,43 @@ class fileInfo:
             for name in wb.get_sheet_names:
                 wb.remove(name)
             wb.create_sheet(sheetName)
-
-    def getFileContent(self,sheetName='Sheet1'):
-        '''获取xlsx文件的内容,sheetName 为模糊搜索词'''
+    def getFileContent(self,sheetName='Sheet1',type='active',containTitle=False):
+        '''如果给定sheetName,则返回给定的SheetName的内容，如果没有找到相应的sheetName，如给定type='active'则
+        返回活动工作表的内容，如不给定active则返回为空；
+        如果不给定sheetName则返回所有工作表的内容！
+        '''
         if self.isExists():
             if self.fileName.endswith('.xlsx'):
+                wb=opl.load_workbook(self.fileName)
+                wslist=wb.sheetnames
                 L=[]
-                wb=opl.load_workbook(filename=self.fileName)
-                wslist=wb.get_sheet_names()
                 ws=None
-                for sheet in wslist:
-                    if sheet.lower().find(sheetName.lower())>=0:
-                        ws=wb.get_sheet_by_name(sheet)
-                if not ws:
-                    ws=wb.active
-                for row in ws.iter_rows(min_row=2,max_row=ws.max_row,min_col=1,max_col=ws.max_column):
-                    rowL=[]
-                    for cell in row:
-                        rowL.append(cell.value)
-                    L.append(tuple(rowL))
-            elif self.fileName.endswith('xls'):
-                pass
-            else:
-                pass
-            return L
-        else:
-            return None
-
+                if containTitle:
+                    min_row=1
+                else:
+                    min_row=2
+                for name in wslist:
+                    if not sheetName:
+                        ws=wb[name]
+                    else:
+                        if name.find(sheetName)>=0:
+                            ws=wb[name]
+                    if ws:
+                        L.append(('内容来自于文件名={},工作表={}'.format(self.fileName,name),' '))
+                        for row in ws.iter_rows(min_row=min_row, max_row=ws.max_row, min_col=1, max_col=ws.max_column):
+                            rowL = []
+                            for cell in row:
+                                rowL.append(cell.value)
+                            L.append(tuple(rowL))
+                if type=='active':
+                    if ws is None:
+                        ws=wb.active
+                        for row in ws.iter_rows(min_row=min_row, max_row=ws.max_row, min_col=1, max_col=ws.max_column):
+                            rowL = []
+                            for cell in row:
+                                rowL.append(cell.value)
+                            L.append(tuple(rowL))
+                return L
 class pathInfo:
     '''路径类'''
     def __init__(self,path):
@@ -183,3 +193,6 @@ class pathInfo:
             self._L=L
             return self._L
 
+# xlsx=fileInfo('C:\\Users\\xjk-lenovo\\Desktop\\20191219交换生\\当前文件夹的文件集合.xlsx')
+# xlsx.expXlsx(content=xlsx.getFileContent(sheetName=''))
+# print(xlsx.getFileContent(sheetName=''))
