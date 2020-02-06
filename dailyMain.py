@@ -15,7 +15,6 @@ def jwxtmain(con):
     L=[]
     L.extend(jwglxt.jwxtCjgl(con=con,actionName='upXsCjjd;'))
     ####print('cjwc')
-    L.extend(jwglxt.jwxtXspj(con,actionName='getWccPjXs;addCpxsxz;delXsPjxx;'))
     ####print('pjwc')
     L.extend(jwglxt.jwxtLdThpj(con))
     ####print('ldwc')
@@ -27,6 +26,7 @@ def jwxtmain(con):
     ####print('kwwc')
     L.extend(jwglxt.jwxtXkgl(con=con,actionName='delcxbmandxk;upcxbj;inZjxb;expMooc;'))#;upPkgl
     ####print('jwwc')
+    L.extend(jwglxt.jwxtXspj(con, actionName='getWccPjXs;addCpxsxz;delXsPjxx;'))
     return L
 
 def wlzxmain(con):
