@@ -133,7 +133,7 @@ class fileInfo:
             for name in wb.get_sheet_names:
                 wb.remove(name)
             wb.create_sheet(sheetName)
-    def getFileContent(self,sheetName='Sheet1',type='active',containTitle=False):
+    def getFileContent(self,sheetName='sheet1',type='active',containTitle=False):
         '''如果给定sheetName,则返回给定的SheetName的内容，如果没有找到相应的sheetName，如给定type='active'则
         返回活动工作表的内容，如不给定active则返回为空；
         如果不给定sheetName则返回所有工作表的内容！
@@ -148,51 +148,49 @@ class fileInfo:
                     min_row=1
                 else:
                     min_row=2
-                for name in wslist:
-                    if not sheetName:
-                        ws=wb[name]
-                    else:
-                        if name.find(sheetName)>=0:
+                if sheetName:
+                    for name in wslist:
+                        if name.lower().find(sheetName)>=0:
                             ws=wb[name]
-                    if ws:
-                        L.append(('内容来自于文件名={},工作表={}'.format(self.fileName,name),' '))
-                        for row in ws.iter_rows(min_row=min_row, max_row=ws.max_row, min_col=1, max_col=ws.max_column):
-                            rowL = []
-                            for cell in row:
-                                rowL.append(cell.value)
-                            L.append(tuple(rowL))
-                if type=='active':
-                    if ws is None:
-                        ws=wb.active
-                        for row in ws.iter_rows(min_row=min_row, max_row=ws.max_row, min_col=1, max_col=ws.max_column):
-                            rowL = []
-                            for cell in row:
-                                rowL.append(cell.value)
-                            L.append(tuple(rowL))
-                return L
-class pathInfo:
-    '''路径类'''
-    def __init__(self,path):
-        self._path=path
-        self._L=[]
-    def isExists(self):
-        return os.path.exists(self._path)
-    def getFilesPath(self,path,suffix='',level=0):
-        '''返回该目录下存在文件的目录集合列表'''
-        if self.isExists():
-            L=self._L
-            dirs=os.listdir(path)
-            for dir in dirs:
-                dirFiles=os.path.join(path,dir)
-                if os.path.isdir(dirFiles):
-                    self.getFilesPath(path=dirFiles,suffix=suffix,level=level+1)
+                        else:
+                            ws=None
+                        if ws:
+                            L.append(('内容来自于文件名={},工作表={}'.format(self.fileName,name),' '))
+                            for row in ws.iter_rows(min_row=min_row, max_row=ws.max_row, min_col=1, max_col=ws.max_column):
+                                rowL = []
+                                for cell in row:
+                                    rowL.append(cell.value)
+                                L.append(tuple(rowL))
+                    if type=='active':
+                        if ws is None and len(L)==0:
+                            ws=wb.active
+                            for row in ws.iter_rows(min_row=min_row, max_row=ws.max_row, min_col=1, max_col=ws.max_column):
+                                rowL = []
+                                for cell in row:
+                                    rowL.append(cell.value)
+                                L.append(tuple(rowL))
                 else:
-                    pathname=os.path.split(dirFiles)
-                    if actionpre.unique(pathname[1].split('.')[-1]) in actionpre.actionList(suffix) and pathname[0] not in L:
-                        L.append(pathname[0])
-            self._L=L
-            return self._L
+                    for name in wslist:
+                        ws=wb[name]
+                        L.append(('内容来自于文件名={},工作表={}'.format(self.fileName, name), ' '))
+                        for row in ws.iter_rows(min_row=min_row, max_row=ws.max_row, min_col=1, max_col=ws.max_column):
+                            rowL = []
+                            for cell in row:
+                                rowL.append(cell.value)
+                            L.append(tuple(rowL))
+                if not len(L):
+                    L=[('filename={}不存在指定的sheet={},且没有要求要返回active的工作表'.format(self.fileName,sheetName),'')]
+                return L
 
-# xlsx=fileInfo('C:\\Users\\xjk-lenovo\\Desktop\\20191219交换生\\当前文件夹的文件集合.xlsx')
-# xlsx.expXlsx(content=xlsx.getFileContent(sheetName=''))
-# print(xlsx.getFileContent(sheetName=''))
+
+def pathCommon(path,resdirs=[],resfiles=[]):
+    '''返回根目录下的子目录与文件集合'''
+    for root,dirs,files in os.walk(path):
+        for file in files:
+            resfiles.append(os.path.join(path,file))
+        for dir in dirs:
+            resdirs.append(os.path.join(path,dir))
+            pathCommon(os.path.join(path,dir),resdirs,resfiles)
+    return {'dirs':resdirs,'files':resfiles}
+
+

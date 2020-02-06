@@ -1,5 +1,5 @@
 from apps.jwglxt.xjgl import vars
-from common.fileAction.controls import fileInfo
+from common.fileAction.controls import fileInfo,pathCommon
 from common.actionPre import actionpre
 import os
 def getZdTzXsxx(con,njdm_id):
@@ -19,18 +19,28 @@ def getZdTzXsxx(con,njdm_id):
 
 def findZp(con,path,level=0):
     L=[]
-    dirs=os.listdir(path)
-    for dir in dirs:
-        dirpath=os.path.join(path,dir)
-        if os.path.isdir(dirpath):
-            findZp(con,dirpath,level=level+1)
-        else:
-            if dirpath.split('.')[-1].lower() in ['jpg','jpeg','png']:
-                f=open(dirpath,'rb')
+    files=pathCommon(path)['files']
+    for file in files:
+        if file.split('.')[-1].lower() in ['jpg','jpeg','png']:
+            with open(file,'rb') as f:
                 clobdata=f.read()
                 f.close()
-                filename=os.path.split(dirpath)[1].split('.')[0]
-                L.append((filename,clobdata))
+            filename=os.path.split(file)[1].split('.')[0]
+            L.append((filename,clobdata))
+        else:
+            pass
+    # dirs=os.listdir(path)
+    # for dir in dirs:
+    #     dirpath=os.path.join(path,dir)
+    #     if os.path.isdir(dirpath):
+    #         findZp(con,dirpath,level=level+1)
+    #     else:
+    #         if dirpath.split('.')[-1].lower() in ['jpg','jpeg','png']:
+    #             f=open(dirpath,'rb')
+    #             clobdata=f.read()
+    #             f.close()
+    #             filename=os.path.split(dirpath)[1].split('.')[0]
+    #             L.append((filename,clobdata))
     if L:
         if con.objectExists('zpb')[0][0]:
             con.execute(vars.dropZpb)
