@@ -26,7 +26,7 @@ def jwxtmain(con):
     ####print('kwwc')
     L.extend(jwglxt.jwxtXkgl(con=con,actionName='delcxbmandxk;upcxbj;inZjxb;expMooc;'))#;upPkgl
     ####print('jwwc')
-    L.extend(jwglxt.jwxtXspj(con, actionName='getWccPjXs;addCpxsxz;delXsPjxx;'))
+    #L.extend(jwglxt.jwxtXspj(con, actionName='getWccPjXs;addCpxsxz;delXsPjxx;'))
     return L
 
 def wlzxmain(con):
@@ -47,7 +47,13 @@ def main():
     end=time.perf_counter()
     L.append('共耗时{}秒'.format(str(end-start)))
     L.append('*'*30)
-    txt.expXlsx(content=L,suffix='.txt')
+    res=''
+    for ele in L:
+        if ele is None:
+            ele=';\n'
+        res=res+ele+';\n'
+    # print(';\n'.join(L))
+    txt.expXlsx(content=res,suffix='.txt')
     con.close()
 
 if __name__=='__main__':

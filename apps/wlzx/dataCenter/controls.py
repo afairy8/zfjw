@@ -9,7 +9,7 @@ def insertJzg(con,L):
         # con.commit()
         #将数据中心的教师用户同步至jw数据库
         con.execute(dv.getJzg,L)
-        bakTableExists=con.execute('jw_jg_jzgxxb_back')[0]
+        bakTableExists=con.objectExists('jw_jg_jzgxxb_back')[0]
         if bakTableExists[0]:
             con.execute('drop table jw_jg_jzgxxb_back')
         con.execute(dv.backUpCode)

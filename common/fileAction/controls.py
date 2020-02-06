@@ -123,7 +123,7 @@ class fileInfo:
                     wb=open(xlsxFileName,'a',encoding='utf-8')
             else:
                 wb=open(xlsxFileName,'w',encoding='utf-8')
-            wb.write(';\n'.join(content))
+            wb.write(content)
             wb.close()
         return 1
     def removeXlsxWs(self,sheetName='Sheet1'):

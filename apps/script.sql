@@ -24,5 +24,5 @@ INSERT INTO GZDX_JW_USER.LIKAI_XTGL_XTSZB (XTSZ_ID, ZDM, ZDZ, SSMK, ZS, BZ, SSGN
 
 create table LIKAI_XK_XSXKB as (
 select * from jw_xk_xsxkb where XH_ID='###');
-end;
+
 
