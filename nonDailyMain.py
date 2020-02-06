@@ -52,6 +52,6 @@ def expZdxs(con,njdm_id):
 # ####
 con=connect()
 # expAllXkmd(con)
-expZdxs(con,njdm_id='2019')
+# expZdxs(con,njdm_id='2019')
 con.close()
 # print(jwglxt.jwxtXkgl(con,actionName='inZjxb;'))
