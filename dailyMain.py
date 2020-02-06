@@ -41,7 +41,19 @@ def main():
     L=['*'*30]
     L.append('当前周次={}，当前星期={}'.format(con.currentZcXqj[0],con.currentZcXqj[1]))
     start=time.perf_counter()
-    L=L+wlzxmain(con)+jwxtmain(con)+mailmain(con)
+    try:
+        L=L+wlzxmain(con)
+    except:
+        L=L+['网络中心数据中心或消息中心有问题']
+    try:
+        L=L+jwxtmain(con)
+    except:
+        L=L+['教务系统日常维护未能完成']
+    try:
+        L=L+mailmain(con)
+    except:
+        L=L+['邮件回复有问题']
+    # L=L+wlzxmain(con)+jwxtmain(con)+mailmain(con)
     logsname='D:\\projects\\zfjw\\logs\\'
     txt=fileInfo(logsname+time.strftime('%Y-%m-%d',time.localtime())+'.txt')
     end=time.perf_counter()
