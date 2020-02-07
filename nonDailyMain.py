@@ -61,18 +61,18 @@ def signalSysJs(con):
     '''单独同步教师'''
     print(wlzx.wlzxDataCenter(con,actionName='sytojs'))
 # # ####
-# import os
-# # con=connect()
-# path=r"C:\Users\xjk-lenovo\Desktop\20191219交换生"
-# sourceFiles=os.listdir(path)
-# resfile = filecon.fileInfo(os.path.join(path, '结果5'))
-# content=[]
-# for files in sourceFiles:
-#     if files.endswith('.xlsx'):
-#         print(files)
-#         file=filecon.fileInfo(os.path.join(path,files))
-#         content=content+file.getFileContent(sheetName=None)
-# resfile.expXlsx(content=content)
+import os
+# con=connect()
+path=r"C:\Users\xjk-lenovo\Desktop\20191219交换生"
+sourceFiles=os.listdir(path)
+resfile = filecon.fileInfo(os.path.join(path, '结果5'))
+content=[]
+for files in sourceFiles:
+    if files.endswith('.xlsx'):
+        print(files)
+        file=filecon.fileInfo(os.path.join(path,files))
+        content=content+file.getFileContent(sheetName=None)
+resfile.expXlsx(content=content)
 # expAllXkmd(con)
 #expZdxs(con,njdm_id='2019')
 # expAllXkmd(con)
