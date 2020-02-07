@@ -93,7 +93,7 @@ class fileInfo:
             name = str(uuid.uuid1()).replace('-', '') + suffix
         pathname = os.path.join(path, name)
         return pathname
-    def expXlsx(self, content=[], mode='new',suffix='.xlsx',sheetName='Sheet1'):
+    def expXlsx(self, content=[], mode='new',suffix='.xlsx',sheetName='Sheet'):
         '''
         :param filename:如果不包含路径，则默认路径，如果不指定文件名，则只用默认文件名，如果两者都不指定，那么都是默认
         :param content: 写入xls的内容，为二级嵌套格式，如[[]],或[()]
@@ -106,10 +106,18 @@ class fileInfo:
                     xlsxFileName=xlsxFileName+str(uuid.uuid1()).replace('-', '') + suffix
                     wb=opl.Workbook()
                 else:
-                    wb=opl.load_workbook(xlsxFileName)
+                    wb=opl.load_workbook(self.fileName)
+                    #wb.save(xlsxFileName)
             else:
                 wb=opl.Workbook()
-            ws=wb.active
+                #wb.save(xlsxFileName)
+            #wb=opl.load_workbook(xlsxFileName)
+            wslist=wb.sheetnames
+            if sheetName not in wslist:
+                if sheetName is None:
+                    sheetName='Sheet1'
+                wb.create_sheet(sheetName)
+            ws=wb[sheetName]
             ws.title=sheetName
             for data in content:
                 ws.append(data)
@@ -133,6 +141,25 @@ class fileInfo:
             for name in wb.get_sheet_names:
                 wb.remove(name)
             wb.create_sheet(sheetName)
+    def createSheet(self,sheetName):
+        '''创建一个工作表'''
+        if self.isExists() and self.fileName.endswith('.xlsx'):
+            if not sheetName:
+                sheetName="Sheet"
+            try:
+                wb=opl.load_workbook(self.fileName)
+                wslist=wb.sheetnames
+                if sheetName in wslist:
+                    wb.create_sheet(sheetName+str(len(wslist)))
+                else:
+                    wb.create_sheet(sheetName)
+            except:
+                wb=opl.Workbook()
+                sheetName=sheetName+'1'
+                wb.create_sheet(sheetName)
+                wb.save(self.fileName)
+            return sheetName
+        pass
     def getFileContent(self,sheetName='sheet1',type='active',containTitle=False):
         '''如果给定sheetName,则返回给定的SheetName的内容，如果没有找到相应的sheetName，如给定type='active'则
         返回活动工作表的内容，如不给定active则返回为空；

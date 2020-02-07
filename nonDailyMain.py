@@ -62,7 +62,7 @@ def signalSysJs(con):
 # ####
 con=connect()
 # expAllXkmd(con)
-# expZdxs(con,njdm_id='2019')
+expZdxs(con,njdm_id='2019')
 # expAllXkmd(con)
 # signalSysJs(con)
 con.close()
