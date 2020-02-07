@@ -94,10 +94,7 @@ class fileInfo:
         pathname = os.path.join(path, name)
         return pathname
     def expXlsx(self, content=[], mode='new',suffix='.xlsx',sheetName='Sheet'):
-        '''
-        :param filename:如果不包含路径，则默认路径，如果不指定文件名，则只用默认文件名，如果两者都不指定，那么都是默认
-        :param content: 写入xls的内容，为二级嵌套格式，如[[]],或[()]
-        :return:filename
+        '''将content写入到指定的SheetName中
     '''
         xlsxFileName=self.expFilename(suffix)
         if suffix=='.xlsx':
@@ -106,12 +103,12 @@ class fileInfo:
                     xlsxFileName=xlsxFileName+str(uuid.uuid1()).replace('-', '') + suffix
                     wb=opl.Workbook()
                 else:
-                    wb=opl.load_workbook(self.fileName)
-                    #wb.save(xlsxFileName)
+                    try:
+                        wb=opl.load_workbook(xlsxFileName)
+                    except:
+                        wb=opl.Workbook()
             else:
                 wb=opl.Workbook()
-                #wb.save(xlsxFileName)
-            #wb=opl.load_workbook(xlsxFileName)
             wslist=wb.sheetnames
             if sheetName not in wslist:
                 if sheetName is None:
@@ -141,25 +138,6 @@ class fileInfo:
             for name in wb.get_sheet_names:
                 wb.remove(name)
             wb.create_sheet(sheetName)
-    def createSheet(self,sheetName):
-        '''创建一个工作表'''
-        if self.isExists() and self.fileName.endswith('.xlsx'):
-            if not sheetName:
-                sheetName="Sheet"
-            try:
-                wb=opl.load_workbook(self.fileName)
-                wslist=wb.sheetnames
-                if sheetName in wslist:
-                    wb.create_sheet(sheetName+str(len(wslist)))
-                else:
-                    wb.create_sheet(sheetName)
-            except:
-                wb=opl.Workbook()
-                sheetName=sheetName+'1'
-                wb.create_sheet(sheetName)
-                wb.save(self.fileName)
-            return sheetName
-        pass
     def getFileContent(self,sheetName='sheet1',type='active',containTitle=False):
         '''如果给定sheetName,则返回给定的SheetName的内容，如果没有找到相应的sheetName，如给定type='active'则
         返回活动工作表的内容，如不给定active则返回为空；
@@ -186,7 +164,10 @@ class fileInfo:
                             for row in ws.iter_rows(min_row=min_row, max_row=ws.max_row, min_col=1, max_col=ws.max_column):
                                 rowL = []
                                 for cell in row:
-                                    rowL.append(cell.value)
+                                    if cell.value is None:
+                                        rowL.append('')
+                                    else:
+                                        rowL.append(cell.value)
                                 L.append(tuple(rowL))
                     if type=='active':
                         if ws is None and len(L)==0:
@@ -194,7 +175,10 @@ class fileInfo:
                             for row in ws.iter_rows(min_row=min_row, max_row=ws.max_row, min_col=1, max_col=ws.max_column):
                                 rowL = []
                                 for cell in row:
-                                    rowL.append(cell.value)
+                                    if cell.value is None:
+                                        rowL.append('')
+                                    else:
+                                        rowL.append(cell.value)
                                 L.append(tuple(rowL))
                 else:
                     for name in wslist:
@@ -203,12 +187,16 @@ class fileInfo:
                         for row in ws.iter_rows(min_row=min_row, max_row=ws.max_row, min_col=1, max_col=ws.max_column):
                             rowL = []
                             for cell in row:
-                                rowL.append(cell.value)
+                                if cell.value is None:
+                                    rowL.append('')
+                                else:
+                                    rowL.append(cell.value)
                             L.append(tuple(rowL))
                 if not len(L):
                     L=[('filename={}不存在指定的sheet={},且没有要求要返回active的工作表'.format(self.fileName,sheetName),'')]
                 return L
-
+            else:
+                return [('格式不受支持','格式不受支持')]
 
 def pathCommon(path,resdirs=[],resfiles=[]):
     '''返回根目录下的子目录与文件集合{'dirs':resdirs,'files':resfiles}'''

@@ -1,6 +1,7 @@
 from apps.jwglxt import jwglxtcontrols as jwglxt
 from databaseconfig.connectdbs import connect
 from apps.wlzx import wlzxcontrols as wlzx
+from common.fileAction import controls as filecon
 ####交换生成绩文件路径
 xsFilePath=''
 
@@ -59,11 +60,22 @@ def signalSendMsg(con,xxlx=[('外表数据发送','xslx01',0,2)]):
 def signalSysJs(con):
     '''单独同步教师'''
     print(wlzx.wlzxDataCenter(con,actionName='sytojs'))
-# ####
-con=connect()
+# # ####
+# import os
+# # con=connect()
+# path=r"C:\Users\xjk-lenovo\Desktop\20191219交换生"
+# sourceFiles=os.listdir(path)
+# resfile = filecon.fileInfo(os.path.join(path, '结果5'))
+# content=[]
+# for files in sourceFiles:
+#     if files.endswith('.xlsx'):
+#         print(files)
+#         file=filecon.fileInfo(os.path.join(path,files))
+#         content=content+file.getFileContent(sheetName=None)
+# resfile.expXlsx(content=content)
 # expAllXkmd(con)
-expZdxs(con,njdm_id='2019')
+#expZdxs(con,njdm_id='2019')
 # expAllXkmd(con)
 # signalSysJs(con)
-con.close()
+# con.close()
 # print(jwglxt.jwxtXkgl(con,actionName='inZjxb;'))
