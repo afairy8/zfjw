@@ -140,7 +140,7 @@ def jwxtXjgl(con,actionName='',type=None,pk=None,zpPath=None,njdm_id=None):
 def jwxtKwgl(con,actionName=''):
     if not actionName:
         actionName=jwglxtvar.kwglAction
-    actionName=actionpre.actionList(jwglxtvar.kwglAction)
+    actionName=actionpre.actionList(actionName)
     L=[]
     for switch in actionName:
         if switch:
