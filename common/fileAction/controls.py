@@ -23,6 +23,7 @@ class fileInfo:
             if not path:
                 path=self._defaultPath
             sign=os.path.exists(os.path.join(path,name))
+        # print(sign)
         return sign
 
     def getFileInfo(self):
