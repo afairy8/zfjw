@@ -199,8 +199,10 @@ class fileInfo:
             else:
                 return [('格式不受支持','格式不受支持')]
 
-def pathCommon(path,resdirs=[],resfiles=[],type='1'):
+def pathCommon(path,type='1'):
     '''返回根目录下的子目录与文件集合{'dirs':resdirs,'files':resfiles}'''
+    resdirs = []
+    resfiles = []
     if path:
         if type=='1':
             for root,dirs,files in os.walk(path):
