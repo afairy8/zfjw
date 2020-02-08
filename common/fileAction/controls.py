@@ -199,16 +199,23 @@ class fileInfo:
             else:
                 return [('格式不受支持','格式不受支持')]
 
-def pathCommon(path,resdirs=[],resfiles=[]):
+def pathCommon(path,resdirs=[],resfiles=[],type='1'):
     '''返回根目录下的子目录与文件集合{'dirs':resdirs,'files':resfiles}'''
     if path:
-        for root,dirs,files in os.walk(path):
-            for file in files:
-                resfiles.append(os.path.join(path,file))
-            for dir in dirs:
-                resdirs.append(os.path.join(path,dir))
-                pathCommon(os.path.join(path,dir),resdirs,resfiles)
-        return {'dirs':resdirs,'files':resfiles}
+        if type=='1':
+            for root,dirs,files in os.walk(path):
+                for file in files:
+                    resfiles.append(os.path.join(root,file))
+                for dir in dirs:
+                    resdirs.append(os.path.join(root,dir))
+                    # pathCommon(os.path.join(path,dir),resdirs,resfiles)
+        else:
+            for root,dirs,files in os.walk(path):
+                for file in files:
+                    resfiles.append(os.path.join(path,file))
+                break
+            resdirs=path
+        return {'dirs': resdirs, 'files': resfiles}
 
 
 
