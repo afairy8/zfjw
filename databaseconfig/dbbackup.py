@@ -1,56 +1,76 @@
 import os
-from databaseconfig import connectString as cs
-from datetime import datetime
-# path=os.path.join(os.getcwd(),datetime.now().strftime('%Y-%m-%d')+'.dmp')
-# params='''
-# owner=(gzdx_jw_user)
-# '''
-# # backCom='''exp {} {} {}'''.format(cs.appBksJw,path,params)
-# backCom=('exp'+' '+cs.appBksJw+" file='"+path+"' "+params+' ').replace('\n',' ')
-# print(backCom)
-# #os.system(backCom)
+import time
+import datetime
 
 
-
-##https://www.cnblogs.com/wuzhiblog/p/python_zip.html
-import zipfile
-backPath='D:\\oracleback'
-# files=os.listdir(backPath)
-# # for file in files:
-# #     #print(file.lower())
-# #     print(os.path.join(backPath,file.replace('dmp','zip').replace('DMP','zip')))
-# #     # z=zipfile.ZipFile(
-# #     #     file=os.path.join(backPath,file.replace('dmp','zip').replace('DMP','zip'))
-# #     #     ,mode='w'
-# #     # ,allowZip64=True)
-# #     # z.write(os.path.join(backPath,file))
-# #     # z.close()
-# #     print('-----')
+##cmd exp gzdx_jw_user/Likai2010@127.0.0.1:1521/orcl full=y, file=E:\\202.dmp
+def getFileName(basePath, suffix):
+    '''获取备份的文件名'''
+    file = os.path.join(basePath, datetime.datetime.now().strftime('%Y-%m-%d') + suffix)
+    return file
 
 
-# 1-备份数据库
-# 2-遍历备份目录下，列举出备份目录下的文件
-# 3-如果备份目录下不存在当前文件的zip文件，则创建压缩，否则忽略；
-
-def backup():
-    pass
-
-def createZip(dmpFile=''):
-    file=dmpFile.replace('DMP','zip').replace('dmp','zip')
+def bakMain(connectString='gzdx_jw_user/Gzhu2018!!@172.17.100.30:1521/gzdx ', basePath='E:\\', suffix='.dmp'):
+    file = getFileName(basePath, suffix)
+    logfile = getFileName(basePath, suffix='.txt')
     if not os.path.exists(file):
-        zip=zipfile.ZipFile(
-            file=file
-            ,mode='w'
-            ,allowZip64=True
-        )
-        zip.write(dmpFile)
-        zip.close()
-
-def backMain():
-    filelist=os.listdir(backPath)
-    for file in filelist:
-        if file.upper().endswith('.DMP'):
-            createZip(os.path.join(backPath,file))
+        if os.path.exists(logfile):
+            os.remove(logfile)
+        cmd = 'exp ' + connectString + 'owner=(gzdx_jw_user)  file=' + file + ' log=' + logfile
+        os.system(cmd)
+        return 1
+    else:
+        return None
 
 
-backMain()
+def getfileInfo(file):
+    creatTime = time.strftime('%Y-%m-%d', time.gmtime(os.path.getctime(file)))
+    return {'createTime': creatTime}
+
+
+def pathCommon(path, type='1'):
+    '''返回根目录下的子目录与文件集合{'dirs':resdirs,'files':resfiles}'''
+    resdirs, resfiles = [], []
+    if path:
+        if type == '1':
+            for root, dirs, files in os.walk(path):
+                for file in files:
+                    resfiles.append(os.path.join(root, file))
+                for dir in dirs:
+                    resdirs.append(os.path.join(root, dir))
+                    # pathCommon(os.path.join(path,dir),resdirs,resfiles)
+        else:
+            for root, dirs, files in os.walk(path):
+                for file in files:
+                    resfiles.append(os.path.join(path, file))
+                break
+            resdirs = path
+        return {'dirs': resdirs, 'files': resfiles}
+
+
+def clearbak(basePath='E:\\', jgDays=20):
+    res = '清理的备份文件有：'
+    files = pathCommon(basePath)['files']
+    for file in files:
+        createtime = datetime.datetime.strptime(getfileInfo(file)['createTime'], '%Y-%m-%d')
+        if createtime + datetime.timedelta(days=jgDays) <= \
+                datetime.datetime.strptime(datetime.datetime.now().strftime('%Y-%m-%d'), '%Y-%m-%d'):
+            res = res + file + '\n'
+            os.remove(file)
+    return res
+
+
+if __name__ == '__main__':
+    start = time.perf_counter()
+    basePath = 'F:\\bf'
+    if not os.path.exists(basePath):
+        os.mkdir(basePath)
+    if bakMain(basePath=basePath):
+        res = clearbak(basePath=basePath)
+        end = time.perf_counter()
+        with open(os.path.join(basePath, getFileName(basePath, suffix='.txt')), 'w+') as f:
+            f.write(res)
+            f.write('*' * 30 + '\n' + '共耗时{}秒'.format(str(end - start)))
+            f.close()
+    else:
+        pass
