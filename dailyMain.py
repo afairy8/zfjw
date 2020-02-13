@@ -5,7 +5,6 @@ from common.fileAction.controls import fileInfo
 import time
 from apps.mails import mailInterface as mail
 from common.sysclear import controls as sysClear
-
 def mailmain(con):
     '''回复学位中心中心的日常任务！'''
     pop=connect('mailpop')
@@ -23,11 +22,11 @@ def jwxtmain(con):
     ####print('bysfzxxwc')
     L.extend(jwglxt.jwxtJxrw(con))
     ####print('jxrwwc')
-    L.extend(jwglxt.jwxtKwgl(con,actionName='upSfhk'))
+    L.extend(jwglxt.jwxtKwgl(con,actionName='upSfhk;'))
     ####print('kwwc')
     L.extend(jwglxt.jwxtXkgl(con=con,actionName='delcxbmandxk;upcxbj;inZjxb;expMooc;'))#;upPkgl
     ####print('jwwc')
-    L.extend(jwglxt.jwxtXspj(con, actionName='getWccPjXs;addCpxsxz;delXsPjxx;'))
+    #L.extend(jwglxt.jwxtXspj(con, actionName='getWccPjXs;addCpxsxz;delXsPjxx;'))
     return L
 
 def wlzxmain(con):
@@ -47,7 +46,8 @@ def main():
     except:
         L=L+['网络中心数据中心或消息中心有问题']
     try:
-        L=L+jwxtmain(con)
+        #L=L+jwxtmain(con)
+        pass
     except:
         L=L+['教务系统日常维护未能完成']
     try:
