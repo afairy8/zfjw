@@ -1,10 +1,11 @@
+from common.fileAction import vars
 import os
 import time
 import win32com.client as win32
 import zipfile
 import uuid
-from common.fileAction import vars
 import openpyxl as opl
+import xlrd
 
 class fileInfo:
     def __init__(self, fileName):
@@ -13,7 +14,8 @@ class fileInfo:
     def setDefaultPath(self):
         '''默认保存路径'''
         if not os.path.exists(vars.defaultPath):
-            os.mkdir(vars.defaultPath)
+            os.makedirs(vars.defaultPath)
+            #os.mkdir(vars.defaultPath)
         return vars.defaultPath
     def isExists(self):
         path,name=os.path.split(self.fileName)
@@ -53,6 +55,8 @@ class fileInfo:
                 wb.SaveAs(self.fileName + 'x', FileFormat=51)
                 wb.Close()
                 excel.Application.Quit()
+        elif self.isExists() and self.fileName.lower().strip().endswith('.doc'):
+            word=win32.gencache.EnsureDispatch('Word.Application')
         else:
             pass
     def unzip(self,mode='new'):
@@ -161,18 +165,41 @@ class fileInfo:
                         else:
                             ws=None
                         if ws:
-                            L.append(('内容来自于文件名={},工作表={}'.format(self.fileName,name),' '))
-                            for row in ws.iter_rows(min_row=min_row, max_row=ws.max_row, min_col=1, max_col=ws.max_column):
-                                rowL = []
-                                for cell in row:
-                                    if cell.value is None:
-                                        rowL.append('')
-                                    else:
-                                        rowL.append(cell.value)
-                                L.append(tuple(rowL))
+                            # print('sheeRows={}'.format(str(ws.max_row)))
+                            if ws.max_row>min_row:
+                                L.append(('内容来自于文件名={},工作表={}'.format(self.fileName,name),' '))
+                                for row in ws.iter_rows(min_row=min_row, max_row=ws.max_row, min_col=1, max_col=ws.max_column):
+                                    rowL = []
+                                    for cell in row:
+                                        if cell.value is None:
+                                            rowL.append('')
+                                        else:
+                                            rowL.append(cell.value)
+                                    L.append(tuple(rowL))
+                            else:
+                                pass
+                        else:
+                            pass
                     if type=='active':
                         if ws is None and len(L)==0:
                             ws=wb.active
+                            if ws.max_row>min_row:
+                                for row in ws.iter_rows(min_row=min_row, max_row=ws.max_row, min_col=1, max_col=ws.max_column):
+                                    rowL = []
+                                    for cell in row:
+                                        if cell.value is None:
+                                            rowL.append('')
+                                        else:
+                                            rowL.append(cell.value)
+                                    L.append(tuple(rowL))
+                            else:
+                                pass
+                else:
+                    for name in wslist:
+                        ws=wb[name]
+                        if ws.max_row>min_row:
+                            # print('sheeRows={}'.format(str(ws.max_row)))
+                            L.append(('内容来自于文件名={},工作表={}'.format(self.fileName, name), ' '))
                             for row in ws.iter_rows(min_row=min_row, max_row=ws.max_row, min_col=1, max_col=ws.max_column):
                                 rowL = []
                                 for cell in row:
@@ -181,28 +208,100 @@ class fileInfo:
                                     else:
                                         rowL.append(cell.value)
                                 L.append(tuple(rowL))
-                else:
-                    for name in wslist:
-                        ws=wb[name]
-                        L.append(('内容来自于文件名={},工作表={}'.format(self.fileName, name), ' '))
-                        for row in ws.iter_rows(min_row=min_row, max_row=ws.max_row, min_col=1, max_col=ws.max_column):
-                            rowL = []
-                            for cell in row:
-                                if cell.value is None:
-                                    rowL.append('')
-                                else:
-                                    rowL.append(cell.value)
-                            L.append(tuple(rowL))
+                        else:
+                            pass
                 if not len(L):
                     L=[('filename={}不存在指定的sheet={},且没有要求要返回active的工作表'.format(self.fileName,sheetName),'')]
                 return L
+            elif self.fileName.endswith('.xls'):
+                wb=xlrd.open_workbook(self.fileName)
+                wslist=wb.sheet_names()
+                L=[]
+                ws=None
+                if containTitle:
+                    min_row=1
+                else:
+                    min_row=2
+                if sheetName:
+                    for name in wslist:
+                        if name.lower().find(sheetName)>=0:
+                            ws=wb.sheet_by_name(sheet_name=name)
+                        else:
+                            ws=None
+                        if ws:
+                            # print('sheeRows={}'.format(str(ws.max_row)))
+                            if ws.nrows>min_row:
+                                L.append(('内容来自于文件名={},工作表={}'.format(self.fileName,name),' '))
+                                for row in ws.get_rows():
+                                    rowL = []
+                                    for cell in row:
+                                        if cell.value is None:
+                                            rowL.append('')
+                                        else:
+                                            rowL.append(cell.value)
+                                    L.append(tuple(rowL))
+                            else:
+                                pass
+                        else:
+                            pass
+                    if type=='active':
+                        if ws is None and len(L)==0:
+                            ws=wb.sheet_by_index(1)
+                            if ws.nrows>min_row:
+                                for row in ws.get_rows():
+                                    rowL = []
+                                    for cell in row:
+                                        if cell.value is None:
+                                            rowL.append('')
+                                        else:
+                                            rowL.append(cell.value)
+                                    L.append(tuple(rowL))
+                            else:
+                                pass
+                else:
+                    for name in wslist:
+                        ws=wb.sheet_by_name(name)
+                        if ws.nrows>min_row:
+                            L.append(('内容来自于文件名={},工作表={}'.format(self.fileName, name), ' '))
+                            for row in ws.get_rows():
+                                rowL = []
+                                for cell in row:
+                                    if cell.value is None:
+                                        rowL.append('')
+                                    else:
+                                        rowL.append(cell.value)
+                                L.append(tuple(rowL))
+                        else:
+                            pass
+                if not len(L):
+                    L=[('filename={}不存在指定的sheet={},且没有要求要返回active的工作表'.format(self.fileName,sheetName),'')]
+                return L
+            elif self.fileName.endswith('.docx'):
+                pass
+            elif self.fileName.endswith('.doc'):
+                pass
             else:
                 return [('格式不受支持','格式不受支持')]
+#########################################################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 def pathCommon(path,type='1'):
     '''返回根目录下的子目录与文件集合{'dirs':resdirs,'files':resfiles}'''
-    resdirs = []
-    resfiles = []
+    resdirs,resfiles=[],[]
     if path:
         if type=='1':
             for root,dirs,files in os.walk(path):
@@ -218,6 +317,11 @@ def pathCommon(path,type='1'):
                 break
             resdirs=path
         return {'dirs': resdirs, 'files': resfiles}
+
+
+
+
+
 
 
 

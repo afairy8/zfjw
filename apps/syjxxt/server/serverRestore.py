@@ -25,10 +25,15 @@ for file in filelist:
                     os.path.join(dbStorePath, db) + '.ldf',
                 )
                 L.append(restorCode)
-    ####创建恢复脚本文件####
     if os.path.exists(os.path.join(os.getcwd(),'serverresore.sql')):
         os.remove(os.path.join(os.getcwd(),'serverresore.sql'))
     f=open(os.path.join(os.getcwd(),'serverresore.sql'),'w')
     f.write(';\n'.join(L))
     # f.write(addlink+'\n'+readJgZyBjXj+'\n'+insertbj)
     f.close()
+
+
+# BACKUP DATABASE [lip_assets] TO
+# DISK = N'D:\sqlserver\syjxxtdb\lip_assets_backup_2020_02_10_183612_7947420.bak' WITH NOFORMAT, NOINIT,
+# NAME = N'lip_assets_backup_2020_02_10_183612_7947420', SKIP, REWIND, NOUNLOAD,  STATS = 10
+

@@ -101,6 +101,6 @@ def py(con):
     for code in nocvPyCodelist:
         print(code.strip().lower()+';')
         print('--'+'*'*30)
-con=connect()
-bak(con)
-con.close()
+# con=connect()
+py(con='')
+# con.close()
