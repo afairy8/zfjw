@@ -4,6 +4,7 @@ from databaseconfig.connectdbs import connect
 from common.fileAction.controls import fileInfo
 import time
 from apps.mails import mailInterface as mail
+from common.sysclear import controls as sysClear
 
 def mailmain(con):
     '''回复学位中心中心的日常任务！'''
@@ -56,6 +57,7 @@ def main():
     # L=L+wlzxmain(con)+jwxtmain(con)+mailmain(con)
     logsname='D:\\projects\\zfjw\\logs\\'
     txt=fileInfo(logsname+time.strftime('%Y-%m-%d',time.localtime())+'.txt')
+    L.append(sysClear.clearEmpDir(r'D:\projects\zfjw\common\expfiles\mooc'))
     end=time.perf_counter()
     L.append('共耗时{}秒'.format(str(end-start)))
     L.append('*'*30)
