@@ -62,6 +62,10 @@ def getTitle(sign):
         title = ('学校', '学号', '姓名', '班级')
         type='kc'
         addr='优课'
+    elif sign.lower().strip().find('gdhkmooc')>=0:
+        title=('学生姓名','学生账号','手机号码')
+        type='jxb'
+        addr='粤港澳大湾区'
     else:
         pass
     return [title,type,addr]
@@ -115,11 +119,15 @@ def expMooc(con):
                     elif suffix=='优课':
                         t=(xk[0],xk[1],xk[2],xk[3]+xk[4].split('/')[1])
                         content.append(t)
+                    elif suffix=='粤港澳大湾区':
+                        t=(xk[2],xk[1],'')
+                        content.append(t)
                     else:
                         pass
                 if len(content) > 1:
                     #print(content)
-                    filename = os.path.join(moocSavePath(pathDate + '\\' + suffix), kc[2])
+                    filename = os.path.join(moocSavePath(pathDate + '\\' + suffix),
+                                            kc[2].replace(' ', '') + '%' + jxb[2].split('/')[1] + '%' + jxb[1])
                     xlsx = fileInfo(filename)
                     xlsx.expXlsx(content=content)
                     con.execute(vars.writeToBack.format('####',jxb[0]))
