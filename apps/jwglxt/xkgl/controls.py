@@ -31,7 +31,8 @@ def getMoocXkxx(con,kch_id='####',jxb_id='####'):
     :param jxb_id: if jxb_id is ### refer export xkmd by kch_id
     :return:
     '''
-    # print(vars.getMoocXkxx.format(kch_id,jxb_id))
+
+    #print(vars.getMoocXkxx.format(kch_id,jxb_id))
     return con.execute(vars.getMoocXkxx.format(kch_id,jxb_id))
 
 def getTitle(sign):
@@ -70,12 +71,13 @@ def expMooc(con):
     pathDate=datetime.now().strftime('%Y-%m-%d')
     for kc in kcxx:
         ###title:模板标题，exptype:按教学班还是按课程；suffix文件保存的尾路径
+        #print(kc[2]+'####'+kc[1].split('//')[1].split('/')[0])
         title,exptype,suffix=getTitle(kc[1].split('//')[1].split('/')[0])
+        #print(suffix)
         if exptype=='kc':
             content = []
             content.append(title)
             xkxx=getMoocXkxx(con,kc[0])
-            filename=os.path.join(moocSavePath(pathDate+'\\'+suffix),kc[2])
             for xk in xkxx:
                 if suffix=='智慧树':
                     t = (xk[1], xk[2], xk[3], '', xk[5], xk[6], '', '', xk[7] + '#任课教师：' + xk[4].split('/')[0])
@@ -116,6 +118,7 @@ def expMooc(con):
                         pass
                 if len(content) > 1:
                     #print(content)
+                    filename = os.path.join(moocSavePath(pathDate + '\\' + suffix), kc[2])
                     xlsx = fileInfo(filename)
                     xlsx.expXlsx(content=content)
                     con.execute(vars.writeToBack.format('####',jxb[0]))

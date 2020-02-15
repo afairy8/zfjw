@@ -61,3 +61,6 @@ def signalSysJs(con):
     '''单独同步教师'''
     print(wlzx.wlzxDataCenter(con,actionName='sytojs'))
 
+con=connect()
+expAllXkmd(con)
+con.close()

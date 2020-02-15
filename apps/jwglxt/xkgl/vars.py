@@ -207,7 +207,7 @@ zgjxdsgyRkjs=['101872','101837','101299','102553','102697']
 ####取慕课课程信息
 getMoocKcxx='''
 select distinct kch_id,bz,kcmc from JW_JH_KCDMB kc
-where (kc.bz like '%上课网址%' or kc.bz like '%开课平台%')
+where (kc.bz like '%上课网址%' or kc.bz like '%开课平台%') 
 and exists(select 1 from JW_JXRW_JXBXXB xkb
           where xkb.XNM=(select zdz from ZFTAL_XTGL_XTSZB where zs = '当前学年')
           and xkb.xqm=(select zdz from zftal_xtgl_xtszb where zs = '当前学期')
@@ -223,6 +223,7 @@ where jxb.XNM=(select zdz from ZFTAL_XTGL_XTSZB where zs = '当前学年')
 and jxb.xqm=(select zdz from zftal_xtgl_xtszb where zs = '当前学期')
 and jxb.KCH_ID='{}'
 and 1=1
+and (jxb.FJXB_ID is null or jxb.FJXB_ID='1')
 '''
 ###取慕课课程当前信息
 getMoocXkxx='''

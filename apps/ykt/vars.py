@@ -92,14 +92,20 @@ and xkb.XQM=(select zdz from ZFTAL_XTGL_XTSZB where zs='选课学期')
 and xkb.XH_ID=xsj.XH_ID) t
 where t.rowCount between {} and {}
 '''
-
+mooc='''
+select jgh,xm from JW_JG_JZGXXB xxb
+where xxb.JGH_ID in (select hbb.jgh_id from JW_JXRW_JXBXXB 
+jxb,JW_JXRW_JXBJSRKB hbb where jxb.JXB_ID=hbb.JXB_ID
+and jxb.XNM='2019' and jxb.XQM='12')
+'''
 code = {
-    '机构信息': jgxx
-    ,
-    '班级信息': bjxx,
-    '用户信息': yhxx,
-    '开课信息': kkxx,
-    '选课信息': xkxx
+    # '机构信息': jgxx
+    # ,
+    # '班级信息': bjxx,
+    # '用户信息': yhxx,
+    # '开课信息': kkxx,
+    # '选课信息': xkxx,
+    'mooc':mooc
 }
 # code={
 #     '机构信息':jgxx,
@@ -108,3 +114,4 @@ code = {
 #     '开课信息':kkxx,
 #     '选课信息':xkxx
 # }
+

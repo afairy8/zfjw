@@ -19,6 +19,8 @@ def getInfo(con):
             title=['学院名称','课程号','教学班选课课号','开课教师工号','开课教师姓名','课程名称','教学班名称','开课学年','开课学期']
         elif key=='选课信息':
             title=['教学班选课课号','学号']
+        elif key=='mooc':
+            title=['工号','姓名']
         else:
             pass
         L.append(title)
@@ -39,9 +41,9 @@ def getxkxx2(con):
     xlsx=fileInfo('选课详细信息')
     xlsx.expXlsx(content=content)
 
-# start=time.perf_counter()
-# con=connect()
-# getxkxx2(con)
-# con.close()
-# end=time.perf_counter()
+start=time.perf_counter()
+con=connect()
+getInfo(con)
+con.close()
+end=time.perf_counter()
 # print(end-start)

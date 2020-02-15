@@ -3,6 +3,15 @@ select fn_jqzd(fn_jxbsjcdxx(t.jxb_id, '0'), '|', 1) as sj, fn_jqzd(fn_jxbsjcdxx(
 from jw_jxrw_jxbxxb t
 where t.XNM='2019' and t.XQM='12');
 
+create table nocv_rwlsb2 as (
+select fn_jqzd(fn_jxbsjcdxx(t.jxb_id, '0'), '|', 1) as sj, fn_jqzd(fn_jxbsjcdxx(t.jxb_id, '0'), '|', 2) as dd, t.jxb_id
+from jw_jxrw_jxbxxb t
+where t.XNM='2019' and t.XQM='12'
+                            );
+select * from nocv_rwlsb2 where jxb_id='97343FC541AC56A6E053206411AC0DEB'
+select fn_jqzd(FN_JXBSJCDXX('97343FC541AC56A6E053206411AC0DEB','0'),'|',1) from dual;
+
+select * from nocv_rwlsb t where t.jxb_id='97343FC541AC56A6E053206411AC0DEB';
 
 declare
   v_sign varchar2(255);
@@ -92,4 +101,22 @@ end;
 --     yub.JSRQ=(select max(rq) from JW_PK_JXCDYUYSJB yusjb where yusjb.YYXX_ID=yub.YYXX_ID)
 -- where yub.XNM='2019' and yub.XQM='12'
 --
--- select qsjsz,fn_bittozc(2*qsjsz) from JW_JXRW_JXBJSRKB rkb where rkb.JXB_ID='979509A20D4F0A89E053206411AC58BB'
+-- select qsjsz,fn_bittozc(2*qsjsz) from JW_JXRW_JXBJSRKB rkb where rkb.JXB_ID='979509A20D4F0A89E053206411AC58BB';
+
+
+select * from JW_JXRW_JXBXXB jxb where jxb.JXB_ID='97343FC541AC56A6E053206411AC0DEB';
+select * from nocv_rwlsb t where t.jxb_id='97343FC541AC56A6E053206411AC0DEB';
+
+select fn_bittozc(2*ZCD) from JW_PK_KBSJB sjb where sjb.JXB_ID='97343FC541AC56A6E053206411AC0DEB';
+
+
+select * from JW_JXRW_JXBXXB jxb,nocv_rwlsb2 t2
+where jxb.JXB_ID=t2.jxb_id
+and jxb.SKSJ<>t2.sj
+and jxb.XNM='2019' and jxb.xqm='12';
+
+
+update  JW_JXRW_JXBXXB jxb set jxb.SKSJ=(select sj from nocv_rwlsb2 t where t.jxb_id=jxb.JXB_ID)
+where jxb.XNM='2019' and jxb.XQM='12'
+and exists(select 1 from nocv_rwlsb2 t where t.jxb_id=jxb.JXB_ID)
+
