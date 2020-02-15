@@ -94,6 +94,7 @@ def expMooc(con):
                     pass
             if len(content)>1:
                 #print(content)
+                filename = os.path.join(moocSavePath(pathDate + '\\' + suffix), kc[2])
                 xlsx=fileInfo(filename)
                 xlsx.expXlsx(content=content)
                 con.execute(vars.writeToBack.format(kc[0],'####'))
