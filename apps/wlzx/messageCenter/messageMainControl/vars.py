@@ -539,3 +539,20 @@ and fzb.TDRQ='{}' and 1=1
 writeTologs='''
         insert into LIKAI_MESSAGE_LOG(id,RECEIVER,content,MESSAGE,SENDTIME)
         values (:1,:2,:3,:4,:5)'''
+
+
+#####学籍异动待审核发向学院
+getXjydDshFxXy='''
+select jgh,glyxm||'老师，您好！您有'||WM_CONCAT(xm||'('||ydmc||')')||'待审核,若您不负责此项工作，请忽略！' from
+(select (select xh from jw_xjgl_xsjbxxb where xh_id=ydb.xh_id) xh,(select xm from jw_xjgl_xsjbxxb where xh_id=ydb.xh_id) xm,
+(select xjydmc from jw_xjgl_xjydlbdmb where ydlbm=ydb.ydlbm) ydmc,(case when to_number(SHzt)=1 then '待审核' else '' end) jg,
+  t.jgh,t.XM glyxm
+from jw_xjgl_xjydb ydb,(select jzg.jgh,jzg.xm,jzg.JG_ID
+from ZFTAL_XTGL_YHJSB yh,JW_JG_JZGXXB jzg
+where yh.JSDM in (
+  select jsdm
+  from ZFTAL_XTGL_JSXXB jsb
+  where jsb.jsmc = '学院')
+and yh.YHM=jzg.JGH) t where  to_number(shzt)=1 and 1=1 and nvl(ydb.YDHJG_ID,YDQJG_ID)=t.JG_ID)
+    group by jgh,glyxm
+'''

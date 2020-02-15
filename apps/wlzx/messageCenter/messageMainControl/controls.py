@@ -49,6 +49,8 @@ def getBaseQuery(xxlx):
         queryString=gv.getXsPjWwc
     if xxlx.lower()=='cjxg01':
         queryString=gv.cjXgShtoDepaAdmin
+    if xxlx.lower()=='xjyddshxy':
+        queryString=gv.getXjydDshFxXy
     # print('xxlx={}'.format(xxlx)+'*'*15+queryString+'\n'+'*'*30)
     return queryString
 
@@ -126,7 +128,7 @@ def setContentTemplate(xxlx):
         contentTemplate='{}老师，您好！，根据'+gv.tkyy+'您{}日(第{}周,星期{},第{})的{}课程，停课一次。若需补课，请在教务系统中申请补课（注：所有补课不会统计入调课量），祝您工作愉快！。'
     elif xxlx=='091':#缓考待审核发学院
         contentTemplate='{}老师，您好！{}，祝您工作愉快！'
-    elif xxlx in ['19','20'] or xxlx.lower()=='cjxg01':
+    elif xxlx in ['19','20','xjyddshxy'] or xxlx.lower()=='cjxg01':
         contentTemplate='{}'
     else:
         pass
@@ -147,7 +149,7 @@ def setTitle(xxlx):
     ''''''
     if xxlx=='01' or xxlx=='02':
         return '【课表消息】'
-    elif xxlx=='03' or xxlx=='031':
+    elif xxlx=='03' or xxlx=='031' or xxlx=='xjyddshxy':
         return '【学籍异动消息】'
     elif xxlx=='04':
         return '【场地借用消息】'
@@ -311,7 +313,7 @@ def dealData(con,jgDay,xxlx):
                 t=sendAndWrite(user, title, content)
                 sendtime = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 L.append((str(uuid.uuid1()), user, content, t['MESSAGE'], sendtime))
-    elif xxlx in ['11','14']:#无日期时间参数
+    elif xxlx in ['11','14','xjyddshxy']:#无日期时间参数
         queryString=baseQueryString
         res=con.execute(queryString)
         nextDay=datetime.datetime.now()
@@ -334,7 +336,14 @@ def dealData(con,jgDay,xxlx):
                     t=sendAndWrite(user,title,content)
                     sendtime=nextDay.strftime('%Y-%m-%d %H:%M:%S')
                     L.append((str(uuid.uuid1()), user, content, t['MESSAGE'], sendtime))
-
+        elif xxlx=='xjyddshxy':
+            for data in res:
+                user=data[0]
+                content=title+contentTem.format(data[1])
+                if user:
+                    t=sendAndWrite(user,title,content)
+                    sendtime=nextDay.strftime('%Y-%m-%d %H:%M:%S')
+                    L.append((str(uuid.uuid1()), user, content, t['MESSAGE'], sendtime))
         else:
             pass
     elif xxlx in ['15','17']:
