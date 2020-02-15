@@ -104,7 +104,7 @@ def expMooc(con):
                 content=[]
                 content.append(title)
                 xkxx=getMoocXkxx(con,jxb_id=jxb[0])
-                filename=os.path.join(moocSavePath(pathDate+'\\'+suffix),kc[2].replace(' ','')+'%'+jxb[2].split('/')[1]+'%'+jxb[1])
+                # filename=os.path.join(moocSavePath(pathDate+'\\'+suffix),kc[2].replace(' ','')+'%'+jxb[2].split('/')[1]+'%'+jxb[1])
                 for xk in xkxx:
                     if suffix=='广大慕课':
                         t = (xk[1], xk[2], xk[0])
