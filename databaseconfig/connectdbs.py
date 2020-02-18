@@ -24,8 +24,12 @@ class connect:
                 except:
                     self.con=cx_Oracle.connect(cs.localJwglxt,encoding='utf-8')
                 self.cur = self.con.cursor()
-                self.currentZcXqj = self.execute(
-                    '''select zc,xqj from jw_pk_rcmxb where rq='{}' and 1=1'''.format(datetime.now().strftime('%Y-%m-%d')))[0]
+                #print('''select zc,xqj from jw_pk_rcmxb where rq='{}' and 1=1'''.format(datetime.now().strftime('%Y-%m-%d')))
+                try:
+                    self.currentZcXqj = self.execute(
+                        '''select zc,xqj from jw_pk_rcmxb where rq='{}' and 1=1'''.format(datetime.now().strftime('%Y-%m-%d')))[0]
+                except:
+                    self.currentZcXqj=(0,0)
             else:
                 self.con = cx_Oracle.connect(connectString, encoding='utf-8')
                 self.cur = self.con.cursor()

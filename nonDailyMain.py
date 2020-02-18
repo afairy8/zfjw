@@ -1,12 +1,12 @@
 from apps.jwglxt import jwglxtcontrols as jwglxt
 from databaseconfig.connectdbs import connect
 from apps.wlzx import wlzxcontrols as wlzx
-from common.fileAction import controls as filecon
 ####交换生成绩文件路径
 xsFilePath=''
 
 ###交换生成绩录入
 def jhsCjlr(con):
+    '''交换生成绩录入'''
     print(jwglxt.jwxtCjgl(con,actionName='jhsCjImp;',jhscjFilePath=xsFilePath))
 
 ###照片导入
@@ -15,12 +15,14 @@ xsZpFilePath=''
 xsZpPrimaryKey='zjhm'
 xsZpDrType='rxhzp'
 def zpDr(con):
+    '''导入照片'''
     print(jwglxt.jwxtXjgl(con,actionName='impZp;',type=xsZpDrType,pk=xsZpPrimaryKey,zpPath=xsZpFilePath))
 
 ###中途退回学生评价
 ###学生照片文件根路径
 xhlist=[]
 def roolXspj(con):
+    '''退回学生评价'''
     print(jwglxt.jwxtXspj(con,actionName='roolbackXspj;',xhlist=xhlist))
 
 ####中途退回领导同行评价
@@ -35,6 +37,7 @@ LdThdict={
     }
 }
 def rollLdTh(con):
+    '''退回领导、同行评价'''
     for jgh,valueInfo in LdThdict.items():
         LdThlist=list(jgh)
         jxbmc=valueInfo['jxbmc']
@@ -48,10 +51,12 @@ def upJkjg(con):
     print(jwglxt.jwxtKwgl(con,actionName='upJkjgid;'))
 
 def expAllXkmd(con):
+    '''导出慕课选课名单'''
     #print(jwglxt.jwxtXkgl(con,actionName='expAllXkmd'))
     print(jwglxt.jwxtXkgl(con=con, actionName='expMooc;'))
 
 def expZdxs(con,njdm_id):
+    '''导出指定学生'''
     print(jwglxt.jwxtXjgl(con=con,actionName='getZdTzXsxx;',njdm_id='2019'))
 
 def signalSendMsg(con,xxlx=[('外表数据发送','xslx01',0,2)]):
@@ -61,6 +66,9 @@ def signalSysJs(con):
     '''单独同步教师'''
     print(wlzx.wlzxDataCenter(con,actionName='sytojs'))
 
+def kctdly(con):
+    print(jwglxt.jwxtJxjh(con,'upKctdDtly;'))
+
 con=connect()
-expAllXkmd(con)
+kctdly(con)
 con.close()
