@@ -59,9 +59,10 @@ def expZdxs(con,njdm_id):
     '''导出指定学生'''
     print(jwglxt.jwxtXjgl(con=con,actionName='getZdTzXsxx;',njdm_id='2019'))
 
-def signalSendMsg(con,xxlx=[('外表数据发送','xslx01',0,2)]):
+def signalSendMsg(con,filename='sf.xlsx'):
     '''单独发送外表数据'''
-    print(wlzx.wlzxMsg(con,xxlx))
+    xxlx = [('外表数据发送', 'xlsx01', 0, 2)]
+    print(wlzx.wlzxMsg(con,xxlx=xxlx,fileName=filename))
 def signalSysJs(con):
     '''单独同步教师'''
     print(wlzx.wlzxDataCenter(con,actionName='sytojs'))
@@ -70,5 +71,5 @@ def kctdly(con):
     print(jwglxt.jwxtJxjh(con,'upKctdDtly;'))
 
 con=connect()
-kctdly(con)
+signalSendMsg(con=con,filename='用户信息.xlsx')
 con.close()

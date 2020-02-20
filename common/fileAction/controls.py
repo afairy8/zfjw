@@ -160,7 +160,7 @@ class fileInfo:
                     min_row=2
                 if sheetName:
                     for name in wslist:
-                        if name.lower().find(sheetName)>=0:
+                        if name.lower().find(sheetName.lower())>=0:
                             ws=wb[name]
                         else:
                             ws=None

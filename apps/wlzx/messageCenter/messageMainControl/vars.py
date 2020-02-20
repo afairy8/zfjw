@@ -1,11 +1,11 @@
 ##############setting the messages control paramars############################
 
 ############
-debug=True
+debug=False
 ##########外表数据存放路径
-xlsxSavePath='D:\\projects\\jwAuto\\common\\readFiles\\'
+xlsxSavePath='D:\\projects\\zfjw\\common\\readFiles\\'
 ##########set the send time paras######################
-keBiaoZc=[1]#课表发送周次['1','2','3'],教师与学生共用
+keBiaoZc=[100]#课表发送周次['1','2','3'],教师与学生共用
 keBiaoJgDay=1#课表发送提前天数
 ####是否关闭学生课表发送提醒
 keBiaoXsClose=True#为True时不向学生发送课表

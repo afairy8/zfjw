@@ -62,6 +62,10 @@ def getTitle(sign):
         title = ('学校', '学号', '姓名', '班级')
         type='kc'
         addr='优课'
+    elif sign.lower().strip().find('毛泽东思想和中国特色社会主义理论体系概论') or sign.lower().strip().find('思想道德修养与法律基础')or sign.lower().strip().find('马克思主义基本原理'):
+        title=('*学号','*姓名','*教学班','学校','院系','专业','手机','邮箱','备注')
+        type='kc'
+        addr='智慧树'
     elif sign.lower().strip().find('gdhkmooc')>=0:
         title=('学生姓名','学生账号','手机号码')
         type='jxb'

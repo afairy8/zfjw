@@ -7,20 +7,20 @@ def upKctdDtly(con):
     resData=con.execute(vars.getKctdMain)##获取待审核课程替代信息
     for res in resData:
         ##1、成绩、计划学分判断
-        tdly=''
+        tdly=res[1]
         kctdid=res[0]
         cjxf=con.execute(vars.getKctdCj.format(kctdid))
         xh_id=cjxf[0][1]
         jhxf=con.execute(vars.getKctdJh.format(kctdid))
         tdly=tdly+'替代课程学分和：'+str(cjxf[0][2])+',被替代课程学分和：'+str(jhxf[0][2])
         ##2、当前修读信息
-        dqxdzt=con.execute(vars.getXsDqxdZt)
+        dqxdzt=con.execute(vars.getXsDqxdZt.format(kctdid))
         tdly=tdly+',被替代课程中的当前修读课程为：'+dqxdzt[0][0]+','
         ##3、学生信息
         xsxx=con.execute(vars.getXsxx.format(xh_id))
         tdly=tdly+xsxx[0][0]
         ##3-1转专业、延长在读年限信息信息
-        ydxx=con.execute(vars.getXsxjydxx)
+        ydxx=con.execute(vars.getXsxjydxx.format(xh_id))
         if ydxx[0][0]>0:
             tdly=tdly+','+'转专业或延长在读年限：有'
         else:

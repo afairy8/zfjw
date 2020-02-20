@@ -214,7 +214,9 @@ and exists(select 1 from JW_JXRW_JXBXXB xkb
           and xkb.KCH_ID=kc.KCH_ID
           and xkb.KKZT!='4')
 union 
-select kch_id,kcmc||'//'||kcmc||'/'||kcmc,kcmc kcmc1 from JW_JH_KCDMB where kch='186300802'
+select kch_id,kcmc||'//'||kcmc||'/'||kcmc,kcmc kcmc1 from JW_JH_KCDMB 
+where kch in ('186300802','186300803','186300801') or kcmc in ('毛泽东思想和中国特色社会主义理论体系概论')
+
 '''
 ###取慕课教学班信息
 getMoocKcJxb='''

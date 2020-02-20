@@ -433,12 +433,15 @@ def dealXls(con,jgDay,xxlx,fileName=None):
     user,contet,sendtime=None,None,None
     L=[]
     for row in res:
-        user,content,sendtime=row[0],row[1],row[2]
-        if user and tday==sendtime.strip():
-            title=setTitle(xxlx)
-            t=sendAndWrite(user=user,title=title,content=content)
-            sendtime = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-            L.append((str(uuid.uuid1()), user, content, t['MESSAGE'], sendtime))
+        if row[0].find('内容来自于文件名')<0:
+            user,content,sendtime=row[0],row[1],row[2]
+            if user and tday==sendtime.strip():
+                title=setTitle(xxlx)
+                t=sendAndWrite(user=user,title=title,content=content)
+                sendtime = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                L.append((str(uuid.uuid1()), user, content, t['MESSAGE'], sendtime))
+        else:
+            pass
 
     if L:
        con.execute(gv.writeTologs,L)
@@ -463,7 +466,7 @@ def controlMain(con,jgDay,xxlx,fileName='sf.xlsx'):
 
 
 
-def messageInterface(con,xxlx=None):
+def messageInterface(con,xxlx=None,fileName=None):
     '''消息发送对外主接口'''
     ###xxlx=[(None,None,None,None)]
     L=[]
@@ -471,5 +474,5 @@ def messageInterface(con,xxlx=None):
         xxlx=gv.getXxlx()
     for xx in xxlx:
         if xx[2] is not None:
-            L.append(controlMain(con, xx[2], xx[1]))
+            L.append(controlMain(con, xx[2], xx[1],fileName))
     return L

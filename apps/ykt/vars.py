@@ -21,7 +21,8 @@ distinct
        xsj.XM,
        xsj.xh,
        '3' sf,
-       xsj.NJDM_ID
+       xsj.NJDM_ID,
+       xsj.xm||'同学,你好!为便于你居家学习，完成老师给你布置的学习任务及时了解学习要求。请你及时上学校教务系统查询自己的课表，绑定企业微信号，绑定“雨课堂”，查询自己每门课程的老师公告，并第一时间加入老师公布的学习群，以免耽误课程学习。祝您身体健康！学习进步！【广州大学教务处】' bz
 from JW_XK_XSXKB xkb,JW_XJGL_XSJBXXB xsj
 where xkb.XNM='2019' and xkb.XQM='12'
 and xkb.XH_ID=xsj.XH_ID
@@ -31,7 +32,9 @@ select distinct (select jgmc from ZFTAL_XTGL_JGDMB where jg_id=jzg.JG_ID) jgmc,
        jzg.xm,
        jzg.JGH,
        '2' sf,
-       '' njdm_id
+       '' njdm_id,
+       jzg.xm||'老师，您好！为做好本学期的教学工作，方便居家学习的学生能与您及时联系。请您及时建立课程学习QQ群，并在“雨课堂”平台您的每个教学班上发布公告，以便您的学生及时加入学习群。谢谢！祝您身体健康！阖家幸福！【广州大学教务处】'bz
+
 from
 (select distinct rkb.JGH_ID
 from JW_JXRW_JXBJSRKB rkb,JW_JXRW_JXBXXB jxb
@@ -102,10 +105,10 @@ code = {
     # '机构信息': jgxx
     # ,
     # '班级信息': bjxx,
-    # '用户信息': yhxx,
+    '用户信息': yhxx
     # '开课信息': kkxx,
     # '选课信息': xkxx,
-    'mooc':mooc
+    #'mooc':mooc
 }
 # code={
 #     '机构信息':jgxx,
