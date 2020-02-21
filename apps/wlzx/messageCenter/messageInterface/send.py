@@ -83,3 +83,5 @@ def LocalsendToUser(receiver,tit,cont,type='02'):
     receiver=[receiver]
     #print(receiver)
     return {'MESSAGE':'CODE'}
+
+

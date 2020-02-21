@@ -5,7 +5,7 @@
 # 2-3：学生的基本信息：1）学籍异动情况；2）入学情况；3）现年级专业情况；
 ###取未审核的课程替代信息
 getKctdMain='''
-select KCTHZH_ID,nvl(dtly,'#') from JW_CJ_XSGRDTZB t where t.ZSZT='1' 
+select KCTHZH_ID,nvl(dtly,'#') dtly from JW_CJ_XSGRDTZB t where t.ZSZT='1' 
 '''
 upKctdMain='''
 update jw_cj_xsgrdtzb set dtly=DTLY||'#{}' where KCTHZH_ID='{}' and 1=1
