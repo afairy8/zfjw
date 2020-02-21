@@ -22,7 +22,8 @@ distinct
        xsj.xh,
        '3' sf,
        xsj.NJDM_ID,
-       xsj.xm||'同学,你好!为便于你居家学习，完成老师给你布置的学习任务及时了解学习要求。请你及时上学校教务系统查询自己的课表，绑定企业微信号，绑定“雨课堂”，查询自己每门课程的老师公告，并第一时间加入老师公布的学习群，以免耽误课程学习。祝您身体健康！学习进步！【广州大学教务处】' bz
+       xsj.xm||'同学,你好!'bz1,
+       '请你及时查询个人课表；绑定企业微信号；进入“雨课堂”查询相应课程公告、并加入课程的学习群。祝您身体健康！学习进步！【广州大学教务处】' bz
 from JW_XK_XSXKB xkb,JW_XJGL_XSJBXXB xsj
 where xkb.XNM='2019' and xkb.XQM='12'
 and xkb.XH_ID=xsj.XH_ID
@@ -33,7 +34,8 @@ select distinct (select jgmc from ZFTAL_XTGL_JGDMB where jg_id=jzg.JG_ID) jgmc,
        jzg.JGH,
        '2' sf,
        '' njdm_id,
-       jzg.xm||'老师，您好！为做好本学期的教学工作，方便居家学习的学生能与您及时联系。请您及时建立课程学习QQ群，并在“雨课堂”平台您的每个教学班上发布公告，以便您的学生及时加入学习群。谢谢！祝您身体健康！阖家幸福！【广州大学教务处】'bz
+       jzg.xm||'老师，您好！'bz1,
+       '请您及时在“雨课堂”发布课程学习QQ群、上课平台等课程信息，以便您的学生及时加入。谢谢！祝您身体健康！阖家幸福！【广州大学教务处】'bz
 
 from
 (select distinct rkb.JGH_ID

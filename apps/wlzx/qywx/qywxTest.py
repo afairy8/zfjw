@@ -17,15 +17,20 @@ def get_access_token():
     access_token=response.json()['access_token']
     return access_token
 
-def sendMsg(touser,content):
+#print(get_access_token())
+def sendMsg(touser,content,title='在线教学温馨提醒',content2='',content3='【广州大学教务处】'):
     '''直接在企业微信号中发送消息'''
-    access_token='dBUBkg0a9OSP5c8_mlQV8ZqMpEbMN04RvgIr_8rDpt5kZweUYpMb5Da9_BWS7lxA0GE0ct2AdXAMp5ZkPmeZsveTT7XoMUMwciTIBiM2nai5ArKp75tImlO0qdCb1LXkUo255SMRi_3IBcU30BJNsVo3-BcTmRqAbfzVNdAJypvx6k2iKw0fN14d_vEQkr4jf7YSoC81du9Ah4djrfh3gQ'
+    access_token='NfLoDZmU8smTOwFT4qb0uyDLSBBpP76xZW3-cwLdqk6J_yMBiDB2BZQYlGcE08v06tgG-xtuIwNO3eo-Hzw2jskGPDcM9cUu4JD13cenptozhwyAQ_SojE5m9RT535mNVPW53xQCvL8gNJeYjyqAkrrRUZGvZO5xTw_2Y_8Ocauplkc3m0hYgku4tn-Wy1vYPCwID-81i4ozzCOfq0hqhA'
     paras={
        "touser" : touser,
-       "msgtype" : "text",
+       "msgtype" : "textcard",
        "agentid" : 1000018,
-       "text" : {
-           "content" : content
+       "textcard" : {
+           "title":title,
+           "description" : " <div class=\"normal\">"
+                          +content+"</div><div class=\"highlight\">"+content2+"</div>",
+           "url":'https://www.yuketang.cn/web/?next=/v/index/bindSchool_list'
+
        }
     }
     sendurl='https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token={}'.format(access_token)
@@ -33,19 +38,20 @@ def sendMsg(touser,content):
     return t.json()
 ###############
 con=connect()
-file=fileInfo(r'D:\projects\zfjw\common\readFiles\1.xlsx')
+file=fileInfo(r'D:\projects\zfjw\common\readFiles\用户信息.xlsx')
 res=file.getFileContent()
 L=[]
 writeTologs='''insert into LIKAI_MESSAGE_LOG(id,RECEIVER,content,MESSAGE,SENDTIME)
         values (:1,:2,:3,:4,:5)'''
 for row in res:
     if row[0].find('内容来自于文件名') < 0:
-        user, content, sendtime = row[0], row[1], row[2]
-        if user and '2020-02-20' == sendtime.strip():
+        user, content, sendtime,content2 = row[0], row[1], row[2],row[3]
+        if user and '2020-02-21' == sendtime.strip():
             # title = setTitle(xxlx)
-            t = sendMsg(touser=user, content=content)
+            t = sendMsg(touser=user, content=content,content2=content2)
             sendtime = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             L.append((str(uuid.uuid1()), user, content, t['errmsg'], sendtime))
+            print('user={},result={}'.format(user,t['errmsg']))
     else:
         pass
 
