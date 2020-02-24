@@ -3,6 +3,7 @@ import requests
 import datetime
 from apps.wlzx.messageCenter.messageMainControl import vars as gv
 
+from apps.wlzx.messageCenter.messageInterface.qywx import qywx
 
 # ----设置account信息
 # accountid = gv.accountid
