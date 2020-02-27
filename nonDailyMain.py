@@ -74,3 +74,6 @@ con=connect()
 #expAllXkmd(con)
 #signalSendMsg(con=con,filename='用户信息.xlsx')
 con.close()
+
+############测试部分###
+print('this is the test pragrams')
