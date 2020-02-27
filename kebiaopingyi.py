@@ -101,6 +101,14 @@ def py(con):
     for code in nocvPyCodelist:
         print(code.strip().lower()+';')
         print('--'+'*'*30)
-# con=connect()
-py(con='')
-# con.close()
+
+def clearTables(con):
+    '''清理一些过期的表'''
+    code='''select table_name  from all_tables
+where lower(table_name) like '%2018%'
+or lower(table_name) like '%yyh' or lower(table_name ) in ('likai_t','likai_ttt')
+or lower(table_name) like 'nocv%' and 1=1'''
+    res=con.execute(code)
+    for data in res:
+        cle='''drop table {} '''.format(data[0])
+        con.execute(cle)

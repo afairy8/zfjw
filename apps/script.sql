@@ -25,4 +25,23 @@ INSERT INTO GZDX_JW_USER.LIKAI_XTGL_XTSZB (XTSZ_ID, ZDM, ZDZ, SSMK, ZS, BZ, SSGN
 create table LIKAI_XK_XSXKB as (
 select * from jw_xk_xsxkb where XH_ID='###');
 
+select * from all_tables
+where lower(table_name) like '%2018%'
+or lower(table_name) like '%yyh'
+or lower(table_name) like 'nocv%';
+drop table likai_t;
+drop table likai_ttt;
 
+-- drop user gzdx_jw_user;
+-- drop user gzdx_cj_user;
+--
+--
+-- create user gzdx_jw_user IDENTIFIED by "Likai2010"
+-- profile "DEFAULT"
+-- default tablespace "ZF"
+-- temporary tablespace "TEMP"
+-- account unlock;
+-- GRANT "CONNECT" to gzdx_jw_user;
+-- GRANT "DBA" to gzdx_jw_user;
+--
+-- imp gzdx_jw_user/Likai2010@127.0.0.1:1521/orcl file="E:\1-zfJwSystem\2-zfJwDataBase_back\2020-02-27\2020-02-27.dmp" full=y ignore=y
