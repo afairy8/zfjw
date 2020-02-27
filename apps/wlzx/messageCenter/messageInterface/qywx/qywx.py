@@ -41,10 +41,10 @@ def getTxl():
     }
     data=requests.get(url=txlUrl,params=params)
     txl=data.json()
-    print(type(txl))
+    #print(type(txl))
     return txl
 
-getTxl()
+#getTxl()
 def qywxInterface(touser,tit,content,url='https://cas.gzhu.edu.cn/cas_server/login'):
     access_token=get_access_token()
     if tit is None:

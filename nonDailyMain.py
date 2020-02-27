@@ -52,8 +52,8 @@ def upJkjg(con):
 
 def expAllXkmd(con):
     '''导出慕课选课名单'''
-    #print(jwglxt.jwxtXkgl(con,actionName='expAllXkmd'))
-    print(jwglxt.jwxtXkgl(con=con, actionName='expMooc;'))
+    print(jwglxt.jwxtXkgl(con,actionName='expAllXkmd'))
+    #print(jwglxt.jwxtXkgl(con=con, actionName='expMooc;'))
 
 def expZdxs(con,njdm_id):
     '''导出指定学生'''
@@ -71,5 +71,6 @@ def kctdly(con):
     print(jwglxt.jwxtJxjh(con,'upKctdDtly;'))
 
 con=connect()
-signalSendMsg(con=con,filename='用户信息.xlsx')
+#expAllXkmd(con)
+#signalSendMsg(con=con,filename='用户信息.xlsx')
 con.close()
