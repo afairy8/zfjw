@@ -1,10 +1,10 @@
 import requests
 
-def get_access_token():
+def get_access_token(corpsecret='G2dm-9QgDf3uZGGB6ZQ9qVSjq58V4gbfIKwmQ-jQA94'):
     '''获取access_token'''
     corpid='wxeecd4f1f44f855da'
     #appid='1000018'
-    corpsecret='G2dm-9QgDf3uZGGB6ZQ9qVSjq58V4gbfIKwmQ-jQA94'
+    #corpsecret='G2dm-9QgDf3uZGGB6ZQ9qVSjq58V4gbfIKwmQ-jQA94'
     url='https://qyapi.weixin.qq.com/cgi-bin/gettoken'
     paras={
         "corpid":corpid,
@@ -32,6 +32,19 @@ def sendMsg(touser,content,title,access_token,url):
     return t.json()
 ###############
 
+def getTxl():
+    txlUrl='https://qyapi.weixin.qq.com/cgi-bin/user/get'
+    access_token=get_access_token('SXKBGYTdA0lyvV93PJPbZcxPOnrjRwdnd1wc_nMEAsc')
+    params={
+        "access_token":access_token,
+        "userid":'103667'
+    }
+    data=requests.get(url=txlUrl,params=params)
+    txl=data.json()
+    print(type(txl))
+    return txl
+
+getTxl()
 def qywxInterface(touser,tit,content,url='https://cas.gzhu.edu.cn/cas_server/login'):
     access_token=get_access_token()
     if tit is None:

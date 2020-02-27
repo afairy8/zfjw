@@ -103,11 +103,19 @@ where xxb.JGH_ID in (select hbb.jgh_id from JW_JXRW_JXBXXB
 jxb,JW_JXRW_JXBJSRKB hbb where jxb.JXB_ID=hbb.JXB_ID
 and jxb.XNM='2019' and jxb.XQM='12')
 '''
+
+zgdxmooc='''
+    select xsj.XH,xsj.xm,xsj.ZJHM,substr(xsj.ZJHM,length(xsj.ZJHM)-5,6) hlw,
+     (select jgmc from ZFTAL_XTGL_JGDMB where JG_ID=xsj.jg_id) jgmc,
+     (select bj from ZFTAL_XTGL_BJDMB where bh_id=xsj.bh_id) bj
+     from JW_XJGL_XSJBXXB xsj where exists(select 1 from JW_XK_XSXKB xkb
+    where xkb.XNM='2019' and xkb.XQM='12' and xkb.XH_ID=xsj.XH_ID)
+'''
 code = {
     # '机构信息': jgxx
     # ,
     # '班级信息': bjxx,
-    '用户信息': yhxx
+    '用户信息': zgdxmooc
     # '开课信息': kkxx,
     # '选课信息': xkxx,
     #'mooc':mooc
