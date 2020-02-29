@@ -111,7 +111,7 @@ def readXs(con,xsFilePath):
         con.execute(vars.inJhsCj,kclist)##将成绩写到成绩临时表
         con.execute(vars.writeToKck)##将课程写回课程库
         xlsx=fileInfo(os.path.join(xsFilePath,'当前文件夹的交换生成绩集合.xlsx'))
-        content=[('学年','学期','计分制','课程号','课程性质','成绩性质','学号','成绩值','成绩备注','姓名','年级','班级','课程标记')]
+        content=[('学年','学期','计分制','课程号','课程性质','成绩性质','学号','成绩值','成绩备注','姓名','年级','班级','课程标记','课程类别','课程归属')]
         res=con.execute('''select * from likai_jhc_cj''')
         content.extend(res)
         xlsx.expXlsx(content=content)
