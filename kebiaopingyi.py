@@ -112,3 +112,7 @@ or lower(table_name) like 'nocv%' and 1=1'''
     for data in res:
         cle='''drop table {} '''.format(data[0])
         con.execute(cle)
+
+con=connect()
+clearTables(con)
+con.close()

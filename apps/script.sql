@@ -25,13 +25,15 @@ INSERT INTO GZDX_JW_USER.LIKAI_XTGL_XTSZB (XTSZ_ID, ZDM, ZDZ, SSMK, ZS, BZ, SSGN
 create table LIKAI_XK_XSXKB as (
 select * from jw_xk_xsxkb where XH_ID='###');
 
-select * from all_tables
+select table_name  from all_tables
 where lower(table_name) like '%2018%'
-or lower(table_name) like '%yyh'
-or lower(table_name) like 'nocv%';
+or lower(table_name) like '%yyh' or lower(table_name ) in ('likai_t','likai_ttt')
+or lower(table_name) like 'nocv%' and 1=1
 drop table likai_t;
 drop table likai_ttt;
 
+
+select * from all_tables where lower(owner)='gzdx_jw_user';
 -- drop user gzdx_jw_user;
 -- drop user gzdx_cj_user;
 --
