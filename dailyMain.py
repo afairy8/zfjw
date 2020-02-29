@@ -47,6 +47,7 @@ def main():
         L=L+['网络中心数据中心或消息中心有问题']
     try:
         #L=L+jwxtmain(con)
+        L.extend(jwglxt.jwxtCjgl(con=con, actionName='upXsCjjd;'))
         pass
     except:
         L=L+['教务系统日常维护未能完成']

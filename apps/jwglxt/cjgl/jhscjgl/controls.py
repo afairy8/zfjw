@@ -16,15 +16,18 @@ def init(con,xsFilePath):
     ###将所有的xls文件转换为xlsx文件
     files=os.listdir(xsFilePath)
     for file in files:
-        xlsx=fileInfo(os.path.join(xsFilePath,file))
-        xlsx.xlsToXlsx()
+        if file.endswith('.xls'):
+            xlsx=fileInfo(os.path.join(xsFilePath,file))
+            xlsx.xlsToXlsx()
+        else:
+            pass
     return 1
 
 
 def genKcdm(con,kcmc,kcxz,xf,kcywmc):
     '''生成课程代码'''
     kcdmIsExists=con.execute(vars.kcdmIsExists.format(kcmc,xf,kcxz))
-    print(kcdmIsExists)
+    #print(kcdmIsExists)
     if  kcdmIsExists:#存在则用现有的
         kcdm=kcdmIsExists[0][0]
     else:#不存在则新生成,并插入
@@ -32,7 +35,7 @@ def genKcdm(con,kcmc,kcxz,xf,kcywmc):
         L=[]
         L.append((kcdm,kcdm,kcmc,kcywmc,xf,kcxz))
         con.execute(vars.inJhsKck,L)
-    print(kcdm+kcmc)
+    #print(kcdm+kcmc)
     return kcdm
 
 def uniCjxn(con):
@@ -108,8 +111,9 @@ def readXs(con,xsFilePath):
         con.execute(vars.inJhsCj,kclist)##将成绩写到成绩临时表
         con.execute(vars.writeToKck)##将课程写回课程库
         xlsx=fileInfo(os.path.join(xsFilePath,'当前文件夹的交换生成绩集合.xlsx'))
-        content=[('学年','学期','计分制','课程号','课程性质','成绩性质','学号','成绩值','成绩备注','姓名','年级','课程标记')]
-        content.extend(kclist)
+        content=[('学年','学期','计分制','课程号','课程性质','成绩性质','学号','成绩值','成绩备注','姓名','年级','班级','课程标记')]
+        res=con.execute('''select * from likai_jhc_cj''')
+        content.extend(res)
         xlsx.expXlsx(content=content)
     return 1
 

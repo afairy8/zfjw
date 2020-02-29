@@ -2,7 +2,7 @@ from apps.jwglxt import jwglxtcontrols as jwglxt
 from databaseconfig.connectdbs import connect
 from apps.wlzx import wlzxcontrols as wlzx
 ####交换生成绩文件路径
-xsFilePath=''
+xsFilePath=r'C:\Users\80662\Desktop\2020228交换生'
 
 ###交换生成绩录入
 def jhsCjlr(con):
@@ -73,6 +73,7 @@ def kctdly(con):
 con=connect()
 #expAllXkmd(con)
 #signalSendMsg(con=con,filename='用户信息.xlsx')
+jhsCjlr(con)
 con.close()
 
 ############测试部分###
