@@ -43,6 +43,19 @@ from JW_JXRW_JXBJSRKB rkb,JW_JXRW_JXBXXB jxb
 where rkb.JXB_ID=jxb.JXB_ID
 and jxb.XNM='2019' and jxb.XQM='12') t,jw_jg_jzgxxb jzg
 where jzg.JGH_ID=t.JGH_ID
+union
+select distinct (select jgmc from ZFTAL_XTGL_JGDMB where jg_id=jzg.JG_ID) jgmc,
+       '' bj,
+       jzg.xm,
+       jzg.JGH,
+       '2' sf,
+       '' njdm_id,
+       jzg.xm||'老师，您好！'bz1,
+       '请您及时在“雨课堂”发布课程学习QQ群、上课平台等课程信息，以便您的学生及时加入。谢谢！祝您身体健康！阖家幸福！【广州大学教务处】'bz
+
+from
+jw_jg_jzgxxb jzg
+where jzg.DQZT='1'
 '''
 
 kkxx = '''
@@ -111,20 +124,20 @@ zgdxmooc='''
      from JW_XJGL_XSJBXXB xsj where exists(select 1 from JW_XK_XSXKB xkb
     where xkb.XNM='2019' and xkb.XQM='12' and xkb.XH_ID=xsj.XH_ID)
 '''
-code = {
-    # '机构信息': jgxx
-    # ,
-    # '班级信息': bjxx,
-    '用户信息': zgdxmooc
-    # '开课信息': kkxx,
-    # '选课信息': xkxx,
-    #'mooc':mooc
-}
-# code={
-#     '机构信息':jgxx,
-#     '班级信息':bjxx,
-#     '用户信息':yhxx,
-#     '开课信息':kkxx,
-#     '选课信息':xkxx
+# code = {
+#     # '机构信息': jgxx
+#     # ,
+#     # '班级信息': bjxx,
+#     '用户信息': zgdxmooc
+#     # '开课信息': kkxx,
+#     # '选课信息': xkxx,
+#     #'mooc':mooc
 # }
+code={
+    '机构信息':jgxx,
+    '班级信息':bjxx,
+    '用户信息':yhxx,
+    '开课信息':kkxx,
+    '选课信息':xkxx
+}
 

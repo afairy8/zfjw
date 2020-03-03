@@ -52,12 +52,12 @@ def upJkjg(con):
 
 def expAllXkmd(con):
     '''导出慕课选课名单'''
-    print(jwglxt.jwxtXkgl(con,actionName='expAllXkmd'))
-    #print(jwglxt.jwxtXkgl(con=con, actionName='expMooc;'))
+    #print(jwglxt.jwxtXkgl(con,actionName='expAllXkmd'))
+    print(jwglxt.jwxtXkgl(con=con, actionName='expMooc;'))
 
 def expZdxs(con,njdm_id):
     '''导出指定学生'''
-    print(jwglxt.jwxtXjgl(con=con,actionName='getZdTzXsxx;',njdm_id='2019'))
+    print(jwglxt.jwxtXjgl(con=con,actionName='getZdTzXsxx;',njdm_id='2017'))
 
 def signalSendMsg(con,filename='sf.xlsx'):
     '''单独发送外表数据'''
@@ -73,7 +73,7 @@ def kctdly(con):
 con=connect()
 #expAllXkmd(con)
 #signalSendMsg(con=con,filename='用户信息.xlsx')
-jhsCjlr(con)
+expZdxs(con,'2017')
 con.close()
 
 ############测试部分###
