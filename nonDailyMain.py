@@ -57,7 +57,7 @@ def expAllXkmd(con):
 
 def expZdxs(con,njdm_id):
     '''导出指定学生'''
-    print(jwglxt.jwxtXjgl(con=con,actionName='getZdTzXsxx;',njdm_id='2017'))
+    print(jwglxt.jwxtXjgl(con=con,actionName='getZdTzXsxx;',njdm_id=njdm_id))
 
 def signalSendMsg(con,filename='sf.xlsx'):
     '''单独发送外表数据'''
@@ -73,7 +73,7 @@ def kctdly(con):
 con=connect()
 #expAllXkmd(con)
 #signalSendMsg(con=con,filename='用户信息.xlsx')
-expZdxs(con,'2017')
+expZdxs(con,'2019')
 con.close()
 
 ############测试部分###
