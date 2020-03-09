@@ -72,7 +72,7 @@ def getFile(titleBh,headers,cookies):
     patt=re.compile('.+\((\d+)\)')
     res=patt.findall(titleBh)[0]
     ###获取文章fileid
-    url='http://gd.gzhu.edu.cn/cms/frontContent.do?method=toAttachList'
+    url='http://oa.gzhu.edu.cn/cms/frontContent.do?method=toAttachList'
     data={
         "contentId":res
     }
@@ -90,7 +90,7 @@ def getFile(titleBh,headers,cookies):
     ##############下载附件
     for fileId in fileids:###如果有多个附件文件
         filename=os.path.join(savePath(title),title)
-        url='http://gd.gzhu.edu.cn/cms/file.do'
+        url='http://oa.gzhu.edu.cn/cms/file.do'
         params={
             "method":"toFilePreview",
             "fileId":fileId
@@ -113,13 +113,15 @@ def main():
     con=sqlite3.connect(vars.sqliteDB)
     cur=con.cursor()
     zdz=cur.execute('''select zdz from xzb where lower(appname)='oa' and 1=1''').fetchone()[0]
-    while start<=min(int(end),3) if zdz=='0' else int(end):
+    while start<=int(end):
         r = requests.get(url=url.format(str(start)), headers=headers, cookies=cookies)
         assert r.status_code == 200
         etreeHtml=etree.HTML(r.content)
         if start==1:
             pageCountPatt = re.compile('.*共(\d+)页.*')
             end=pageCountPatt.findall(r.text)[0]
+            if zdz=='0':
+                end='3'
         print('当前处理第{}页,url={}'.format(str(start),r.url)+'共{}页'.format(end))
         res.extend(paraseHtml(etreeHtml,headers,cookies,zdz))
         start=start+1
