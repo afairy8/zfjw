@@ -133,5 +133,4 @@ def main():
         con.close()
     else:
         pass
-
-main()
+    return 'Oa获取完成！'

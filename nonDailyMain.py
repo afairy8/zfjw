@@ -1,6 +1,7 @@
 from apps.jwglxt import jwglxtcontrols as jwglxt
 from databaseconfig.connectdbs import connect
 from apps.wlzx import wlzxcontrols as wlzx
+from apps.scrapys.gd import gdscrapyInterface as scrapy
 ####交换生成绩文件路径
 xsFilePath=r'C:\Users\80662\Desktop\2020228交换生'
 
@@ -70,11 +71,11 @@ def signalSysJs(con):
 def kctdly(con):
     print(jwglxt.jwxtJxjh(con,'upKctdDtly;'))
 
-con=connect()
+#con=connect()
 #expAllXkmd(con)
 #signalSendMsg(con=con,filename='用户信息.xlsx')
-expZdxs(con,'2016')
-con.close()
+#expZdxs(con,'2016')
+#con.close()
 
 ############测试部分###
 print('this is the test pragrams')

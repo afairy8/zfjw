@@ -66,3 +66,4 @@ def main():
     con.commit()
     con.close()
 
+    return 'Gdxw获取完成！'
