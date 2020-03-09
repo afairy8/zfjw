@@ -61,7 +61,7 @@ def main():
             print('下一页',index)
             start=start+1
     #print(L)
-    code='''insert into gdxw(ctime,link,title,detail) values(:1,:2,:3,:4)'''
+    code='''insert into xw(ctime,link,title,detail) values(:1,:2,:3,:4)'''
     cur.executemany(code,L)
     con.commit()
     con.close()

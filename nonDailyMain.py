@@ -76,6 +76,6 @@ def kctdly(con):
 #signalSendMsg(con=con,filename='用户信息.xlsx')
 #expZdxs(con,'2016')
 #con.close()
-
+print(scrapy.scrInterface())
 ############测试部分###
 print('this is the test pragrams')
