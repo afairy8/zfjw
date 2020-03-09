@@ -73,7 +73,7 @@ def kctdly(con):
 con=connect()
 #expAllXkmd(con)
 #signalSendMsg(con=con,filename='用户信息.xlsx')
-expZdxs(con,'2019')
+expZdxs(con,'2016')
 con.close()
 
 ############测试部分###

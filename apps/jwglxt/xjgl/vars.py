@@ -9,7 +9,6 @@ NJDM_ID,
 xsj.SYD,
 substr(xsj.ZJHM,1,6) prefixzjhm
 from JW_XJGL_XSJBXXB xsj where xsj.NJDM_ID like '{}%'
-and xsj.XJZTDM in (select XJZTDM from JW_XJGL_XJZTDMB where SFYXJ='1')
 and xsj.JG_ID<>'30'
 order by xsj.JG_ID,xsj.ZYH_ID,xsj.BH_ID
 '''
