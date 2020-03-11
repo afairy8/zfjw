@@ -1,6 +1,5 @@
 from apps.jwglxt import jwglxtcontrols as jwglxt
 from apps.wlzx import wlzxcontrols as wlzx
-from apps.scrapys import scrapyInterface as scrapy
 
 ####交换生成绩文件路径
 xsFilePath=r'C:\Users\80662\Desktop\2020228交换生'
@@ -76,6 +75,5 @@ def kctdly(con):
 #signalSendMsg(con=con,filename='用户信息.xlsx')
 #expZdxs(con,'2016')
 #con.close()
-print(scrapy.scrInterface('oa;'))
 ############测试部分###
 print('this is the test pragrams')

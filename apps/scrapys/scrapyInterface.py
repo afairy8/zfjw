@@ -13,3 +13,6 @@ def scrInterface(actions="oa;xw;"):
             pass
     return L
 
+
+if __name__=='__main__':
+    print(scrInterface())
