@@ -5,7 +5,7 @@ import re
 from lxml import etree
 import os
 import sqlite3
-from apps.scrapys.gd import vars
+from apps.scrapys.common import vars
 
 
 def savePath(title):
@@ -15,7 +15,7 @@ def savePath(title):
     perffix=title.split('[')[0] if title.split('[')[0] else '----'
     suffixPatt=re.compile('.+\[(\d+)\].+')
     year=suffixPatt.findall(title)[0] if len(suffixPatt.findall(title))>0 else '####'
-    path=os.path.join(vars.filesSavePath,year+'\\'+perffix)
+    path=os.path.join(vars.filesSavePath, year + '\\' + perffix)
     if not os.path.exists(path):
         os.makedirs(path)
     return path
@@ -107,12 +107,12 @@ def getFile(titleBh,headers,cookies):
 def main():
     start=end=1
     res=[]
-    headers=vars.headers
-    url=vars.oaurl
+    headers= vars.headers
+    url= vars.oaurl
     cookies=setCookies(vars.cookies)
     con=sqlite3.connect(vars.sqliteDB)
     cur=con.cursor()
-    zdz=cur.execute('''select zdz from xzb where lower(appname)='oa' and 1=1''').fetchone()[0]
+    zdz=cur.execute('''select zdz from xzb where lower(code)='11078oa' and 1=1''').fetchone()[0]
     while start<=int(end):
         r = requests.get(url=url.format(str(start)), headers=headers, cookies=cookies)
         assert r.status_code == 200
@@ -126,11 +126,10 @@ def main():
         res.extend(paraseHtml(etreeHtml,headers,cookies,zdz))
         start=start+1
     if res:
-        # con=sqlite3.connect(r'D:\projects\peaums\gd\gd.sqlite3')
         code='''insert into oa(ctime,filePath,title,bm,readCounts) values (:1,:2,:3,:4,:5)'''
         cur.executemany(code,res)
         if zdz=='1':
-            cur.execute('''update xzb set zdz='0' where lower(appname)='oa' and zdz='1' and 1=1''')
+            cur.execute('''update xzb set zdz='0' where lower(code)='11078oa' and zdz='1' and 1=1''')
         con.commit()
         con.close()
     else:

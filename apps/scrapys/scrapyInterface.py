@@ -1,15 +1,14 @@
-from apps.scrapys.gd import oa
-from apps.scrapys.gd import xw
+from apps.scrapys.common import oa
 from common.actionPre import actionpre
-
+from apps.scrapys.common import xw
 def scrInterface(actions="oa;xw;"):
-    '''广大爬虫对外接口'''
+    '''爬虫对外接口'''
     L=[]
     for action in actionpre.actionList(actions):
         if action=='oa':
             L.append(oa.main())
         elif action=='xw':
-            L.append(xw.main())
+            L.extend(xw.main())
         else:
             pass
     return L
