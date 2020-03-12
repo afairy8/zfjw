@@ -102,7 +102,7 @@ class xwscrapy:
                         next_index=index+'/'+str(max(2,start))
                     else:
                         next_index=None
-                    #print('下一页', self.url+next_index)
+                    print('下一页', self.url+next_index)
                     start = start + 1
             self.save(L)
         if zdz=='1':
@@ -115,7 +115,8 @@ class xwscrapy:
 def main():
     '''接口主函数'''
     L=[]
-    for code in ['10590','11078','10558','10574']:
+    for code in ['10590','11078','10558','10574','10561']:
+        print('code=',code)
         gd=xwscrapy(code)
         L.append(gd.main())
-
+    return L

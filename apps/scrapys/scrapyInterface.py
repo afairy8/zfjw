@@ -6,13 +6,12 @@ def scrInterface(actions="oa;xw;"):
     L=[]
     for action in actionpre.actionList(actions):
         if action=='oa':
+            print('--oa')
             L.append(oa.main())
         elif action=='xw':
+            print('--xw')
             L.extend(xw.main())
         else:
             pass
     return L
 
-
-if __name__=='__main__':
-    print(scrInterface())
