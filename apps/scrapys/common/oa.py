@@ -47,26 +47,30 @@ def paraseHtml(etreeHtml,headers,cookies,zdz):
         item={}
         xpath = './/td[4]/text()'
         item["titleTime"]=div.xpath(xpath)[0] if len(div.xpath(xpath))>0 else None ###发文时间
-        if (zdz=='1' or (item["titleTime"]==time.strftime('%Y-%m-%d'))) and item["titleTime"] is not None:
-            xpath = './/td[2]/@title'
-            item["title"] = div.xpath(xpath)[0] if len(div.xpath(xpath)) > 0 else None  ###文章标题
-            xpath = './/td[2]/a/@href'
-            item["titleBh"] = div.xpath(xpath)[0] if len(div.xpath(xpath)) > 0 else None  ###文章链接编号
-            xpath='.//td[3]/text()'
-            item["titleBM"]=div.xpath(xpath)[0] if len(div.xpath(xpath))>0 else None ###发文部门
-            xpath='.//td[5]/a/text()'
-            item['counts']=div.xpath(xpath)[0] if len(div.xpath(xpath))>0 else None ###阅读量
-            # time.sleep(15)
-            if item["title"] is not None:
-                item["down"] = getFile(item["titleBh"],headers,cookies)  ###下载附件
-                t=(item["titleTime"],item["down"],item["title"],item["titleBM"],item["counts"])
-                L.append(t)
-            else:
-                pass
+        xpath = './/td[2]/@title'
+        item["title"] = div.xpath(xpath)[0] if len(div.xpath(xpath)) > 0 else None  ###文章标题
+        xpath = './/td[2]/a/@href'
+        item["titleBh"] = div.xpath(xpath)[0] if len(div.xpath(xpath)) > 0 else None  ###文章链接编号
+        xpath='.//td[3]/text()'
+        item["titleBM"]=div.xpath(xpath)[0] if len(div.xpath(xpath))>0 else None ###发文部门
+        xpath='.//td[5]/a/text()'
+        item['counts']=div.xpath(xpath)[0] if len(div.xpath(xpath))>0 else None ###阅读量
+        if (zdz == '1' or not isGet(item["title"])) and item["titleTime"] is not None:
+            item["down"] = getFile(item["titleBh"],headers,cookies)  ###下载附件
+            t=(item["titleTime"],item["down"],item["title"],item["titleBM"],item["counts"])
+            L.append(t)
         else:
             pass
     return L
 
+def isGet(title):
+    code='''select count(*) from oa where title='{}' and 1=1'''.format(title)
+    con = sqlite3.connect(vars.sqliteDB)
+    cur=con.cursor()
+    res=cur.execute(code).fetchone()[0]
+    con.commit()
+    con.close()
+    return res
 
 def getFile(titleBh,headers,cookies):
     patt=re.compile('.+\((\d+)\)')
