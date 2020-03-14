@@ -2,7 +2,7 @@ import sqlite3
 import requests
 from lxml import etree
 import time
-
+import datetime
 
 class xwscrapy:
     '''新闻爬虫类'''
@@ -16,6 +16,7 @@ class xwscrapy:
         data=self.data
         self.zdz, self.pageXpath, self.contentXpath, self.titleXpath, self.ctimeXapth, self.linkXpath, self.indexs, self.url,self.headers,self.saveCode=data[0],data[1],data[2],data[3],data[4],data[5],data[6],data[7],data[8],data[9]
         self.code=code
+        self.currentTime=time.strftime('%Y-%m-%d')
     def getdefaultHeades(self):
         '''将headers或cookies转换为字典类型'''
         headers = {
@@ -57,16 +58,37 @@ class xwscrapy:
             xpath = self.ctimeXapth  ###文章发布时间
             ctime = div.xpath(xpath)[0].replace('\n','') if len(div.xpath(xpath)) > 0 else None
             ##print(ctime.replace('\n','').replace(' ',''))
-            if ctime is not None and (zdz == '1' or ctime.find(time.strftime('%Y-%m-%d'))>=0):
-                xpath = self.linkXpath  ###文章链接
-                link = self.url + div.xpath(xpath)[0] if len(div.xpath(xpath)) > 0 else None
-                xpath = self.titleXpath  ###文章标题
-                title = div.xpath(xpath)[0] if len(div.xpath(xpath)) > 0 else None
-                # #print(title)
-                detail = ''  ###文章详情
+            xpath = self.linkXpath  ###文章链接
+            link = self.url + div.xpath(xpath)[0] if len(div.xpath(xpath)) > 0 else None
+            xpath = self.titleXpath  ###文章标题
+            title = div.xpath(xpath)[0] if len(div.xpath(xpath)) > 0 else None
+            detail = ''  ###文章详情
+            if ctime is not None and (zdz == '1' or not self.isGet(title)):
                 t = (ctime, link, title, detail,self.code)
                 L.append(t)
         return L
+    def isGet(self,title):
+        '''当前code的最晚时间'''
+#         code='''
+#         select max(rq) from (
+# select ctime,
+#              substr(ctime, instr(ctime, '-') - 4, 4)||'-'||substr(ctime, instr(ctime, '-') + 1, 2)
+#              ||'-'||substr(substr(ctime, instr(ctime, '-') + 1, length(ctime)),
+#                     instr(
+#                       substr(ctime, instr(ctime, '-') + 1, length(ctime)), '-') + 1, 2) rq,
+#                     substr(ctime, instr(ctime, '-') + 1, length(ctime))
+#       from xw
+#       where length(ctime) - length(replace(ctime, '-', '')) = 2
+#                     and ly='{}'
+#                     )
+# where rq like '____-__-__'
+#         '''.format(self.code)
+#         zwTime=datetime.datetime.strptime(self.cur.execute(code).fetchone()[0],'%Y-%m-%d')##最晚时间
+#         currentTime=datetime.datetime.strptime(self.currentTime,'%Y-%m-%d')##当前时间
+        code='''select count(*) from xw where ly='{}' and title='{}' and 1=1 '''.format(self.code,title)
+        res=self.cur.execute(code).fetchone()[0]
+        return res
+
     def main(self):
         '''主函数'''
         url = self.url  ###起始url
@@ -102,7 +124,7 @@ class xwscrapy:
                         next_index=index+'/'+str(max(2,start))
                     else:
                         next_index=None
-                    print('下一页', self.url+next_index)
+                    print('当前页=',r.url,'下一页', self.url+next_index)
                     start = start + 1
             self.save(L)
         if zdz=='1':
@@ -110,6 +132,9 @@ class xwscrapy:
             self.con.commit()
         self.close()
         return '{}xw获取完成！'.format(self.code)
+###########
+
+
 
 ##########
 def main():
@@ -120,3 +145,4 @@ def main():
         gd=xwscrapy(code)
         L.append(gd.main())
     return L
+

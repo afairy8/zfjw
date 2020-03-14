@@ -33,6 +33,7 @@ def sendMsg(touser,content,title,access_token,url):
 ###############
 
 def getTxl():
+    ###需要使用教务系统应用
     txlUrl='https://qyapi.weixin.qq.com/cgi-bin/user/get'
     access_token=get_access_token('SXKBGYTdA0lyvV93PJPbZcxPOnrjRwdnd1wc_nMEAsc')
     params={

@@ -6,3 +6,4 @@ def unique(actionName):
 def actionList(actionName,defaultSeq=';'):
     actionName=unique(actionName)
     return actionName.split(defaultSeq)
+
