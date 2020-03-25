@@ -84,7 +84,7 @@ def sendToUser(receiver,tit,cont,type='02',accountid = gv.accountid,accountkey =
 def sendToQywx(receiver,tit,cont,url='https://cas.gzhu.edu.cn/cas_server/login'):
     '''企业微信直接发送'''
     pass
-    qywx.qywxInterface(touser=receiver,tit=tit,content=cont,url=url)
+    return qywx.qywxInterface(touser=receiver,tit=tit,content=cont,url=url)
 
 def LocalsendToUser(receiver,tit,cont,type='02'):
     receiver=[receiver]
