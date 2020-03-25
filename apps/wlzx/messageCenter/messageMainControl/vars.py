@@ -2,6 +2,7 @@
 
 ############
 debug=False
+sfqywxzjfs=False###是否直接发向企业微信
 ##########外表数据存放路径
 xlsxSavePath='D:\\projects\\zfjw\\common\\readFiles\\'
 ##########set the send time paras######################

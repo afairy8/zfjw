@@ -6,7 +6,8 @@ from lxml import etree
 import os
 import sqlite3
 from apps.scrapys.common import vars
-
+#########通知公告
+########http://oa.gzhu.edu.cn/cms/content.do?method=toNewestContentList&currentSiteId=1002&currentWebsiteCode=exoa&systemEnvironmentSign=exoa
 
 def savePath(title):
     '''指定文件的存储路径'''

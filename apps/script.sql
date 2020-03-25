@@ -38,11 +38,11 @@ select * from all_tables where lower(owner)='gzdx_jw_user';
 -- drop user gzdx_cj_user;
 --
 --
--- create user gzdx_jw_user IDENTIFIED by "Likai2010"
--- profile "DEFAULT"
--- default tablespace "ZF"
--- temporary tablespace "TEMP"
--- account unlock;
+create user gzdx_cj_user IDENTIFIED by "Likai2010"
+profile "DEFAULT"
+default tablespace "ZFCJ"
+temporary tablespace "TEMP"
+account unlock;
 -- GRANT "CONNECT" to gzdx_jw_user;
 -- GRANT "DBA" to gzdx_jw_user;
 --

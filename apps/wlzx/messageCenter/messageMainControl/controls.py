@@ -185,9 +185,15 @@ def setTitle(xxlx):
 def sendAndWrite(user,title,content):
 
     if gv.debug:
+        # if not gv.sfqywxzjfs:
         t= send.LocalsendToUser(user, title, content)
+        # else:
+        #     t=send.sendToQywx()
     else:
-        t = send.sendToUser(user, title, content)  # 发送
+        if not gv.sfqywxzjfs:
+            t = send.sendToUser(user, title, content)  # 发送
+        else:
+            t=send.sendToQywx(receiver=user,tit=title,content=content)
     return t
 
 
