@@ -29,7 +29,7 @@ extendNjConditon = '''
 #           '''
 kctdXySh = '''select distinct xh_id from JW_CJ_XSGRCJDTB t
 where exists(select 1 from JW_CJ_XSGRDTZB tt where t.KCTHZH_ID=tt.KCTHZH_ID
-          and tt.ZSR like '%{}%' and tt.ZSZT='3')
+          and tt.ZSSJ like '%{}%' and tt.ZSZT='3')
           '''
 
 ###获取专业信息
@@ -52,11 +52,11 @@ where t.rn = 1
 getDiffXsxx = '''
 select xsj.XH,xsj.xm,zy.zymc,xsj.NJDM_ID,t.XYJD,
 (select bj from ZFTAL_XTGL_BJDMB where bh_id=xsj.BH_ID) bj,
-(select jgmc from ZFTAL_XTGL_JGDMB where jg_id=xsj.jg_id) jgmc
+(select jgmc from ZFTAL_XTGL_JGDMB where jg_id=xsj.jg_id) jgmc,'{}'
  from JW_BYGL_XSXYYJJGB t,JW_XJGL_XSJBXXB xsj,ZFTAL_XTGL_ZYDMB zy
 where t.XH_ID=xsj.XH_ID and xsj.ZYH_ID=zy.ZYH_ID
 and exists(select 1 from JW_XJGL_XJZTDMB where SFYXJ='1' and xsj.XJZTDM=xjztdm)
-and xsj.NJDM_ID='{}' and xsj.ZYH_ID='{}' and to_number(nvl(t.XYJD,0))<=to_number('{}')
+and xsj.NJDM_ID='{}' and xsj.ZYH_ID='{}' 
 '''
 ###########当前学年学生已获、已选学分与各归属要求的最低学分的差额总和
 getKcgsAndJsjy = '''
@@ -129,15 +129,22 @@ and not exists(select 1 from JW_BYGL_BYSFZXXB fzb where fzb.XH_ID=xjb.XH_ID)
 ydInBysFzxxb='''
 insert into JW_BYGL_BYSFZXXB(bynf,xh_id)
 select distinct '{}',ydb.XH_ID
-from JW_XJGL_XJYDB ydb
-where nvl(ydb.YDHNJDM_ID,'0')+(case 
+from (select *
+from (select t.*,
+             row_number() over (partition by t.XH_ID
+               order by t.ZZSHSJ,t.XJYD_ID desc) rn
+      from JW_XJGL_XJYDB t
+      where nvl(t.YDSXXNM,xnm) = (select zdz from ZFTAL_XTGL_XTSZB where zs = '当前学年')
+        and nvl(t.YDSXXQM, xqm) = (select zdz from ZFTAL_XTGL_XTSZB where zs = '当前学期') ) t
+where t.rn=1) ydb
+where nvl(ydb.YDHNJDM_ID,'0')+(case
           when ydb.YDHXZ is null then (select xz from zftal_xtgl_zydmb where zyh_id=ydb.YDHZYH_ID)
     else ydb.YDHXZ end )='{}'
 and ydb.YDHXJZT in (select xjztdm from JW_XJGL_XJZTDMB where SFYXJ='1')
 and nvl(ydb.YDHSFZX,'0')='1'
 and nvl(ydb.YDHJG_ID,'30')<>'30'
 and nvl(ydb.SHZT,'0')='3'
-and not exists(select 1 from JW_BYGL_BYSFZXXB fzb where fzb.XH_ID=ydb.XH_ID)
+and not exists(select 1 from JW_BYGL_BYSFZXXB fzb where fzb.XH_ID=ydb.XH_ID);
 '''
 ###添加毕业审核、学位审核名单
 inbyshb='''
@@ -166,3 +173,27 @@ delete from JW_BYGL_XWSHB byb
 where byb.BYND='{}'
 and not exists(select 1 from JW_BYGL_BYSFZXXB fzb where fzb.XH_ID=byb.XH_ID)
 '''
+
+
+############毕业生自动刷新学业完成情况，自动进行毕业审核，学位审核机器
+bysZdXywc='''
+select fzb.BYND,(select njdm_id from jw_xjgl_xsjbxxb where xh_id=fzb.xh_id) nj,
+(select zyh_id from JW_XJGL_XSJBXXB where fzb.XH_ID=xh_id) zyh_id,
+'1' tjsy,
+fzb.XH_ID
+from JW_BYGL_BYSHB fzb
+
+where fzb.BYND = (select ZDZ from ZFTAL_XTGL_XTSZB where zs = '当前毕业年度')
+and not EXISTS(select
+1
+from JW_CJ_XSCJB cjb
+
+where
+cjb.XNM = (select zdz from ZFTAL_XTGL_XTSZB where zs = '当前学年')
+          and cjb.XQM = (select zdz from ZFTAL_XTGL_XTSZB where zs = '当前学期')
+                        and cjb.XH_ID = fzb.XH_ID
+                                        and to_number(cjb.CJZT)< = 1
+)
+  and nvl(fzb.JSBYF,'2')='2'
+'''
+

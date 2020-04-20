@@ -97,7 +97,7 @@ class connect:
             self.cur.execute(queryString)
         return 1
 
-    def callProcOrFuntion(self, queryString='', paras=[], isFunRetuType='varchar2'):
+    def callProcOrFuntion(self, queryString='', paras=[], isFunRetuType='varchar2',dbms_output=cs.oracle_dbms_output):
         '''
         :param queryString: 函数或过程的对象名
         :param paras: 传入函数或过程的参数
@@ -105,12 +105,26 @@ class connect:
         :return: 如果过程执行成功，则返回1，如果函数执行成功，则返回函数的返回值
         '''
         # if self.objectExists(queryString):
+        #print(queryString,paras)
         if not paras:
             paras = [0]
         try:
+            # print(1)
+            if dbms_output:
+                self.cur.callproc("dbms_output.enable")
             self.cur.callproc(queryString, paras)
+
+            if dbms_output:
+                textVar = self.cur.var(str)
+                statusVar = self.cur.var(int)
+                while True:
+                    self.cur.callproc("dbms_output.get_line", (textVar, statusVar))
+                    if statusVar.getvalue() != 0:
+                        break
+                    print(textVar.getvalue())
             return 1
         except:
+            # print(2)
             return self.cur.callfunc(queryString, isFunRetuType, paras)
 
     def objectExists(self, queryString=''):
@@ -165,7 +179,7 @@ class connect:
             elif isQuery.startswith('begin') or isQuery.startswith('declare'):
                 pass  ####执行匿名程序块
             else:
-                self.callProcOrFuntion(queryString, L, isFunRetuType)
+                res=self.callProcOrFuntion(queryString, L, isFunRetuType)
                 ##调用存储过程或函数
         elif self.type == 'mssql':
             isQuery = queryString.strip().lower()

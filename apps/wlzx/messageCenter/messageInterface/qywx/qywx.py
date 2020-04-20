@@ -50,6 +50,8 @@ def qywxInterface(touser,tit,content,url='https://cas.gzhu.edu.cn/cas_server/log
     access_token=get_access_token()
     if tit is None:
         tit='教务消息'
-    return sendMsg(touser=touser,title=tit,content=content,access_token=access_token,url=url)
+    t= sendMsg(touser=touser,title=tit,content=content,access_token=access_token,url=url)
+    t['MESSAGE']=t['errmsg']
+    return t
 
 

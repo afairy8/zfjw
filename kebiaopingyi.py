@@ -105,11 +105,16 @@ def py(con):
 def clearTables(con):
     '''清理一些过期的表'''
     code='''select table_name  from all_tables
-where lower(table_name) like '%2018%'
+where (lower(table_name) like '%2018%'
 or lower(table_name) like '%yyh' or lower(table_name ) in ('likai_t','likai_ttt')
-or lower(table_name) like 'nocv%' and 1=1'''
+or lower(table_name) like 'nocv%')  and lower(owner)='gzdx_jw_user' and 1=1'''
+    code='''
+    select table_name  from all_tables
+where (lower(table_name) like '%2019%') and lower(owner)='gzdx_jw_user' and 1=1;
+    '''
     res=con.execute(code)
     for data in res:
+        print(data[0])
         cle='''drop table {} '''.format(data[0])
         con.execute(cle)
 

@@ -22,3 +22,14 @@
 # res.expXlsx(content=content)
 # con.close()
 
+# import cx_Oracle
+# connectString='XXXXXXXXXXXXX'
+# con=cx_Oracle.connect(connectString)
+# cur=con.cursor()
+# res=cur.callfunc(
+#     'likai_getxsxnxqcjpm',
+#     str,
+#     ['1665700050','2018','2017','cj','2','1']
+# )
+# con.close()
+# print(res)

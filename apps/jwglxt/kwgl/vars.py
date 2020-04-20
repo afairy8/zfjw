@@ -1,7 +1,7 @@
 upJkjg='''
 update JW_KW_KSDDB ddb
 set ddb.JG_ID=LIKAI_JW_PUBLICINTERFACE.RETURN_CDJKXYANKSRS(ddb.CD_ID,ddb.XNM,ddb.XQM,ddb.KSHKBJ_ID)
-where ddb.CD_ID is null
+where ddb.CD_ID is not null
 and ddb.XNM=(select zdz from ZFTAL_XTGL_XTSZB where zs='排考试学年')
 and ddb.xqm=(select zdz from ZFTAL_XTGL_XTSZB where zs='排考试学期')
 '''

@@ -164,7 +164,7 @@ def setTitle(xxlx):
     elif xxlx in['11','12','15']:
         return '【成绩消息】'
     elif xxlx=='xlsx01':
-        return '【教务消息】'
+        return '【教学温馨提醒】'
     elif xxlx=='13':
         return '【慕课修读消息】'
     elif xxlx=='14':
@@ -193,7 +193,7 @@ def sendAndWrite(user,title,content):
         if not gv.sfqywxzjfs:
             t = send.sendToUser(user, title, content)  # 发送
         else:
-            t=send.sendToQywx(receiver=user,tit=title,content=content)
+            t=send.sendToQywx(receiver=user,tit=title,cont=content)
     return t
 
 
@@ -446,6 +446,7 @@ def dealXls(con,jgDay,xxlx,fileName=None):
                 t=sendAndWrite(user=user,title=title,content=content)
                 sendtime = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                 L.append((str(uuid.uuid1()), user, content, t['MESSAGE'], sendtime))
+
         else:
             pass
 

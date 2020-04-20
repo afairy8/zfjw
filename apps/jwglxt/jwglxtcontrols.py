@@ -27,6 +27,8 @@ def jwxtXspj(con,actionName=None,xhlist=None):
             elif switch==actionpre.unique('delXsPjxx'):
                 if con.currentZcXqj[0]==20:###20周删除学生
                     L.append(xspj.xspjInterface(con, switch=switch, qzDelLf60=jwglxtvar.xspjQzDelLf60, xhlist=jwglxtvar.xspjRoolList))
+                else:
+                    L.append(xspj.xspjInterface(con, switch=switch, qzDelLf60=jwglxtvar.xspjQzDelLf60, xhlist=jwglxtvar.xspjRoolList))
             elif switch==actionpre.unique('roolbackXspj'):
                 if xhlist:##退回不受时间限制
                     L.append(xspj.xspjInterface(con, switch=switch, qzDelLf60=jwglxtvar.xspjQzDelLf60, xhlist=xhlist))

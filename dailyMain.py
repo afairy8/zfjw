@@ -12,6 +12,7 @@ def mailmain(con):
     ####print('yjwc')
     return mail.replyXwCenter(pop=pop,smtp=smtp,oracle=con)
 def jwxtmain(con):
+    '''教务系统任务'''
     L=[]
     L.extend(jwglxt.jwxtCjgl(con=con,actionName='upXsCjjd;'))
     ####print('cjwc')
@@ -30,9 +31,10 @@ def jwxtmain(con):
     return L
 
 def wlzxmain(con):
+    '''网络中心任务'''
     L=[]
     L.extend(wlzx.wlzxDataCenter(con))
-    L.extend(wlzx.wlzxMsg(con))
+    ##L.extend(wlzx.wlzxMsg(con))
     ####print('xxwc')
     return L
 
@@ -48,6 +50,7 @@ def main():
     try:
         #L=L+jwxtmain(con)
         L.extend(jwglxt.jwxtCjgl(con=con, actionName='upXsCjjd;'))
+        L.extend(jwglxt.jwxtBysh(con=con, actionName='inBysfzxxb;'))
         pass
     except:
         L=L+['教务系统日常维护未能完成']

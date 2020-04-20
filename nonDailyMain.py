@@ -70,10 +70,22 @@ def signalSysJs(con):
 def kctdly(con):
     print(jwglxt.jwxtJxjh(con,'upKctdDtly;'))
 
+def actionbykctd(con):
+    '''课程替代单独学业完成情况审查'''
+    # print(jwglxt.jwxtBysh(con,actionName='getCallPrcoParas;'))
+    print(jwglxt.jwxtBysh(con,actionName='exp;',njdm_id='2016',diff=0.0,type='xyjd'))
+def delwxpj(con):
+    '''删除无效评价'''
+    print(jwglxt.jwxtXspj(con,actionName='delXsPjxx;'))
+def kwgl(con):
+    print(jwglxt.jwxtKwgl(con,actionName='upjkjgid;'))
 con=connect()
-expAllXkmd(con)
-#signalSendMsg(con=con,filename='用户信息.xlsx')
+
+#kctdly(con)
+jwglxt.jwxtBysh(con=con, actionName='actionByJsbtg;')
+# expAllXkmd(con)
+#delwxpj(con)
+# signalSendMsg(con=con,filename='js.xlsx')
 #expZdxs(con,'2016')
 con.close()
 ############测试部分###
-print('this is the test pragrams')

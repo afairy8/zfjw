@@ -1,3 +1,4 @@
+oracle_dbms_output=False
 ###本科生教务
 appJwglxt = '''gzdx_jw_user/Gzhu2018!!@172.17.100.30:1521/gzdx'''
 localJwglxt = 'gzdx_jw_user/Likai2010@127.0.0.1:1521/orcl'
