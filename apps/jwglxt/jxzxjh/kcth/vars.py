@@ -12,6 +12,7 @@ update jw_cj_xsgrdtzb set dtly=DTLY||'#{}' where KCTHZH_ID='{}' and 1=1
 '''
 initKctdMain='''
 update JW_CJ_XSGRDTZB t set DTLY=substr(dtly,1,instr(dtly,'#')-1) where t.ZSZT='1'
+and t.DTLY like '%#%'
 '''
 ##取未审核的替代课程信息
 getKctdCj='''

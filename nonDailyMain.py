@@ -81,8 +81,8 @@ def kwgl(con):
     print(jwglxt.jwxtKwgl(con,actionName='upjkjgid;'))
 con=connect()
 
-#kctdly(con)
-jwglxt.jwxtBysh(con=con, actionName='actionByJsbtg;')
+kctdly(con)
+# jwglxt.jwxtBysh(con=con, actionName='actionByJsbtg;')
 # expAllXkmd(con)
 #delwxpj(con)
 # signalSendMsg(con=con,filename='js.xlsx')
