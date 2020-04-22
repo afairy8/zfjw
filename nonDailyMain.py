@@ -72,16 +72,16 @@ def kctdly(con):
 
 def actionbykctd(con):
     '''课程替代单独学业完成情况审查'''
-    # print(jwglxt.jwxtBysh(con,actionName='getCallPrcoParas;'))
-    print(jwglxt.jwxtBysh(con,actionName='exp;',njdm_id='2016',diff=0.0,type='xyjd'))
+    print(jwglxt.jwxtBysh(con,actionName='acitonByKctd;'))
+    #print(jwglxt.jwxtBysh(con,actionName='exp;',njdm_id='2016',diff=0.0,type='xyjd'))
 def delwxpj(con):
     '''删除无效评价'''
     print(jwglxt.jwxtXspj(con,actionName='delXsPjxx;'))
 def kwgl(con):
     print(jwglxt.jwxtKwgl(con,actionName='upjkjgid;'))
 con=connect()
-
-kctdly(con)
+#actionbykctd(con)
+delwxpj(con)
 # jwglxt.jwxtBysh(con=con, actionName='actionByJsbtg;')
 # expAllXkmd(con)
 #delwxpj(con)
