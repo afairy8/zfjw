@@ -8,14 +8,14 @@ njdm_id='2016'
 jxzxjhxx_id_s=con.execute(vars.getJxzxjhZyxx.format(njdm_id))
 print(jxzxjhxx_id_s)
 for jxzxjhxx_id in jxzxjhxx_id_s:
-    print(vars.getXfyqjdXx.format(jxzxjhxx_id[0]))
+    # print(vars.getXfyqjdXx.format(jxzxjhxx_id[0]))
     fxfyqjd_id_s=con.execute(vars.getXfyqjdXx.format(jxzxjhxx_id[0]))###
     ###(xfyqjd_id,xfyqjdmc,yqzdxf,px)
     for fxfyqjd_id in fxfyqjd_id_s:
         jdlist = []
         xfyqjd_id_A=str(uuid.uuid1()).replace('-','')
         xfyqjd_id_B=str(uuid.uuid1()).replace('-','')
-        print('子模块A',xfyqjd_id_A,'新模块B',xfyqjd_id_B)
+
         xfyqjd_mc_a = '子模块A'
         xfyqjd_mc_b = fxfyqjd_id[1] + 'B'
         kcxz='16' if fxfyqjd_id[1].find('实践环节')>=0 else None
@@ -35,4 +35,4 @@ for jxzxjhxx_id in jxzxjhxx_id_s:
             con.execute(vars.upJhkc.format(xfyqjd_id_B,fxfyqjd_id[0]))
             ###更新父节点关系
             con.execute(vars.upFjdxx.format(fxfyqjd_id[0]))
-            print('执行完成！')
+        print('jxzxjhxx_id=',jxzxjhxx_id[0],'节点名称=',fxfyqjd_id[1],'子模块Aid=', xfyqjd_id_A, '新模块B=', xfyqjd_id_B)
