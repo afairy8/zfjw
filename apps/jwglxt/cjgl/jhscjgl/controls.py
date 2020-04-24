@@ -11,6 +11,7 @@ def init(con,xsFilePath):
             con.execute('drop table {}'.format(table))
     ###创建临时课程库、成绩库，并把临时课程库填满
     con.execute(vars.createJhsKck)
+    print(vars.createJhsCj)
     con.execute(vars.createJhsCj)
     con.execute(vars.initJhsKck)
     ###将所有的xls文件转换为xlsx文件
@@ -56,6 +57,13 @@ def uniCj(cj):
         fz='百分制'
     return fz
 
+def uniKcxzGs(kcxz):
+    '''课程性质课程归属'''
+    xz=kcxz.split('-')[0] if len(kcxz.split('-'))>=1 else None
+    gs=kcxz.split('-')[1] if len(kcxz.split('-'))>1 else None
+    resxz=uniKcxz(xz)
+    return (resxz,gs)
+
 def uniKcxz(kcxz):
     if kcxz=="必修":
         return "专业必修课程"
@@ -96,7 +104,7 @@ def readXs(con,xsFilePath):
                     if row[11].value and row[6].value.find('抵换')>=0:
                         kcmc=row[0].value
                         kcywmc=row[3].value.strip().replace('  ',' ').title()
-                        kcxz=uniKcxz(row[7].value)
+                        kcxz=uniKcxzGs(row[7].value)[0]
                         xf=str(row[10].value)
                         cj=str(row[11].value).replace(' ','')
                         fz=uniCj(cj)
@@ -105,7 +113,7 @@ def readXs(con,xsFilePath):
                             cjxnxq=uniCjxn(con)
                             cjxn=cjxnxq[0]
                             cjxq=cjxnxq[1]
-                        t=(cjxn,cjxq,fz,kch,kcxz,xh,cj,xm)
+                        t=(cjxn,cjxq,fz,kch,kcxz,xh,cj,xm,uniKcxzGs(row[7].value)[1])
                         kclist.append(t)
     if kclist:
         con.execute(vars.inJhsCj,kclist)##将成绩写到成绩临时表

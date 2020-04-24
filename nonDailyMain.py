@@ -2,7 +2,7 @@ from apps.jwglxt import jwglxtcontrols as jwglxt
 from apps.wlzx import wlzxcontrols as wlzx
 from databaseconfig.connectdbs import connect
 ####交换生成绩文件路径
-xsFilePath=r'C:\Users\80662\Desktop\2020228交换生'
+xsFilePath=r"C:\Users\80662\Desktop\us"
 
 ###交换生成绩录入
 def jhsCjlr(con):
@@ -81,7 +81,7 @@ def kwgl(con):
     print(jwglxt.jwxtKwgl(con,actionName='upjkjgid;'))
 con=connect()
 #actionbykctd(con)
-delwxpj(con)
+jhsCjlr(con)
 # jwglxt.jwxtBysh(con=con, actionName='actionByJsbtg;')
 # expAllXkmd(con)
 #delwxpj(con)

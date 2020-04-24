@@ -31,14 +31,17 @@ xf varchar2(55),
 zxs varchar2(255) default ('16'),
 kclbdm varchar2(255),
 kcxzdm varchar2(255),
-kcxz varchar2(255)
+kcxz varchar2(255),
+kcgsdm varchar2(255),
+kcgsmc varchar2(255)
 )
 '''
 
 initJhsKck='''
-insert into likai_jhc_kck(kch_id,kch,kcmc,kcywmc,kcjj,KKBM_ID,xf,zxs,KCLBDM,kcxzdm,kcxz)
+insert into likai_jhc_kck(kch_id,kch,kcmc,kcywmc,kcjj,KKBM_ID,xf,zxs,KCLBDM,kcxzdm,kcxz,KCGSDM,kcgsmc)
 select kch_id,kch,kcmc,kcywmc,''kcjj,kkbm_id,xf,zxs,kclbdm,kcxzdm,
-(select kcxzmc from JW_JH_KCXZDMB where kcxzdm=kc.kcxzdm) kcxz
+(select kcxzmc from JW_JH_KCXZDMB where kcxzdm=kc.kcxzdm) kcxz,
+KCGSDM,(select kcgsmc from JW_JH_KCGSDMB where kc.KCGSDM=kcgsdm) kcgsmc
 from JW_JH_KCDMB kc
 where upper(kc.kch) like 'JH%'
 '''
@@ -72,11 +75,14 @@ cjbz varchar(25),
 xm varchar(20), 
 nj varchar(20), 
 bj varchar(20), 
-kcbj varchar(20) default('主修'))
+kcbj varchar(20) default('主修'),
+kclbdm varchar2(255),
+kcgsmc varchar2(255)
+)
 '''
 inJhsCj='''
-insert into likai_jhc_cj(cjxn,cjxq,fz,kch,kcxz,xh,cj,xm)
-values(:1,:2,:3,:4,:5,:6,:7,:8)
+insert into likai_jhc_cj(cjxn,cjxq,fz,kch,kcxz,xh,cj,xm,kcgsmc)
+values(:1,:2,:3,:4,:5,:6,:7,:8,:9)
 '''
 
 writeToKck='''
