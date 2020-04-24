@@ -1,7 +1,6 @@
 
 ###获取专业教学执行计划信息
 getJxzxjhZyxx='''select jhb.JXZXJHXX_ID from JW_JH_JXZXJHXXB jhb where jhb.NJDM_ID='{}'
-and ZYH_ID='0734'
 '''
 ####获取专业教学执行计划集中性实践教学环节和专业选修课程信息
 getXfyqjdXx='''
