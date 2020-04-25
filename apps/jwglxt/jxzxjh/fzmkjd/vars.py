@@ -1,12 +1,17 @@
 
 ###获取专业教学执行计划信息
-getJxzxjhZyxx='''select jhb.JXZXJHXX_ID from JW_JH_JXZXJHXXB jhb where jhb.NJDM_ID='{}'
-and ZYH_ID='0734'
+getJxzxjhZyxx='''
+select distinct jxzxjhxx_id from
+(select distinct xfb.JXZXJHXX_ID,to_number(nvl(xfb.YQZDXF,'0')) yqzdxf,
+ (select nvl(sum(to_number(nvl(jhkc.xf,'0'))),0) from JW_JH_JXZXJHKCXXB jhkc where jhkc.XFYQJD_ID=xfb.XFYQJD_ID) kczxf
+ from JW_JH_JXZXJHXFYQXXB xfb
+where exists (select 1 from JW_JH_JXZXJHXXB jhb where xfb.JXZXJHXX_ID=jhb.JXZXJHXX_ID and jhb.NJDM_ID='{}'))
+where yqzdxf<kczxf
 '''
 ####获取专业教学执行计划集中性实践教学环节和专业选修课程信息
 getXfyqjdXx='''
 select xfb.XFYQJD_ID,xfb.XFYQJDMC,xfb.YQZDXF,px from JW_JH_JXZXJHXFYQXXB xfb 
-where xfb.JXZXJHXX_ID='{}' and xfb.XFYQJDMC in ('集中性实践教学环节','专业选修课程') and xfb.SFMJD='1' ;
+where xfb.JXZXJHXX_ID='{}' and xfb.XFYQJDMC in ('集中性实践教学环节') and xfb.SFMJD='1' ;
 '''
 
 ####插入学分要求要求子模块A，课程性质名称B
