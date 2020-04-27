@@ -5,7 +5,7 @@ import uuid
 # (JXZXJHXX_ID,XFYQJD_ID,XFYQJDMC,JDKCSX,ZYFX_ID,YQZDXF,FXFYQJD_ID,px,SFMJD,KCXZDM,XDLX,JCBJ,SFZDJS,xfyqzjdgx)
 def t():
     con=connect()
-    njdm_id='2016'
+    njdm_id='2017'
     jxzxjhxx_id_s=con.execute(vars.getJxzxjhZyxx.format(njdm_id))
     print(jxzxjhxx_id_s)
     for jxzxjhxx_id in jxzxjhxx_id_s:
@@ -37,3 +37,5 @@ def t():
                 ###更新父节点关系
                 con.execute(vars.upFjdxx.format(fxfyqjd_id[0]))
                 print('jxzxjhxx_id=',jxzxjhxx_id[0],'节点名称=',fxfyqjd_id[1],'子模块Aid=', xfyqjd_id_A, '新模块B=', xfyqjd_id_B)
+
+t()

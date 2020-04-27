@@ -99,3 +99,26 @@ where jh.KCH_ID = kc.KCH_ID
              where to_number(nvl(jh.XNM, 0)) * 100 + to_number(nvl(jh.XQM, 0)) >= t.zwsx))
 '''
 
+###替代课程中是否存在计划内课程
+tdkcExistsJhn='''
+select '替代课程中是否存在计划内的课程'||(case when count(1)>=1 then '有' else '无' end)
+from JW_CJ_XSGRCJDTB t
+where exists(
+        select 1
+        from JW_JH_JXZXJHKCXXB jhkc,
+             JW_XJGL_XSXJXXB xjb
+        where to_number(xjb.XNM) * 100 + to_number(xjb.XQM) =
+              (select max(to_number(xnm) * 100 + to_number(xqm)) from JW_XJGL_XJYDB)
+          and xjb.NJDM_ID = jhkc.NJDM_ID
+          and xjb.ZYH_ID = jhkc.NJDM_ID
+          and xjb.XH_ID = t.xh_id
+          and jhkc.KCH_ID = t.KCH_ID
+          )
+and t.KCTHZH_ID='{}'
+'''
+####被替代课程中是否存在已修读课程
+btdkExistsYxd='''
+select '被替代课程中是否存在学生已修读过的课程'||(case when count(1)>=1 then '有' else '无' end) from JW_CJ_XSGRJHDTB t,JW_CJ_XSCJB cjb
+where t.XH_ID=cjb.XH_ID and  t.KCH_ID=cjb.KCH_ID
+and t.KCTHZH_ID='{}'
+'''
