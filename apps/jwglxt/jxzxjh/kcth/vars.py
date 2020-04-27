@@ -118,7 +118,9 @@ and t.KCTHZH_ID='{}'
 '''
 ####被替代课程中是否存在已修读课程
 btdkExistsYxd='''
-select ';被替代课程中是否存在学生已修读过的课程:'||(case when count(1)>=1 then '有' else '无' end) from JW_CJ_XSGRJHDTB t,JW_CJ_XSCJB cjb
-where t.XH_ID=cjb.XH_ID and  t.KCH_ID=cjb.KCH_ID
+select ';被替代课程中是否存在学生已修读过的课程:'||(case when count(1)>=1 then '有' else '无' end) 
+from JW_CJ_XSGRJHDTB t
+where (select 1 from JW_CJ_XSCJB cjb
+where t.XH_ID=cjb.XH_ID and  t.KCH_ID=cjb.KCH_ID)
 and t.KCTHZH_ID='{}'
 '''

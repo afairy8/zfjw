@@ -28,7 +28,7 @@ def upKctdDtly(con):
         ##4、被替代课程中是否存在最晚转专业、延长在读年限之后的应修读信息
         zwzzzyczd=con.execute(vars.getZwZzyYczdxn.format(kctdid,xh_id,xh_id))
         tdly=tdly+',晚于异动生效学年学期的被替代课程：'+zwzzzyczd[0][0]+';'
-        tdly=tdly+con.execute(vars.tdkcExistsJhn)[0][0]+';'+con.execute(vars.btdkExistsYxd)[0][0]+'。'
+        tdly=tdly+con.execute(vars.tdkcExistsJhn.format(kctdid))[0][0]+';'+con.execute(vars.btdkExistsYxd.format(kctdid))[0][0]+'。'
         con.execute(vars.upKctdMain.format(tdly,kctdid))
     return 1
 def kctdInterface(con,actionName=None):
