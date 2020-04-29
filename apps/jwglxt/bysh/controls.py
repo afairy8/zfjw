@@ -3,6 +3,9 @@ from apps.jwglxt.bysh import  vars
 from datetime import datetime
 from common.fileAction.controls import fileInfo
 from common.actionPre import actionpre
+
+
+
 def callProc(con,procname,paras):
     ''''''
     try:
@@ -76,7 +79,7 @@ def acitonByKctd(con):
         return None
 
 def actionByJsbtg(con):
-    '''机器审核不通过的学生自动机器审核毕业情况，学位情况'''
+    '''机器审核不通过的学生自动机器审核毕业情况，学位情况，该处需要重新修改，因为有进度参数'''
     xhs=con.execute(vars.bysZdXywc)
     counts=1
     for xh in xhs:
@@ -137,6 +140,18 @@ def exp(con,njdm_id,diff=10.0,type=''):
     else:
         return res
 
+
+def delYbyKcNotCj(con):
+    '''删除已毕业但是还存在课程有成绩没有的课程'''
+    con.execute(vars.deleteYbyButKccjNotExists)
+    ###删除考试中的名单
+    con.execute(vars.deleteYbyButKccjNotExists_ksmd)
+    return '删除已毕业但是还存在课程有成绩没有的课程完成!'
+
+
+
+
+
 def byshInterface(con,njdm_id,jgmc=None,zyh=None,xslist=None,diff=None,type='',action='',procname=vars.procname):
     '''毕业审核对外接口'''
     if action==actionpre.unique('acitonByKctd'):##'kctd':##课程替代学生学业完成情况审核
@@ -158,5 +173,7 @@ def byshInterface(con,njdm_id,jgmc=None,zyh=None,xslist=None,diff=None,type='',a
     elif action==actionpre.unique('actionByJsbtg'):
         if actionByJsbtg(con):
             return '学业完成情况，毕业，学位机器审核更新完成！'
+    elif action==actionpre.unique('delYbyKcNotCj'):
+        return delYbyKcNotCj(con)
     else:
         pass

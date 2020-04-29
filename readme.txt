@@ -1,0 +1,10 @@
+pip install requests
+pip install scrapy
+pip install cx_oracle
+pip install pymssql
+pip install openpyxl
+pip install xlrd
+pip install xlwt
+pip install nltk
+pip install matplotlib
+pip install pandas

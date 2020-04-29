@@ -43,7 +43,13 @@ profile "DEFAULT"
 default tablespace "ZFCJ"
 temporary tablespace "TEMP"
 account unlock;
--- GRANT "CONNECT" to gzdx_jw_user;
--- GRANT "DBA" to gzdx_jw_user;
+
+create user gzdx_jw_user IDENTIFIED by "Likai2010"
+profile "DEFAULT"
+default tablespace "ZF"
+temporary tablespace "TEMP"
+account unlock;
+GRANT "CONNECT" to gzdx_jw_user;
+GRANT "DBA" to gzdx_jw_user;
 --
 -- imp gzdx_jw_user/Likai2010@127.0.0.1:1521/orcl file="E:\1-zfJwSystem\2-zfJwDataBase_back\2020-02-27\2020-02-27.dmp" full=y ignore=y

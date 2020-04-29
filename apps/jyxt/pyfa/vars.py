@@ -258,6 +258,7 @@ select 'pk' pk,'xfyqjd_id' xfyqjd_id,kc.KCH_ID,'2','3','15','5',kc.xf,kc.KKBM_ID
 kc.kch
 from jw_jh_kcdmb kc
 where kc.KCXZDM='24' and  kc.TKBJ='0'
+and kc.kcmc not like '%班级管理%'
 '''
 
 insertJsjyKc = '''

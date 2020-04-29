@@ -79,6 +79,12 @@ def delwxpj(con):
     print(jwglxt.jwxtXspj(con,actionName='delXsPjxx;'))
 def kwgl(con):
     print(jwglxt.jwxtKwgl(con,actionName='upjkjgid;'))
+
+def delYbyKcNotCj(con):
+    '''删除已毕业但是还存在课程有成绩没有的课程'''
+    print(jwglxt.jwxtBysh(con,actionName='delYbyKcNotCj'))
+
+
 con=connect()
 #actionbykctd(con)
 #jhsCjlr(con)

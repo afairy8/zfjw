@@ -119,8 +119,8 @@ def addCommonNode(con,data):
     L.append((data[0], data[0] + 'zxxx', '选修类', None, 'wfx', None, data[0] + 'zx', '20', '0', None, 'zx','1'))
     L.append((data[0], data[0] + 'zxxx' + 'tx10000', '通识类选修课程', None, 'wfx', '14', data[0] + 'zxxx', '99', '0', None, 'zx','1'))
     con.execute(bv.insertTxorJxjyXffb, calcTxxffb(data, 'tx'))  # 插入通识选修类学分分布
-    if data[3] and data[3].find('师范')>=0 and data[3] not in ['教育技术学(师范)','学前教育(师范)','小学教育(师范)','特殊教育(师范)']:###要把师范专业没有师范去除掉
-        L.append((data[0], data[0] + 'zxxx' + 'jsjy11111', '教师教育类选修课程', '1', 'wfx', '7', data[0] + 'zxxx', '98', '1', None, 'zx',None))
+    if data[3] and data[3].find('师范')>=0 and data[3] not in ['']:###要把师范专业没有师范去除掉
+        L.append((data[0], data[0] + 'zxxx' + 'jsjy11111', '教师教育类选修课程', '1', 'wfx', '6', data[0] + 'zxxx', '98', '1', None, 'zx',None))
         con.execute(bv.insertTxorJxjyXffb, calcTxxffb(data, 'jsjy'))  # 插入教师教育类学分分布
         jsjykc=con.execute(bv.getJsjylKc)
         kclist=[]

@@ -197,3 +197,23 @@ cjb.XNM = (select zdz from ZFTAL_XTGL_XTSZB where zs = '当前学年')
   and nvl(fzb.JSBYF,'2')='2'
 '''
 
+################清空已毕业且在当前学年学期有选课还没有成绩的学生的选课信息
+deleteYbyButKccjNotExists='''
+delete from JW_XK_XSXKB xkb
+where xkb.XNM=(select zdz from ZFTAL_XTGL_XTSZB where zs='当前学年')
+and xkb.XQM=(select zdz from ZFTAL_XTGL_XTSZB where zs='当前学期')
+and exists (select 1 from JW_BYGL_BYSFZXXB fzb where fzb.BYJR='毕业'
+and fzb.XH_ID=xkb.XH_ID)
+and not exists (select 1 from JW_CJ_XSCJB cjb where cjb.XH_ID=xkb.XH_ID and cjb.JXB_ID=xkb.JXB_ID)
+and xkb.XH_ID not in ['s564400010']
+'''
+
+deleteYbyButKccjNotExists_ksmd='''
+delete from JW_KW_XSKSXXB xkb
+where xkb.XNM=(select zdz from ZFTAL_XTGL_XTSZB where zs='当前学年')
+and xkb.XQM=(select zdz from ZFTAL_XTGL_XTSZB where zs='当前学期')
+and exists (select 1 from JW_BYGL_BYSFZXXB fzb where fzb.BYJR='毕业'
+and fzb.XH_ID=xkb.XH_ID)
+and not exists (select 1 from JW_CJ_XSCJB cjb where cjb.XH_ID=xkb.XH_ID and cjb.JXB_ID=xkb.JXB_ID)
+and xkb.XH_ID not in ['s564400010'];
+'''
