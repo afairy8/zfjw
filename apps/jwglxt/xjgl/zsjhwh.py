@@ -1,9 +1,9 @@
 
 from common.fileAction.controls import fileInfo
-from apps.jwglxt.xjgl import vars
-from databaseconfig.connectdbs import connect
+# # from apps.jwglxt.xjgl import vars
+# from databaseconfig.connectdbs import connect
 
-con=connect()
+# con=connect()
 
 ###读取本年度的招生计划
 def getNjZsjhXlsx(path):
@@ -42,7 +42,7 @@ def expXlsx(filenameKeywords,content):
 
 
 
-def clacBjsAndBjrs(con,path=vars.zsjhWhXlsxPath):
+def clacBjsAndBjrs(con,path):
     '''获取本年度的招生计划分班数与班级人数
     format:bjrs_snd_avg=round(zsjhrs_snd/bjs_snd,0)
     bjs_bnd=round(zsjhrs_bnd/bjrs_snd_avg,0)
@@ -98,12 +98,12 @@ def clacBjsAndBjrs(con,path=vars.zsjhWhXlsxPath):
             pass
                 # t = (bh, bh, bjmc, '', '', xqmc, jgmc, tent[2], tent[3], '', '', bjrs_bnd)
     expXlsx('班级信息',content=bjRes)
-    expXlsx('专业招生加护',content=zsjhRes)
-    print('输出完成')
+    expXlsx('专业招生计划',content=zsjhRes)
+    return '招生计划输出完成!'
 
 
-path=r"C:\Users\80662\Downloads\IMPORT_N101015_NJZYZSJHB_1588166235929.xlsx"
-clacBjsAndBjrs(con,path)
+# path=r"C:\Users\80662\Downloads\IMPORT_N101015_NJZYZSJHB_1588166235929.xlsx"
+# clacBjsAndBjrs(con,path)
 
 
 

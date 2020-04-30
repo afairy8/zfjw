@@ -2,6 +2,7 @@ from apps.jwglxt.xjgl import vars
 from common.fileAction.controls import fileInfo,pathCommon
 from common.actionPre import actionpre
 import os
+from apps.jwglxt.xjgl import zsjhwh
 def getZdTzXsxx(con,njdm_id):
     '''导出符合条件的证件前缀码，或生源地满足要求的'''
     if not njdm_id:
@@ -98,5 +99,8 @@ def xjglInterface(con,actionName='',type=None,pk=None,zpPath=None,njdm_id=None):
     elif actionpre.unique('getZdTzXsxx')==actionName:
         if getZdTzXsxx(con,njdm_id=njdm_id):
             return '{}学生已导出'.format(njdm_id)
+    elif actionpre.unique('clacBjsAndBjrs')==actionName:
+        return zsjhwh.clacBjsAndBjrs(con,zpPath)
+        # pass
     else:
         pass

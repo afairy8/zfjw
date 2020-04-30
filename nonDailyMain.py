@@ -18,7 +18,11 @@ xsZpDrType='rxhzp'
 def zpDr(con):
     '''导入照片'''
     print(jwglxt.jwxtXjgl(con,actionName='impZp;',type=xsZpDrType,pk=xsZpPrimaryKey,zpPath=xsZpFilePath))
-
+###招生计划文件路径
+zsjhFilePath=r"C:\Users\80662\Downloads\IMPORT_N101015_NJZYZSJHB_1588166235929.xlsx"
+def expZsjh(con):
+    '''招生计划分班处理'''
+    print(jwglxt.jwxtXjgl(con,actionName='clacBjsAndBjrs',zpPath=zsjhFilePath))
 ###中途退回学生评价
 ###学生照片文件根路径
 xhlist=[]
@@ -91,10 +95,11 @@ and exists (select 1 from jw_bygl_bysfzxxb fzb where tdkc.xh_id=fzb.xh_id
                                                            and fzb.BYNF='2020'))
 and td.ZSZT='3' and 1=1 '''
 con=connect()
-xlsx=fileInfo('课程替换已通过的审核')
-content=[('kcthzh_id','dtly')]
-content.extend(con.execute(code))
-xlsx.expXlsx(content=content)
+expZsjh(con)
+# xlsx=fileInfo('课程替换已通过的审核')
+# content=[('kcthzh_id','dtly')]
+# content.extend(con.execute(code))
+# xlsx.expXlsx(content=content)
 #actionbykctd(con)
 #jhsCjlr(con)
 # jwglxt.jwxtBysh(con=con, actionName='actionByJsbtg;')
