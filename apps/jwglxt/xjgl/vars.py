@@ -36,3 +36,21 @@ byXhCode='''
 update jw_xjgl_xszpb t set byzp=(select zp from zpb z,jw_xjgl_xsjbxxb xsj where lower(z.xh)=lower(xsj.xh) and xsj.xh_id=t.xh_id)
 where t.xh_id in (select xh_id from  zpb z,jw_xjgl_xsjbxxb xsj where lower(z.xh)=lower(xsj.xh))
 '''
+
+zsjhWhXlsxPath=''
+zsjhWhBjmcExists='''
+select count(1) from ZFTAL_XTGL_BJDMB bj,ZFTAL_XTGL_ZYDMB zy 
+where bj.ZYH_ID=zy.ZYH_ID
+and bj.NJDM_ID='{}'
+and zy.zymc='{}'
+'''
+zsjhWhBjAvg='''
+
+'''
+zsjhWhBjmc='''
+select bh,bj from ZFTAL_XTGL_BJDMB bj,ZFTAL_XTGL_ZYDMB zy 
+where bj.ZYH_ID=zy.ZYH_ID
+and bj.NJDM_ID='{}'
+and zy.zymc='{}'
+and rownum=1
+'''
